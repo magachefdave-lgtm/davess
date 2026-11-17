@@ -55,7 +55,6 @@ jobs:
         run: |
           from pathlib import Path
           import hashlib,json,os,zipfile
-          import build
           p=Path('files');version=os.environ['RELEASE_VERSION']
           assert Path('VERSION').read_text().strip()==version
           manifest=json.loads(Path('SOURCE_MANIFEST.json').read_text())
