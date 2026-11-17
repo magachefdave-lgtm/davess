@@ -26,6 +26,8 @@ jobs:
           architecture: x64
       - name: Verify unchanged source
         run: python -B build.py --check
+      - name: Check Windows Browse dialog order
+        run: python -B validation/v3.18.42_dialogs/windows_picker.py
       - name: Install pinned Windows build dependencies
         run: |
           python -m pip install --require-hashes --only-binary=:all: -r requirements-build-py312.txt

@@ -1,0 +1,11 @@
+FAIL 1366: 관리자 헤더에서 암호 인증 버튼이 보임
+Traceback (most recent call last):
+  File "/workspace/onair-github-build/validation/v3.18.42_dialogs/browser_admin_auth.py", line 107, in main
+    check_header(browser, admin, width, height)
+  File "/workspace/onair-github-build/validation/v3.18.42_dialogs/browser_admin_auth.py", line 42, in check_header
+    check(f'{width}: 관리자 헤더에서 암호 인증 버튼이 보임', auth.count() == 1)
+  File "/workspace/onair-github-build/validation/v3.18.42_dialogs/browser_admin_auth.py", line 26, in check
+    assert value, name
+           ^^^^^
+AssertionError: 1366: 관리자 헤더에서 암호 인증 버튼이 보임
+

@@ -496,7 +496,7 @@
     .mode-admin { background: var(--primary-light); color: var(--live); border-color: #c6efd6; }
     .mode-viewer { background: #f1f2f5; color: #5b6070; border-color: #dfe2e8; }
     .mode-offline { background: var(--holiday-bg); color: var(--holiday-text); border-color: #fbd3d4; }
-    .auth-status-badge { display: none; align-items: center; gap: 5px; padding: 4px 9px;
+    .auth-status-badge { display: none; align-items: center; gap: 5px; padding: 4px 9px; min-height: 28px;
                          border-radius: 999px; border: 1px solid #d7c4f0; background: var(--vacation-bg);
                          color: var(--vacation-text); font-size: 10.5px; font-weight: 800; white-space: nowrap; }
     .auth-status-badge.authenticated { border-color: #b9dfca; background: var(--primary-light); color: var(--live); }
@@ -2599,7 +2599,7 @@
   <header>
     <div class="header-title">
       <span class="brand"><svg class="ico"><use href="#i-live"/></svg><span>WLR <em>OnAir</em></span></span>
-      <span id="header-version-badge" class="header-version-badge" role="group" aria-label="프로그램 버전과 업데이트"><span id="app-mode-badge" class="mode-badge mode-viewer"><span id="header-mode-label">연결 중</span><span id="header-current-version">확인 중…</span></span><span class="header-version-bottom"><button id="header-update" type="button" hidden disabled><svg class="ico" aria-hidden="true"><use href="#i-download"/></svg><span id="header-update-label">업데이트</span></button><span id="header-latest-version" class="header-version-state" role="status" aria-live="polite"><svg id="header-version-check" class="ico" aria-hidden="true" hidden><use href="#i-approval-check"/></svg><span id="header-version-state-label">확인 중…</span></span></span></span><span id="conn-indicator" class="mode-badge conn-indicator" role="status" aria-live="polite"></span><span id="auth-status-badge" class="auth-status-badge admin-only" data-admin-display="self" title="보호된 작업을 할 때 관리자 암호창이 열립니다">🔐 암호 보호</span><button class="btn-sm" onclick="openServerInfo()" title="지금 연결된 프로그램과 데이터 위치를 확인합니다"><svg class="ico"><use href="#i-info"/></svg>연결 정보</button><button class="btn-sm" onclick="promptMyName()" id="my-name-btn" title="이 PC에서 쓸 내 이름을 기억시킵니다 (공용 PC라면 설정하지 마세요)"><svg class="ico"><use href="#i-users"/></svg>내 이름 설정</button><button id="header-notifications" class="btn-sm" onclick="openNotifModal()" title="최근 알림을 보관합니다 (이 PC에 저장)"><svg class="ico"><use href="#i-bell"/></svg>알림<span id="notif-badge" class="notif-badge" style="display:none;">0</span></button><button id="header-dinner" class="btn-sm" type="button" onclick="OnAirDinner.open()" title="회식 일정과 내 응답을 확인합니다."><svg class="ico" aria-hidden="true"><use href="#i-calendar"/></svg><span>회식 일정</span></button>
+      <span id="header-version-badge" class="header-version-badge" role="group" aria-label="프로그램 버전과 업데이트"><span id="app-mode-badge" class="mode-badge mode-viewer"><span id="header-mode-label">연결 중</span><span id="header-current-version">확인 중…</span></span><span class="header-version-bottom"><button id="header-update" type="button" hidden disabled><svg class="ico" aria-hidden="true"><use href="#i-download"/></svg><span id="header-update-label">업데이트</span></button><span id="header-latest-version" class="header-version-state" role="status" aria-live="polite"><svg id="header-version-check" class="ico" aria-hidden="true" hidden><use href="#i-approval-check"/></svg><span id="header-version-state-label">확인 중…</span></span></span></span><span id="conn-indicator" class="mode-badge conn-indicator" role="status" aria-live="polite"></span><button type="button" id="auth-status-badge" class="auth-status-badge admin-only" data-admin-display="self" aria-haspopup="dialog" aria-controls="admin-password-modal" title="관리자 암호를 입력해 인증합니다" onclick="authenticateAdminFromHeader()">🔐 암호 인증</button><button class="btn-sm" onclick="openServerInfo()" title="지금 연결된 프로그램과 데이터 위치를 확인합니다"><svg class="ico"><use href="#i-info"/></svg>연결 정보</button><button class="btn-sm" onclick="promptMyName()" id="my-name-btn" title="이 PC에서 쓸 내 이름을 기억시킵니다 (공용 PC라면 설정하지 마세요)"><svg class="ico"><use href="#i-users"/></svg>내 이름 설정</button><button id="header-notifications" class="btn-sm" onclick="openNotifModal()" title="최근 알림을 보관합니다 (이 PC에 저장)"><svg class="ico"><use href="#i-bell"/></svg>알림<span id="notif-badge" class="notif-badge" style="display:none;">0</span></button><button id="header-dinner" class="btn-sm" type="button" onclick="OnAirDinner.open()" title="회식 일정과 내 응답을 확인합니다."><svg class="ico" aria-hidden="true"><use href="#i-calendar"/></svg><span>회식 일정</span></button>
     </div>
     <!-- v3.13.0 시계는 '금일 당직자' 카드로 옮겼다(오늘 날짜·시각은 오늘 당직자와 한 덩어리다).
          비워진 헤더 오른쪽 끝을 검색창이 차지한다. -->
@@ -3513,10 +3513,10 @@
         <button type="button" onclick="cancelAdminPassword()">✕</button>
       </div>
       <div id="admin-password-message" class="modal-hint" style="margin-bottom:10px;">관리자 암호를 입력하세요.</div>
-      <input type="password" id="admin-password-input" autocomplete="current-password"
+      <input type="password" id="admin-password-input" autocomplete="current-password" aria-label="관리자 암호"
              placeholder="관리자 암호" style="width:100%; padding:10px 12px; border:1px solid var(--border-strong); border-radius:8px; font-size:14px;"
              onkeydown="if(event.key==='Enter'){event.preventDefault(); submitAdminPassword();}">
-      <div id="admin-password-error" style="display:none; margin-top:8px; color:var(--holiday-text); font-size:12px; font-weight:800;"></div>
+      <div id="admin-password-error" role="alert" style="display:none; margin-top:8px; color:var(--holiday-text); font-size:12px; font-weight:800;"></div>
       <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:14px;">
         <button type="button" onclick="cancelAdminPassword()">취소</button>
         <button type="button" class="btn-main" onclick="submitAdminPassword()">확인</button>
@@ -4020,7 +4020,7 @@
       el.innerHTML = msg;
     }
 
-    // 암호 보호는 전체 폭 경고가 아니라 관리자 모드 배지 옆의 작은 상태 칩으로 표시한다.
+    // 상단 버튼으로 보호된 작업을 열기 전에 관리자 암호를 인증할 수 있다.
     function renderAuthStatus(data) {
       const badge = document.getElementById("auth-status-badge");
       if (!badge) return;
@@ -4029,10 +4029,10 @@
       if (!visible) return;
       const authenticated = !!ADMIN_TOKEN;
       badge.classList.toggle("authenticated", authenticated);
-      badge.textContent = authenticated ? "🔐 암호 인증됨" : "🔐 암호 보호";
+      badge.textContent = authenticated ? "🔐 암호 인증됨" : "🔐 암호 인증";
       badge.title = authenticated
-        ? "이 브라우저에서 관리자 암호 인증이 완료되었습니다"
-        : "보호된 작업을 할 때 관리자 암호창이 열립니다";
+        ? "관리자 암호를 다시 입력해 인증합니다"
+        : "관리자 암호를 입력해 인증합니다";
     }
 
     // ── v3.13.0 라이트 / 다크 ────────────────────────────────────
@@ -4219,6 +4219,35 @@
       finishAdminPassword(value);
     }
     function cancelAdminPassword() { finishAdminPassword(null); }
+
+    let headerAuthPending = false;
+    async function authenticateAdminFromHeader() {
+      if (headerAuthPending || !SERVER_CONNECTED || SYSTEM_MODE !== "ADMIN" || !SYS_INFO?.authRequired) return;
+      headerAuthPending = true;
+      try {
+        let errorMessage = "";
+        while (true) {
+          const password = await requestAdminPassword("관리자 암호를 입력해 인증하세요.", errorMessage);
+          if (!password) return;
+          const response = await fetch("/api/system/admin-auth", {
+            method: "POST", headers: { "X-Admin-Token": password }
+          });
+          if (response.status === 401) {
+            errorMessage = "암호가 올바르지 않습니다. 다시 입력하세요.";
+            continue;
+          }
+          if (!response.ok) throw apiError(response, await readJsonSafe(response));
+          ADMIN_TOKEN = password;
+          adminTokenStore("set", password);
+          renderAuthStatus(SYS_INFO);
+          return;
+        }
+      } catch (error) {
+        showToast(friendlyFetchError(error, null, "관리자 암호 인증"), true);
+      } finally {
+        headerAuthPending = false;
+      }
+    }
 
     // 인증이 필요한 모든 관리자 API의 공통 경로. 저장된 암호가 틀렸거나 새 입력이 401이면
     // 토큰을 지우고 오류를 표시한 뒤, 사용자가 취소할 때까지 다시 입력할 수 있다.

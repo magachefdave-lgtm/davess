@@ -83,12 +83,26 @@ if ($kind -ne 'folder' -and $env:ONAIR_PICK_CURRENT) {
     $dialog.InitialDirectory = [System.IO.Path]::GetDirectoryName($env:ONAIR_PICK_CURRENT)
     $dialog.FileName = [System.IO.Path]::GetFileName($env:ONAIR_PICK_CURRENT)
 }
+$owner = New-Object System.Windows.Forms.Form
 try {
-    if ($dialog.ShowDialog() -eq [System.Windows.Forms.DialogResult]::OK) {
+    # A hidden PowerShell process has no active window. Keep the picker above
+    # the browser by giving it an invisible topmost owner for its lifetime.
+    $owner.ShowInTaskbar = $false
+    $owner.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::None
+    $owner.StartPosition = [System.Windows.Forms.FormStartPosition]::CenterScreen
+    $owner.Size = [System.Drawing.Size]::new(1, 1)
+    $owner.Opacity = 0
+    $owner.TopMost = $true
+    $owner.Show()
+    $owner.Activate()
+    if ($dialog.ShowDialog($owner) -eq [System.Windows.Forms.DialogResult]::OK) {
         if ($kind -eq 'folder') { [Console]::Write($dialog.SelectedPath) }
         else { [Console]::Write($dialog.FileName) }
     }
-} finally { $dialog.Dispose() }
+} finally {
+    $dialog.Dispose()
+    $owner.Dispose()
+}
 """
     powershell = Path(os.environ.get('SystemRoot', r'C:\Windows')) / 'System32/WindowsPowerShell/v1.0/powershell.exe'
     env = dict(os.environ, ONAIR_PICK_KIND=kind, ONAIR_PICK_CURRENT=_path_input(current))

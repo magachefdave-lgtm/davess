@@ -1,4 +1,4 @@
-"""WLR OnAir 3.18.41 — readable source recovered from supplied 3.14.5 executables.
+"""WLR OnAir 3.18.42 — readable source recovered from supplied 3.14.5 executables.
 
 Backend behavior is restored from Python 3.13 bytecode. Original comments and
 repository history are not recoverable. See RECOVERY_REPORT.md and tests.
@@ -53,7 +53,7 @@ from backend import request_access_api
 from backend import request_access_local
 from backend import dinner_schema, dinner_api
 
-APP_VERSION = '3.18.41'
+APP_VERSION = '3.18.42'
 NL = chr(10)
 if getattr(sys, 'frozen', False):
     BASE_DIR = sys._MEIPASS
@@ -2854,6 +2854,13 @@ def redact_paths(text):
 async def system_ping():
     """v3.18.0 화면의 연결 상태 확인용. 데이터 파일·공유 폴더는 건드리지 않는다(몇 초마다 불린다)."""
     return {'ok': True, 'mode': APP_MODE, 'version': APP_VERSION}
+
+
+@app.post('/api/system/admin-auth', status_code=204)
+def authenticate_admin(x_admin_token: Optional[str] = Header(default=None)):
+    """Check the header button's credentials without loading or modifying data."""
+    require_admin(x_admin_token)
+    return Response(status_code=204, headers={'Cache-Control': 'no-store'})
 
 
 @app.get('/api/system/info')
