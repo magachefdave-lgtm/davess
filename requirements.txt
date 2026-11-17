@@ -1,0 +1,7 @@
+# Direct dependencies identified in the supplied frozen runtime.
+fastapi==0.141.1
+pydantic==2.13.4
+starlette==1.3.1
+uvicorn==0.52.3
+websockets==16.1.1
+cryptography==50.0.0

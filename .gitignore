@@ -1,0 +1,14 @@
+__pycache__/
+.pytest_cache/
+dist/
+build_logs/
+.build-envs/
+wheels/
+*.db
+*.db-wal
+*.db-shm
+*.sqlite*
+.env
+config_admin.ini
+config_viewer.ini
+signing_key.json

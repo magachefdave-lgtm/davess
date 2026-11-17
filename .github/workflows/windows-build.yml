@@ -1,0 +1,66 @@
+name: Windows Admin and Viewer
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+concurrency:
+  group: windows-build-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: windows-2022
+    timeout-minutes: 45
+    env:
+      PYTHONUTF8: '1'
+      PYTHONIOENCODING: utf-8
+      PIP_DISABLE_PIP_VERSION_CHECK: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          architecture: x64
+      - name: Verify unchanged source
+        run: python -B build.py --check
+      - name: Install pinned Windows build dependencies
+        run: python -m pip install --require-hashes --only-binary=:all: -r requirements-build-py312.txt
+      - name: Check dependencies
+        run: python -m pip check
+      - name: Build and run Admin and Viewer self-tests
+        run: python -B -u build.py --output dist/windows
+      - name: Verify release outputs
+        shell: python
+        run: |
+          import hashlib, json
+          from pathlib import Path
+          p = Path('dist/windows')
+          assert (p/'BUILD_SUCCESS.txt').is_file()
+          assert not (p/'BUILD_INCOMPLETE.txt').exists()
+          m = json.loads((p/'BUILD_MANIFEST.json').read_text(encoding='utf-8'))
+          assert {a['role'] for a in m['artifacts']} == {'ADMIN','VIEWER'}
+          for a in m['artifacts']:
+              assert hashlib.sha256((p/a['file']).read_bytes()).hexdigest() == a['sha256']
+              assert a['checks']['frozen_self_test']['ok'] is True
+          assert hashlib.sha256((p/m['update_zip']['file']).read_bytes()).hexdigest() == m['update_zip']['sha256']
+          print('Admin, Viewer, self-tests and update ZIP verified:', m['version'])
+      - uses: actions/upload-artifact@v4
+        with:
+          name: WLR-OnAir-Windows-${{ github.run_number }}
+          path: dist/windows/
+          if-no-files-found: error
+          retention-days: 30
+      - name: Save diagnostic logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Windows-build-diagnostics-${{ github.run_number }}
+          path: |
+            dist/windows/*.log
+            dist/windows/*SELFTEST.json
+            dist/windows/BUILD_INCOMPLETE.txt
+          if-no-files-found: ignore
+          retention-days: 14
