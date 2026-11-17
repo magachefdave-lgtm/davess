@@ -1,0 +1,106 @@
+{
+  "status": "RED reproduced",
+  "checks": [
+    {
+      "name": "confirmation reachable True",
+      "passed": true,
+      "evidence": {
+        "reachable": true,
+        "hit": "oa-confirm-dialog",
+        "focus": "oa-confirm-dialog",
+        "stack": [
+          {
+            "id": "absence-modal",
+            "z": "1000"
+          },
+          {
+            "id": "oa-confirm-dialog",
+            "z": "2050"
+          }
+        ],
+        "escape": "oa-confirm-dialog"
+      }
+    },
+    {
+      "name": "confirmation cancellation retains input True",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "name": "password input and Escape target visible over absence editor",
+      "passed": false,
+      "evidence": {
+        "reachable": false,
+        "hit": "absence-modal",
+        "focus": "admin-password-modal",
+        "stack": [
+          {
+            "id": "admin-password-modal",
+            "z": "1000"
+          },
+          {
+            "id": "absence-modal",
+            "z": "1000"
+          }
+        ],
+        "escape": "absence-modal"
+      }
+    },
+    {
+      "name": "real password click times out before fix",
+      "passed": true,
+      "evidence": "Locator.click: Timeout 1200ms exceeded.\nCall log:\n  - waiting for locator(\"#admin-password-input\")\n    - locator resolved to <input type=\"password\" placeholder=\"관리자 암호\" id=\"admin-password-input\" autocomplete=\"current-password\" onkeydown=\"if(event.key==='Enter'){event.preventDefault(); submitAdminPassword();}\"/>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <div class=\"table-scroll abs-table-scroll\">…</div> from <div id=\"absence-modal\" class=\"modal abs-list-upcoming active\">…</div> subtree intercepts pointer events\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <div class=\"table-scroll abs-table-scroll\">…</div> from <div id=\"absence-modal\" class=\"modal ab"
+    },
+    {
+      "name": "confirmation reachable False",
+      "passed": true,
+      "evidence": {
+        "reachable": true,
+        "hit": "oa-confirm-dialog",
+        "focus": "oa-confirm-dialog",
+        "stack": [
+          {
+            "id": "absence-modal",
+            "z": "1000"
+          },
+          {
+            "id": "oa-confirm-dialog",
+            "z": "2050"
+          }
+        ],
+        "escape": "oa-confirm-dialog"
+      }
+    },
+    {
+      "name": "confirmation cancellation retains input False",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "name": "freed-duty followup and Escape target visible False",
+      "passed": false,
+      "evidence": {
+        "reachable": false,
+        "hit": "absence-modal",
+        "focus": "absence-modal",
+        "stack": [
+          {
+            "id": "vacancy-modal",
+            "z": "1000"
+          },
+          {
+            "id": "absence-modal",
+            "z": "1000"
+          }
+        ],
+        "escape": "absence-modal"
+      }
+    },
+    {
+      "name": "no browser script errors",
+      "passed": true,
+      "evidence": []
+    }
+  ],
+  "errors": []
+}

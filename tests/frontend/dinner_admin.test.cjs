@@ -69,3 +69,18 @@ test('late confirmation management refresh does not replace a subsequently opene
  let releaseManage;const a=manager({manageGate:new Promise(resolve=>releaseManage=resolve)});await a.open();await a.click('finalize','a');a.nodes.get('da-confirm-check').checked=true;const submitted=a.accept();await new Promise(setImmediate);
  await a.ctx.OnAirDinnerAdmin.openRole();const roleHtml=a.panels.get('onair-dinner-admin').html;releaseManage();await submitted;await new Promise(setImmediate);assert.equal(a.panels.get('onair-dinner-admin').html,roleHtml);assert.match(roleHtml,/담당 직원/);
 });
+
+test('annual cards keep separate appointments and include a spanning term on both years',()=>{
+ const m=load().__model,current={id:'ca',roleId:1,memberName:'올해',startDate:'2026-01-01',endDate:'2026-12-31',revision:4},next={id:'ca',roleId:2027,memberName:'내년',startDate:'2027-01-01',endDate:'2027-12-31',revision:1};
+ assert.equal(m.yearRole({roles:[current,next]},2026),current);assert.equal(m.yearRole({roles:[current,next]},2027),next);assert.equal(m.yearRole({roles:[current]},2027),null);
+ current.endDate='2027-12-31';assert.equal(m.yearRole({role:current},2026),current);assert.equal(m.yearRole({role:current},2027),current);assert.equal(m.roleId({id:'ca'}),1);
+});
+test('connections are scoped to the selected numeric role, with legacy rows assigned only to role 1',()=>{
+ const m=load().__model,rows=[{id:'legacy',status:'PENDING'},{id:'current',roleId:1,status:'APPROVED'},{id:'future',roleId:2027,status:'PENDING'}];
+ assert.deepEqual(Array.from(m.roleConnections({connections:rows},{roleId:1}),c=>c.id),['legacy','current']);assert.deepEqual(Array.from(m.roleConnections({connections:rows},{roleId:2027}),c=>c.id),['future']);assert.equal(m.roleConnections({connections:rows},null).length,0);
+});
+test('appointment and approval progress distinguish preterm approval from active usage',()=>{
+ const m=load().__model,role={memberName:'김하늘',startDate:'2027-01-01',endDate:'2027-12-31'};
+ assert.equal(m.termState(null,'2026-11-17'),'미지정');assert.equal(m.termState(role,'2026-11-17'),'예정');assert.equal(m.termState(role,'2027-01-01'),'임기중');assert.equal(m.termState(role,'2028-01-01'),'종료');
+ assert.equal(m.connectionState(role,[],'2026-11-17'),'연결미요청');assert.equal(m.connectionState(role,[{status:'PENDING'}],'2026-11-17'),'승인대기');assert.equal(m.connectionState(role,[{status:'APPROVED'}],'2026-11-17'),'승인완료·임기대기');assert.equal(m.connectionState(role,[{status:'APPROVED'}],'2027-01-01'),'사용중');
+});

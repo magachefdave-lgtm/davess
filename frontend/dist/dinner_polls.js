@@ -118,8 +118,11 @@
   }
   function managerActions(){
     if(isAdmin())return btn('회식 관리','manage','btn-main')+btn('CA 지정·연결 승인','role');
-    const role=summary?.role;
-    if(role?.memberName===getName())return btn(summary.connection?.status==='APPROVED'?'회식 관리':'CA 사용 연결',summary.connection?.status==='APPROVED'?'manage':'role','btn-main');
+    const role=summary?.assignedRole||summary?.role;
+    if(role?.memberName===getName()){
+      const manages=role.active&&summary.connection?.status==='APPROVED';
+      return btn(manages?'회식 관리':'CA 사용 연결',manages?'manage':'role','btn-main');
+    }
     return '';
   }
   function shell(title,html,width=940){

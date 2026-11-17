@@ -395,3 +395,135 @@ def test_extension_cannot_reopen_at_or_after_a_candidate_datetime(db, deadline):
     actual = actor(db, admin=True).detail(poll['id'])['poll']
     assert actual['status'] == 'CLOSED'
     assert actual['revision'] == poll['revision']
+
+
+def annual_role(db, year, name='C', revision=0):
+    return actor(db, admin=True).set_role(operation(roleId=year, memberName=name,
+        startDate=f'{year}-01-01', endDate=f'{year}-12-31', expectedRevision=revision))['role']
+
+
+def approve_term(db, role_id, name, key):
+    connection = actor(db, key).request_connection(operation(roleId=role_id, memberName=name))['connection']
+    return actor(db, admin=True).decide_connection(connection['id'], operation(decision='APPROVE'))['connection']
+
+
+def test_current_and_next_appointments_persist_and_switch_at_kst_midnight(db):
+    from backend.request_access_schema import AccessError
+    current = annual_role(db, 2030)
+    future = annual_role(db, 2031, 'B')
+    assert current['roleId'] == 2030 and future['roleId'] == 2031
+    approve_term(db, 2030, 'C', KEY_CA)
+    approved = approve_term(db, 2031, 'B', KEY_B)
+    assert approved['status'] == 'APPROVED' and approved['active'] is False
+    assert actor(db, KEY_CA).manage()['role']['roleId'] == 2030
+    assert actor(db, KEY_B).summary('B')['assignedRole']['roleId'] == 2031
+    with pytest.raises(AccessError):
+        actor(db, KEY_B).manage()
+    before = datetime(2030, 12, 31, 14, 59, 59, tzinfo=timezone.utc)
+    boundary = datetime(2030, 12, 31, 15, tzinfo=timezone.utc)
+    assert actor(db, KEY_CA, now=before).manage()['role']['roleId'] == 2030
+    with pytest.raises(AccessError):
+        actor(db, KEY_CA, now=boundary).manage()
+    assert actor(db, KEY_B, now=boundary).manage()['role']['roleId'] == 2031
+
+
+def test_same_person_and_key_can_hold_two_terms_without_future_superseding_current(db):
+    annual_role(db, 2030)
+    annual_role(db, 2031)
+    current = approve_term(db, 2030, 'C', KEY_CA)
+    future = approve_term(db, 2031, 'C', KEY_CA)
+    assert current['id'] != future['id']
+    assert actor(db, KEY_CA).summary('C')['connection']['id'] == current['id']
+    assert actor(db, KEY_CA).manage()['role']['roleId'] == 2030
+    annual_role(db, 2031, name='B', revision=1)
+    assert actor(db, KEY_CA).manage()['role']['roleId'] == 2030
+    statuses = {r['id']: r['status'] for r in actor(db, admin=True).manage()['connections']}
+    assert statuses == {current['id']: 'APPROVED', future['id']: 'INVALIDATED'}
+
+
+def test_summary_own_connections_are_per_term_and_scoped_to_key_and_selected_name(db):
+    annual_role(db, 2030)
+    annual_role(db, 2031)
+    current = approve_term(db, 2030, 'C', KEY_CA)
+    future = actor(db, KEY_CA).request_connection(operation(roleId=2031, memberName='C'))['connection']
+    other = actor(db, KEY_B).request_connection(operation(roleId=2031, memberName='C'))['connection']
+    summary = actor(db, KEY_CA).summary('C')
+    assert summary['assignedRole']['roleId'] == 2030
+    assert summary['connection']['id'] == current['id']
+    assert summary['ownConnections'] == {'2030': current, '2031': future}
+    assert other['id'] not in json.dumps(summary)
+    assert actor(db, KEY_CA).summary('B')['ownConnections'] == {}
+    assert actor(db, KEY_CA).summary('')['ownConnections'] == {}
+    for key in ('', KEY_A):
+        public = actor(db, key).summary('C')
+        assert public['ownConnections'] == {} and public['connection'] is None
+        assert 'verificationCode' not in json.dumps(public)
+
+
+def test_future_pending_visible_and_only_selected_appointment_can_be_cleared(db):
+    annual_role(db, 2030)
+    annual_role(db, 2031, 'B')
+    approve_term(db, 2030, 'C', KEY_CA)
+    pending = actor(db, KEY_B).request_connection(operation(memberName='B'))['connection']
+    assert pending['roleId'] == 2031
+    assert actor(db, admin=True).summary('')['pendingConnections'] == [pending]
+    cleared = actor(db, admin=True).set_role(operation(roleId=2031, memberName='', expectedRevision=1))['role']
+    assert cleared['memberName'] == '' and cleared['revision'] == 2
+    assert actor(db, KEY_CA).manage()['role']['roleId'] == 2030
+    assert actor(db, admin=True).summary('')['pendingConnections'] == []
+
+
+def test_annual_appointment_overlap_stale_write_and_retry_are_atomic(db):
+    from backend.request_access_schema import AccessError
+    annual_role(db, 2030)
+    for name in ('B', 'C'):
+        with pytest.raises(AccessError) as error:
+            actor(db, admin=True).set_role(operation(roleId=2031, memberName=name,
+                startDate='2030-12-31', endDate='2031-12-31', expectedRevision=0))
+        assert error.value.status == 409
+    assert len(actor(db, admin=True).manage()['roles']) == 1
+    body = operation(roleId=2031, memberName='B', startDate='2031-01-01',
+                     endDate='2031-12-31', expectedRevision=0)
+    result = actor(db, admin=True).set_role(body)
+    assert actor(db, admin=True).set_role(body) == result
+    with pytest.raises(AccessError):
+        actor(db, admin=True).set_role(operation(roleId=2031, memberName='', expectedRevision=0))
+    assert len(actor(db, admin=True).manage()['roles']) == 2
+
+
+@pytest.mark.parametrize('role_id', [True, '2031', 0, 2, 1899, 10000])
+def test_role_ids_must_be_legacy_or_numeric_year(db, role_id):
+    from backend.request_access_schema import AccessError
+    with pytest.raises(AccessError):
+        actor(db, admin=True).set_role(operation(roleId=role_id, memberName='', expectedRevision=0))
+
+
+def test_legacy_schema_upgrade_preserves_role_and_approved_connection(db):
+    from backend import dinner_schema
+    connected(db)
+    db.execute('DROP TABLE dinner_appointments')
+    db.execute('ALTER TABLE dinner_connections DROP COLUMN role_id')
+    # Read-only access must also work before the first upgraded writer migrates.
+    assert actor(db, KEY_CA).manage()['role']['roleId'] == 1
+    dinner_schema.ensure_schema(db.cursor())
+    dinner_schema.ensure_schema(db.cursor())
+    assert actor(db, KEY_CA).manage()['role']['roleId'] == 1
+    assert db.execute('SELECT role_id FROM dinner_connections').fetchone()[0] == 1
+    annual_role(db, 2031, 'B')
+    assert len(actor(db, admin=True).manage()['roles']) == 2
+
+
+def test_restore_preserves_both_appointments_but_invalidates_connections(db):
+    from backend import dinner_schema
+    from backend.request_access_schema import AccessError
+    annual_role(db, 2030)
+    annual_role(db, 2031, 'B')
+    approve_term(db, 2030, 'C', KEY_CA)
+    approve_term(db, 2031, 'B', KEY_B)
+    assert 'dinner_appointments' in dinner_schema.TABLES
+    assert 'dinner_appointments' in dinner_schema.RESTORE_SKIP_TABLES
+    dinner_schema.after_restore(db.cursor())
+    assert len(actor(db, admin=True).manage()['roles']) == 2
+    assert all(c['status'] == 'INVALIDATED' for c in actor(db, admin=True).manage()['connections'])
+    with pytest.raises(AccessError):
+        actor(db, KEY_CA).manage()

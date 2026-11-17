@@ -4188,6 +4188,9 @@
         error.style.display = "none";
       }
       box.classList.add("active");
+      // The editor may have been raised after this static dialog was mounted.
+      // Keep the visible layer and Escape order above the pending save together.
+      window.OnAirUI?.raise?.("admin-password-modal");
       if (adminPasswordPromise) return adminPasswordPromise;
       input.value = "";
       setTimeout(() => input.focus(), 30);
@@ -8479,18 +8482,26 @@
     // 휴가를 등록·승인하면 당직이 자동 해제되는데, 지금은 건수만 알려 주고
     // 어느 날짜인지 말해 주지 않아 유일한 복구 수단이 '전체 재배정'이었다.
     let vacancyList = [];
+    let vacancyTrigger = null;
 
     function openVacancyModal(dates, whoLabel) {
       const keys = (dates || []).filter(k => !noDutyMap[k]);
       if (!keys.length) return;
+      vacancyTrigger = document.activeElement;
+      if ((!vacancyTrigger || vacancyTrigger === document.body) && document.getElementById("absence-modal")?.classList.contains("active"))
+        vacancyTrigger = document.getElementById("abs-submit-btn");
       vacancyList = keys.slice();
       document.getElementById("vacancy-who").textContent = whoLabel || "";
       renderVacancy();
       document.getElementById("vacancy-modal").classList.add("active");
+      window.OnAirUI?.raise?.("vacancy-modal");
+      document.querySelector('#vacancy-modal button')?.focus({preventScroll:true});
     }
     function closeVacancyModal() {
       document.getElementById("vacancy-modal").classList.remove("active");
       vacancyList = [];
+      if (vacancyTrigger?.isConnected && !vacancyTrigger.disabled) vacancyTrigger.focus({preventScroll:true});
+      vacancyTrigger = null;
     }
 
     // 후보 추천은 기존 대체 근무자 목록과 같은 기준(부재 제외·그날 중복 제외)을 쓴다.

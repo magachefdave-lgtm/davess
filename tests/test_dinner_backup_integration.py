@@ -9,7 +9,8 @@ import pytest
 
 from test_backend_regression import AUTH, load_app
 from test_backend_manual_backup import server_app, backup, files, read_success
-from test_dinner_api import assign, key_headers, op, publish, send
+from test_dinner_api import assign, assign_year, key_headers, op, publish, send, KST
+from datetime import datetime
 
 
 def answered(app):
@@ -83,6 +84,28 @@ def test_role_only_data_also_gets_full_backup(server_app):
     with sqlite3.connect(full) as conn:
         assert conn.execute('SELECT COUNT(*) FROM dinner_roles').fetchone()[0] == 1
         assert conn.execute('SELECT COUNT(*) FROM dinner_polls').fetchone()[0] == 0
+
+
+def test_annual_roles_backed_up_and_restore_preserves_latest_appointments(server_app):
+    app = server_app
+    year = datetime.now(KST).year
+    assign_year(app, year)
+    assign_year(app, year + 1, 'B')
+    keys = [secrets.token_urlsafe(32), secrets.token_urlsafe(32)]
+    for name, key in zip(('A', 'B'), keys):
+        connection = send(app, '/connections', op(memberName=name), key=key, admin=False).json()['connection']
+        assert send(app, '/connections/' + connection['id'] + '/decision', op(decision='APPROVE')).status_code == 200
+    _, _, full = full_backup(app)
+    with sqlite3.connect(full) as conn:
+        assert conn.execute('SELECT COUNT(*) FROM dinner_appointments').fetchone()[0] == 2
+        assert conn.execute('SELECT COUNT(DISTINCT role_id) FROM dinner_connections').fetchone()[0] == 2
+    assign_year(app, year + 1, 'C', revision=1)
+    restored = app.post('/api/system/restore', {'name': full.name, 'baseVersion': app.data()['dataVersion']})
+    assert restored.status_code == 200, restored.text
+    managed = app.client.get('/api/dinner/manage', headers=AUTH).json()
+    assert [(r['roleId'], r['memberName']) for r in managed['roles']] == [(year, 'A'), (year + 1, 'C')]
+    assert all(c['status'] == 'INVALIDATED' for c in managed['connections'])
+    assert app.client.get('/api/dinner/manage', headers=key_headers(keys[0])).status_code == 403
 
 
 @pytest.mark.parametrize('failure', ['verify_full', 'publish_json', 'partial_full'])

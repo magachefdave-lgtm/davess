@@ -1,4 +1,4 @@
-"""WLR OnAir 3.18.39 — readable source recovered from supplied 3.14.5 executables.
+"""WLR OnAir 3.18.40 — readable source recovered from supplied 3.14.5 executables.
 
 Backend behavior is restored from Python 3.13 bytecode. Original comments and
 repository history are not recoverable. See RECOVERY_REPORT.md and tests.
@@ -53,7 +53,7 @@ from backend import request_access_api
 from backend import request_access_local
 from backend import dinner_schema, dinner_api
 
-APP_VERSION = '3.18.39'
+APP_VERSION = '3.18.40'
 NL = chr(10)
 if getattr(sys, 'frozen', False):
     BASE_DIR = sys._MEIPASS
@@ -5184,6 +5184,7 @@ def _save_all_data(dto, x_admin_token=None, x_client_id=None, holiday_restore=No
             for m in dto.members:
                 cur.execute('INSERT INTO members (id, name, gender) VALUES (?, ?, ?)',
                             (m.get('id'), m.get('name'), m.get('gender')))
+            dinner_schema.after_members_changed(cur)
         if dto.schedules is not None:
             cur.execute('DELETE FROM schedules')
             for dk, wlist in dto.schedules.items():

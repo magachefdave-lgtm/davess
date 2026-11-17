@@ -67,6 +67,69 @@ def assign(site):
     return response.json()['role']
 
 
+def assign_year(site, year, name='A', revision=0):
+    response = send(site, '/role', op(roleId=year, memberName=name,
+        startDate=f'{year}-01-01', endDate=f'{year}-12-31', expectedRevision=revision))
+    assert response.status_code == 200, response.text
+    return response.json()['role']
+
+
+def test_annual_roles_and_future_connection_use_separate_http_bindings(dinner_site):
+    site = dinner_site
+    year = datetime.now(KST).year
+    assign_year(site, year)
+    assign_year(site, year + 1, 'B')
+    key = secrets.token_urlsafe(32)
+    connection = send(site, '/connections', op(memberName='B'), key=key, admin=False).json()['connection']
+    assert connection['roleId'] == year + 1
+    summary = site.client.get(PREFIX + '/summary?name=B', headers=AUTH).json()
+    assert len(summary['roles']) == 2 and summary['role']['roleId'] == year
+    assert summary['assignedRole']['roleId'] == year + 1
+    assert summary['pendingConnections'][0]['id'] == connection['id']
+    approved = send(site, '/connections/' + connection['id'] + '/decision', op(decision='APPROVE'))
+    assert approved.status_code == 200, approved.text
+    assert approved.json()['connection']['active'] is False
+    assert site.client.get(PREFIX + '/manage', headers=key_headers(key)).status_code == 403
+    overlap = send(site, '/role', op(roleId=year + 1, memberName='B', startDate=f'{year}-12-31',
+                                    endDate=f'{year+1}-12-31', expectedRevision=1))
+    assert overlap.status_code == 409
+    managed = site.client.get(PREFIX + '/manage', headers=AUTH).json()
+    assert managed['roles'][1]['revision'] == 1
+    assert managed['connections'][0]['status'] == 'APPROVED'
+
+
+def test_removed_and_readded_member_does_not_reactivate_annual_ca_key(dinner_site):
+    site = dinner_site
+    assign_year(site, datetime.now(KST).year)
+    key = secrets.token_urlsafe(32)
+    connection = send(site, '/connections', op(memberName='A'), key=key, admin=False).json()['connection']
+    assert send(site, '/connections/' + connection['id'] + '/decision', op(decision='APPROVE')).status_code == 200
+    members = site.data()['members']
+    site.save({'members': [m for m in members if m['name'] != 'A']})
+    site.save({'members': members})
+    assert site.client.get(PREFIX + '/manage', headers=key_headers(key)).status_code == 403
+
+
+def test_summary_exposes_only_own_selected_member_connections_for_both_terms(dinner_site):
+    site = dinner_site
+    year = datetime.now(KST).year
+    assign_year(site, year)
+    assign_year(site, year + 1)
+    key = secrets.token_urlsafe(32)
+    own = {}
+    for role_id in (year, year + 1):
+        response = send(site, '/connections', op(roleId=role_id, memberName='A'), key=key, admin=False)
+        assert response.status_code == 200, response.text
+        own[str(role_id)] = response.json()['connection']
+    summary = site.client.get(PREFIX + '/summary?name=A', headers=key_headers(key)).json()
+    assert summary['ownConnections'] == own
+    assert summary['assignedRole']['roleId'] == year
+    assert site.client.get(PREFIX + '/summary?name=B', headers=key_headers(key)).json()['ownConnections'] == {}
+    foreign = site.client.get(PREFIX + '/summary?name=A', headers=key_headers(secrets.token_urlsafe(32))).json()
+    assert foreign['ownConnections'] == {} and foreign['connection'] is None
+    assert 'verificationCode' not in str(foreign)
+
+
 def draft(site):
     days = dates()
     response = send(site, '/polls', op(title='11월 회식 날짜', description='모두 가능한 날을 고릅니다.', deadline=days[0] + 'T18:00',

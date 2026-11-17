@@ -81,3 +81,16 @@ test('cancelled employee detail explains recorded calendar effects remain for ad
  const a=app();Object.assign(a.summary().polls[0],{status:'CANCELLED',selectedCandidateId:'c-one',dutyEffect:{date:'2099-11-24',memo:'석식간담회',noDuty:true}});await available(a).open('p-one');const html=a.panels.at(-1).html;assert.match(html,/석식간담회.*당직 없음.*유지/);assert.match(html,/근무자.*자동.*복원하지/);assert.match(html,/관리자.*달력.*조정/);
  delete a.summary().polls[0].dutyEffect;await a.api.open('p-one');assert.doesNotMatch(a.panels.at(-1).html,/근무자.*복원|달력.*유지/);
 });
+test('future CA can reach connection setup without receiving an early management button',async()=>{
+ const a=app();a.summary().polls=[];
+ a.summary().role={memberName:'현재 담당자',active:true};
+ a.summary().assignedRole={memberName:'이서연',active:false,roleId:2099};
+ a.summary().connection={status:'APPROVED',active:false,roleId:2099};
+ await available(a).open(null,true);
+ const html=a.panels.at(-1).html;assert.match(html,/data-dinner-action="role"/);assert.doesNotMatch(html,/data-dinner-action="manage"/);
+});
+test('active approved CA keeps the management entry',async()=>{
+ const a=app();a.summary().polls=[];a.summary().role={memberName:'이서연',active:true};
+ a.summary().assignedRole=a.summary().role;a.summary().connection={status:'APPROVED',active:true};
+ await available(a).open(null,true);assert.match(a.panels.at(-1).html,/data-dinner-action="manage"/);
+});

@@ -1,0 +1,188 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "name": "올해 CA 지정 및 실제 PC 승인",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "name": "올해와 내년 담당자 동시 보관",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "name": "내년 지정 이후 올해 CA 권한 유지",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "name": "내년 PC 미리 승인 후 임기 시작 대기",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "name": "예약 승인 후 관리 버튼 표시하지 않음",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "name": "선택한 내년 담당자의 요청만 표시",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "name": "여러 PC 요청 페이지 이동",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "name": "1920 화면 가로 넘침 없음",
+      "passed": true,
+      "evidence": {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "height": 721,
+        "scrollHeight": 721
+      }
+    },
+    {
+      "name": "1920 화면 세로 스크롤 없음",
+      "passed": true,
+      "evidence": {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "height": 721,
+        "scrollHeight": 721
+      }
+    },
+    {
+      "name": "1366 화면 가로 넘침 없음",
+      "passed": true,
+      "evidence": {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "height": 721,
+        "scrollHeight": 721
+      }
+    },
+    {
+      "name": "1366 화면 세로 스크롤 없음",
+      "passed": true,
+      "evidence": {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "height": 721,
+        "scrollHeight": 721
+      }
+    },
+    {
+      "name": "390 화면 가로 넘침 없음",
+      "passed": true,
+      "evidence": {
+        "width": 362,
+        "scrollWidth": 362,
+        "height": 808,
+        "scrollHeight": 1495
+      }
+    },
+    {
+      "name": "메인 화면 구성과 위치 유지",
+      "passed": true,
+      "evidence": {
+        "before": {
+          "header": {
+            "x": 120,
+            "y": 13,
+            "width": 1680,
+            "height": 68
+          },
+          "#menu-row": {
+            "x": 120,
+            "y": 92,
+            "width": 1680,
+            "height": 42
+          },
+          ".top-grid": {
+            "x": 16,
+            "y": 145,
+            "width": 1888,
+            "height": 182
+          },
+          ".info-desk-grid": {
+            "x": 629.125,
+            "y": 153,
+            "width": 615.25,
+            "height": 166
+          },
+          ".cal-header-bar": {
+            "x": 32,
+            "y": 364,
+            "width": 1846,
+            "height": 38
+          },
+          ".cal-table": {
+            "x": 32,
+            "y": 409,
+            "width": 1846,
+            "height": 574
+          }
+        },
+        "after": {
+          "header": {
+            "x": 120,
+            "y": 13,
+            "width": 1680,
+            "height": 68
+          },
+          "#menu-row": {
+            "x": 120,
+            "y": 92,
+            "width": 1680,
+            "height": 42
+          },
+          ".top-grid": {
+            "x": 16,
+            "y": 145,
+            "width": 1888,
+            "height": 182
+          },
+          ".info-desk-grid": {
+            "x": 629.125,
+            "y": 153,
+            "width": 615.25,
+            "height": 166
+          },
+          ".cal-header-bar": {
+            "x": 32,
+            "y": 364,
+            "width": 1846,
+            "height": 38
+          },
+          ".cal-table": {
+            "x": 32,
+            "y": 409,
+            "width": 1846,
+            "height": 574
+          }
+        }
+      }
+    },
+    {
+      "name": "연임하는 같은 사람도 내년 PC를 미리 승인",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "name": "현재 임기 연결과 관리 버튼 유지",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "name": "브라우저 실행 오류 없음",
+      "passed": true,
+      "evidence": []
+    }
+  ],
+  "errors": []
+}

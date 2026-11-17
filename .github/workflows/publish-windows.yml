@@ -1,6 +1,15 @@
 name: Publish verified Windows build
 on:
   workflow_dispatch:
+    inputs:
+      run_id:
+        description: Successful Windows build run ID
+        required: true
+        type: string
+      version:
+        description: Version without v prefix
+        required: true
+        type: string
 permissions:
   actions: read
   contents: write
@@ -8,24 +17,51 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      BUILD_RUN_ID: ${{ inputs.run_id }}
+      RELEASE_VERSION: ${{ inputs.version }}
     steps:
+      - name: Validate build provenance
+        id: build
+        shell: python
+        run: |
+          import json,os,re,subprocess
+          run_id=os.environ['BUILD_RUN_ID'];version=os.environ['RELEASE_VERSION']
+          assert re.fullmatch(r'[0-9]+',run_id)
+          assert re.fullmatch(r'[0-9]+\.[0-9]+\.[0-9]+',version)
+          repo=os.environ['GH_REPO']
+          run=json.loads(subprocess.check_output(['gh','api',f'repos/{repo}/actions/runs/{run_id}']))
+          assert run['conclusion']=='success' and run['status']=='completed'
+          assert run['path']=='.github/workflows/windows-build.yml'
+          assert run['head_repository']['full_name']==repo and run['head_branch']=='main'
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write(f"commit={run['head_sha']}\nartifact=WLR-OnAir-Windows-{run['run_number']}\n")
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.build.outputs.commit }}
+          persist-credentials: false
       - name: Download verified build
         uses: actions/download-artifact@v4
         with:
-          repository: magachefdave-lgtm/davess
-          run-id: 44056568087
-          name: WLR-OnAir-Windows-2
+          repository: ${{ github.repository }}
+          run-id: ${{ inputs.run_id }}
+          name: ${{ steps.build.outputs.artifact }}
           github-token: ${{ github.token }}
           path: files
       - name: Verify and package
         shell: python
         run: |
           from pathlib import Path
-          import hashlib,json,zipfile
-          p=Path('files')
+          import hashlib,json,os,zipfile
+          import build
+          p=Path('files');version=os.environ['RELEASE_VERSION']
+          assert Path('VERSION').read_text().strip()==version
+          manifest=json.loads(Path('SOURCE_MANIFEST.json').read_text())
           m=json.loads((p/'BUILD_MANIFEST.json').read_text())
-          assert m['version']=='3.18.39'
-          assert m['source_fingerprint']=='f079b9334b698a0ed6d5d8763113969877c1f439c7306bd66de9ac34bb1d184e'
+          assert m['version']==version
+          assert m['source_fingerprint']==manifest['source_fingerprint']
           assert (p/'BUILD_SUCCESS.txt').is_file()
           assert not (p/'BUILD_INCOMPLETE.txt').exists()
           assert {a['role'] for a in m['artifacts']}=={'ADMIN','VIEWER'}
@@ -33,20 +69,21 @@ jobs:
               assert hashlib.sha256((p/a['file']).read_bytes()).hexdigest()==a['sha256']
               assert a['checks']['frozen_self_test']['ok'] is True
           assert hashlib.sha256((p/m['update_zip']['file']).read_bytes()).hexdigest()==m['update_zip']['sha256']
-          z=Path('WLR_OnAir_v3.18.39_Windows.zip')
+          z=Path(f'WLR_OnAir_v{version}_Windows.zip')
           with zipfile.ZipFile(z,'w',zipfile.ZIP_DEFLATED,compresslevel=6) as archive:
               for f in sorted(p.rglob('*')):
                   if f.is_file(): archive.write(f,f.relative_to(p))
           digest=hashlib.sha256(z.read_bytes()).hexdigest()
           Path('WINDOWS_SHA256SUMS.txt').write_text(digest+'  '+z.name+'\n')
-          Path('release-notes.md').write_text('WLR OnAir v3.18.39 Windows Admin·Viewer 실행파일.\n\nWindows Server 2022 / Python 3.12.10에서 EXE 생성과 자체점검을 통과했습니다. ZIP에는 Admin, Viewer, 업데이트 ZIP, 배포관리.cmd, 빌드 기록이 포함됩니다.\n\n실제 PC의 최초 설정·공유폴더·트레이·DPAPI·업데이트는 별도 확인 항목입니다. 운영 공유폴더에 자동 게시하지 않습니다.\n\n빌드: https://github.com/magachefdave-lgtm/davess/actions/runs/44056568087\n')
+          Path('release-notes.md').write_text(f'WLR OnAir v{version} Windows Admin·Viewer 실행파일.\n\nWindows Server 2022 / Python 3.12에서 EXE 생성과 자체점검을 통과했습니다. ZIP에는 Admin, Viewer, 업데이트 ZIP, 배포관리.cmd, 빌드 기록이 포함됩니다.\n\n실제 PC의 최초 설정·공유폴더·트레이·DPAPI·업데이트는 별도 확인 항목입니다. 운영 공유폴더에 자동 게시하지 않습니다.\n\n빌드: https://github.com/{os.environ["GH_REPO"]}/actions/runs/{os.environ["BUILD_RUN_ID"]}\n')
       - name: Publish download
         env:
-          GH_TOKEN: ${{ github.token }}
-          GH_REPO: magachefdave-lgtm/davess
+          SOURCE_COMMIT: ${{ steps.build.outputs.commit }}
         run: |
-          if ! gh release view v3.18.39 >/dev/null 2>&1; then
-            gh release create v3.18.39 --draft --target be769b9ceb79d2c6850db69f16e6eabc7d1a4ed3 --title 'WLR OnAir v3.18.39 Windows Admin and Viewer' --notes-file release-notes.md
+          if gh release view "v$RELEASE_VERSION" >/dev/null 2>&1; then
+            echo 'An existing release is immutable; use a new version.' >&2
+            exit 1
           fi
-          gh release upload v3.18.39 WLR_OnAir_v3.18.39_Windows.zip WINDOWS_SHA256SUMS.txt
-          gh release edit v3.18.39 --draft=false --notes-file release-notes.md
+          gh release create "v$RELEASE_VERSION" --draft --target "$SOURCE_COMMIT" --title "WLR OnAir v$RELEASE_VERSION Windows Admin and Viewer" --notes-file release-notes.md
+          gh release upload "v$RELEASE_VERSION" "WLR_OnAir_v${RELEASE_VERSION}_Windows.zip" WINDOWS_SHA256SUMS.txt
+          gh release edit "v$RELEASE_VERSION" --draft=false --notes-file release-notes.md

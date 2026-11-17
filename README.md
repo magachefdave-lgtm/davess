@@ -1,9 +1,11 @@
 # WLR OnAir Windows 빌드
 
-근태·당직 관리 프로그램의 Admin 및 Viewer 실행파일을 Windows 환경에서 빌드합니다.
-현재 기준 소스는 v3.18.39이며, 기존 소스 지문을 유지합니다.
+처음 빌드하거나 게시할 때는 [시작하기.txt](시작하기.txt)의 순서를 먼저 따라 주세요.
 
-## 자동 빌드
+근태·당직 관리 프로그램의 Admin 및 Viewer 실행파일을 Windows 환경에서 빌드합니다.
+현재 기준 소스는 v3.18.40입니다. 올해·내년 CA 지정과 임기별 PC 연결 승인을 지원합니다.
+
+## 빌드와 게시
 
 Actions → Windows Admin and Viewer → Run workflow를 실행합니다.
 main에 새 커밋을 올려도 자동 실행됩니다.
@@ -21,3 +23,4 @@ main에 새 커밋을 올려도 자동 실행됩니다.
 개인 DB와 실제 연결 설정은 저장소에 넣지 않습니다.
 
 로컬 Windows 빌드는 build_windows.cmd를 사용합니다. 자세한 내용은 WINDOWS_BUILD_GUIDE.md를 참고하세요.
+다음 배포에서 버전 번호와 소스 지문을 함께 갱신하려면 버전올리기.cmd를 사용하세요.

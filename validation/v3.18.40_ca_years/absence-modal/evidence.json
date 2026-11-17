@@ -1,0 +1,340 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "name": "confirmation reachable True",
+      "passed": true,
+      "evidence": {
+        "reachable": true,
+        "hit": "oa-confirm-dialog",
+        "focus": "oa-confirm-dialog",
+        "stack": [
+          {
+            "id": "absence-modal",
+            "z": "1000"
+          },
+          {
+            "id": "oa-confirm-dialog",
+            "z": "2050"
+          }
+        ],
+        "escape": "oa-confirm-dialog"
+      }
+    },
+    {
+      "name": "confirmation cancellation retains input True",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "name": "password input and Escape target visible over absence editor",
+      "passed": true,
+      "evidence": {
+        "reachable": true,
+        "hit": "admin-password-modal",
+        "focus": "admin-password-modal",
+        "stack": [
+          {
+            "id": "absence-modal",
+            "z": "1000"
+          },
+          {
+            "id": "admin-password-modal",
+            "z": "1000"
+          }
+        ],
+        "escape": "admin-password-modal"
+      }
+    },
+    {
+      "name": "password cancel unlocks unchanged draft and does not save",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "name": "wrong password retry remains reachable",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "name": "Escape cancels password and keeps absence editor",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "name": "freed-duty followup and Escape target visible True",
+      "passed": true,
+      "evidence": {
+        "reachable": true,
+        "hit": "vacancy-modal",
+        "focus": "vacancy-modal",
+        "stack": [
+          {
+            "id": "absence-modal",
+            "z": "1000"
+          },
+          {
+            "id": "vacancy-modal",
+            "z": "1000"
+          }
+        ],
+        "escape": "vacancy-modal"
+      }
+    },
+    {
+      "name": "own absence saved exactly once and original duty freed True",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "name": "later or Escape returns focus to enabled absence editor True",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "name": "return to main leaves no hidden active modal trap True",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "name": "main header/menu/cards and calendar horizontal layout unchanged True",
+      "passed": true,
+      "evidence": {
+        "before": {
+          "header": {
+            "x": 93,
+            "y": 11,
+            "width": 1180,
+            "height": 58
+          },
+          "#menu-row": {
+            "x": 93,
+            "y": 78,
+            "width": 1180,
+            "height": 34
+          },
+          ".top-grid": {
+            "x": 14,
+            "y": 121,
+            "width": 1338,
+            "height": 155
+          },
+          ".info-desk-grid": {
+            "x": 453.171875,
+            "y": 129,
+            "width": 426.984375,
+            "height": 139
+          },
+          ".cal-header-bar": {
+            "x": 28,
+            "y": 308,
+            "width": 1300,
+            "height": 34
+          },
+          ".cal-table": {
+            "x": 28,
+            "y": 348,
+            "width": 1300,
+            "height": 370
+          }
+        },
+        "after": {
+          "header": {
+            "x": 93,
+            "y": 11,
+            "width": 1180,
+            "height": 58
+          },
+          "#menu-row": {
+            "x": 93,
+            "y": 78,
+            "width": 1180,
+            "height": 34
+          },
+          ".top-grid": {
+            "x": 14,
+            "y": 121,
+            "width": 1338,
+            "height": 155
+          },
+          ".info-desk-grid": {
+            "x": 453.171875,
+            "y": 129,
+            "width": 426.984375,
+            "height": 139
+          },
+          ".cal-header-bar": {
+            "x": 28,
+            "y": 308,
+            "width": 1300,
+            "height": 42
+          },
+          ".cal-table": {
+            "x": 28,
+            "y": 356,
+            "width": 1300,
+            "height": 360
+          }
+        }
+      }
+    },
+    {
+      "name": "edit confirmation Escape retains draft True",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "name": "confirmation reachable False",
+      "passed": true,
+      "evidence": {
+        "reachable": true,
+        "hit": "oa-confirm-dialog",
+        "focus": "oa-confirm-dialog",
+        "stack": [
+          {
+            "id": "absence-modal",
+            "z": "1000"
+          },
+          {
+            "id": "oa-confirm-dialog",
+            "z": "2050"
+          }
+        ],
+        "escape": "oa-confirm-dialog"
+      }
+    },
+    {
+      "name": "confirmation cancellation retains input False",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "name": "freed-duty followup and Escape target visible False",
+      "passed": true,
+      "evidence": {
+        "reachable": true,
+        "hit": "vacancy-modal",
+        "focus": "vacancy-modal",
+        "stack": [
+          {
+            "id": "absence-modal",
+            "z": "1000"
+          },
+          {
+            "id": "vacancy-modal",
+            "z": "1000"
+          }
+        ],
+        "escape": "vacancy-modal"
+      }
+    },
+    {
+      "name": "own absence saved exactly once and original duty freed False",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "name": "later or Escape returns focus to enabled absence editor False",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "name": "return to main leaves no hidden active modal trap False",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "name": "main header/menu/cards and calendar horizontal layout unchanged False",
+      "passed": true,
+      "evidence": {
+        "before": {
+          "header": {
+            "x": 93,
+            "y": 11,
+            "width": 1180,
+            "height": 58
+          },
+          "#menu-row": {
+            "x": 93,
+            "y": 78,
+            "width": 1180,
+            "height": 34
+          },
+          ".top-grid": {
+            "x": 14,
+            "y": 121,
+            "width": 1338,
+            "height": 155
+          },
+          ".info-desk-grid": {
+            "x": 453.171875,
+            "y": 129,
+            "width": 426.984375,
+            "height": 139
+          },
+          ".cal-header-bar": {
+            "x": 28,
+            "y": 308,
+            "width": 1300,
+            "height": 34
+          },
+          ".cal-table": {
+            "x": 28,
+            "y": 348,
+            "width": 1300,
+            "height": 370
+          }
+        },
+        "after": {
+          "header": {
+            "x": 93,
+            "y": 11,
+            "width": 1180,
+            "height": 58
+          },
+          "#menu-row": {
+            "x": 93,
+            "y": 78,
+            "width": 1180,
+            "height": 34
+          },
+          ".top-grid": {
+            "x": 14,
+            "y": 121,
+            "width": 1338,
+            "height": 155
+          },
+          ".info-desk-grid": {
+            "x": 453.171875,
+            "y": 129,
+            "width": 426.984375,
+            "height": 139
+          },
+          ".cal-header-bar": {
+            "x": 28,
+            "y": 308,
+            "width": 1300,
+            "height": 42
+          },
+          ".cal-table": {
+            "x": 28,
+            "y": 356,
+            "width": 1300,
+            "height": 360
+          }
+        }
+      }
+    },
+    {
+      "name": "edit confirmation Escape retains draft False",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "name": "no browser script errors",
+      "passed": true,
+      "evidence": []
+    }
+  ],
+  "errors": []
+}

@@ -77,31 +77,61 @@ class DinnerService:
     def _stamp(self):
         return self.now.isoformat(timespec='seconds')
 
-    def _role(self):
-        row = self.cur.execute('SELECT * FROM dinner_roles WHERE id=1').fetchone()
-        if row is None:
-            return None
-        return dict(id='ca', memberName=row['member_name'], startDate=row['start_date'],
-                    endDate=row['end_date'], revision=row['revision'],
-                    active=bool(row['member_name'] in self._members() and row['start_date'] <= self.now.date().isoformat() <= row['end_date']))
+    def _roles(self):
+        # Read-only upgraded clients can encounter v39 storage before migration.
+        rows = self.cur.execute('SELECT * FROM dinner_roles').fetchall()
+        if self.cur.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='dinner_appointments'").fetchone():
+            rows += self.cur.execute('SELECT * FROM dinner_appointments ORDER BY id').fetchall()
+        members, today = self._members(), self.now.date().isoformat()
+        return [dict(id='ca', roleId=row['id'], memberName=row['member_name'], startDate=row['start_date'],
+                     endDate=row['end_date'], revision=row['revision'],
+                     active=bool(row['member_name'] in members and row['start_date'] <= today <= row['end_date']))
+                for row in rows]
 
-    def _connection(self):
+    def _role(self, role_id=None, member_name=None):
+        roles = self._roles()
+        if role_id is not None:
+            return next((r for r in roles if r['roleId'] == role_id), None)
+        candidates = [r for r in roles if r['memberName'] in self._members()
+                      and (member_name is None or r['memberName'] == member_name)]
+        active = next((r for r in candidates if r['active']), None)
+        future = sorted((r for r in candidates if r['startDate'] > self.now.date().isoformat()),
+                        key=lambda r: (r['startDate'], r['roleId']))
+        if active or future:
+            return active or future[0]
+        if member_name is not None:
+            return None
+        return next((r for r in roles if r['roleId'] == 1), None) or (roles[-1] if roles else None)
+
+    def _role_id(self, value):
+        if type(value) is not int or (value != 1 and not 1900 <= value <= 9999):
+            fail('CA 임명 연도를 확인해 주세요.')
+        return value
+
+    def _connection(self, role_id=None):
         if not self.key_hash:
             return None
-        row = self.cur.execute('SELECT * FROM dinner_connections WHERE key_hash=? ORDER BY rowid DESC LIMIT 1',
-                               (self.key_hash,)).fetchone()
-        return dict(row) if row else None
+        if role_id is None:
+            role = self._role()
+            role_id = role['roleId'] if role else None
+        rows = self.cur.execute('SELECT * FROM dinner_connections WHERE key_hash=? ORDER BY rowid DESC',
+                                (self.key_hash,)).fetchall()
+        return next((dict(r) for r in rows if role_id is None or dict(r).get('role_id', 1) == role_id), None)
 
     def _connection_valid(self, row, role):
-        return bool(row and role and role['memberName'] and row['member_name'] == role['memberName']
+        return bool(row and role and role['memberName'] in self._members() and row['member_name'] == role['memberName']
+                    and row.get('role_id', 1) == role['roleId']
                     and row['role_revision'] == role['revision']
                     and row['dataset_id'] == self.identity.dataset_id
                     and row['generation'] == self.identity.generation)
 
     def _public_connection(self, row):
-        role = self._role()
+        role_id = row.get('role_id', 1)
+        role = self._role(role_id)
         status = row['status'] if self._connection_valid(row, role) else 'INVALIDATED'
         return dict(id=row['id'], status=status, memberName=row['member_name'],
+                    roleId=role_id, active=bool(role and role['active'] and status == 'APPROVED'),
+                    startDate=role['startDate'] if role else '', endDate=role['endDate'] if role else '',
                     verificationCode=row['verification_code'], deviceLabel=row['device_label'],
                     reason=row['reason'], createdAt=row['created_at'])
 
@@ -232,10 +262,20 @@ class DinnerService:
 
     def summary(self, name):
         name = text(name, '이름', 100, empty=True)
-        empty = dict(datasetKey=self.identity.dataset_id, role=None, connection=None, polls=[], events=[], pendingConnections=[])
+        empty = dict(datasetKey=self.identity.dataset_id, role=None, roles=[], assignedRole=None,
+                     connection=None, ownConnections={}, polls=[], events=[], pendingConnections=[])
         if not self._exists():
             return empty
-        role, connection = self._role(), self._connection()
+        role, assigned = self._role(), self._role(member_name=name)
+        connection = self._connection(assigned['roleId']) if assigned else self._connection()
+        own_connections = {}
+        if self.key_hash and name:
+            rows = self.cur.execute('SELECT * FROM dinner_connections WHERE key_hash=? AND member_name=? ORDER BY rowid DESC',
+                                    (self.key_hash, name)).fetchall()
+            for row in rows:
+                role_id = str(dict(row).get('role_id', 1))
+                if role_id not in own_connections:
+                    own_connections[role_id] = self._public_connection(dict(row))
         polls = []
         for row in self.cur.execute('SELECT data_json FROM dinner_polls ORDER BY rowid DESC').fetchall():
             poll = json.loads(row[0])
@@ -246,17 +286,18 @@ class DinnerService:
         pending = []
         if self.admin:
             pending = [self._public_connection(dict(r)) for r in self.cur.execute("SELECT * FROM dinner_connections WHERE status='PENDING' ORDER BY rowid DESC").fetchall()
-                       if self._connection_valid(dict(r), role)]
-        return dict(datasetKey=self.identity.dataset_id, role=role,
+                       if self._connection_valid(dict(r), self._role(dict(r).get('role_id', 1)))
+                       and self._role(dict(r).get('role_id', 1))['endDate'] >= self.now.date().isoformat()]
+        return dict(datasetKey=self.identity.dataset_id, role=role, roles=self._roles(), assignedRole=assigned,
                     connection=self._public_connection(connection) if connection else None,
-                    polls=polls, events=events, pendingConnections=pending)
+                    ownConnections=own_connections, polls=polls, events=events, pendingConnections=pending)
 
     def manage(self):
         self._manager()
         connections = [self._public_connection(dict(r)) for r in self.cur.execute('SELECT * FROM dinner_connections ORDER BY rowid DESC').fetchall()] if self.admin else []
         polls = [self._project(json.loads(r[0]), results=True)
                  for r in self.cur.execute('SELECT data_json FROM dinner_polls ORDER BY rowid DESC').fetchall()]
-        return dict(role=self._role(), connections=connections, polls=polls, members=self._members())
+        return dict(role=self._role(), roles=self._roles(), connections=connections, polls=polls, members=self._members())
 
     def detail(self, poll_id, name=''):
         name = text(name, '이름', 100, empty=True)
@@ -271,7 +312,8 @@ class DinnerService:
         op = self._operation('role', body)
         if op[3] is not None:
             return op[3]
-        previous = self._role()
+        role_id = self._role_id(body.get('roleId', 1))
+        previous = self._role(role_id)
         self._expected(body, previous['revision'] if previous else 0)
         name = text(body.get('memberName'), 'CA 이름', 100, empty=True)
         if name:
@@ -281,32 +323,36 @@ class DinnerService:
             if start > end or end < self.now.date():
                 fail('CA 임기를 확인해 주세요.')
             start, end = start.isoformat(), end.isoformat()
+            if any(r['roleId'] != role_id and r['memberName'] and r['startDate'] <= end and start <= r['endDate']
+                   for r in self._roles()):
+                fail('다른 CA 임명과 임기가 겹칩니다. 시작일과 종료일을 확인해 주세요.', 409, 'ROLE_OVERLAP')
         else:
             start = end = ''
         revision = (previous['revision'] if previous else 0) + 1
-        self.cur.execute('INSERT INTO dinner_roles VALUES(1,?,?,?,?) ON CONFLICT(id) DO UPDATE SET member_name=excluded.member_name,start_date=excluded.start_date,end_date=excluded.end_date,revision=excluded.revision',
-                         (name, start, end, revision))
-        self.cur.execute("UPDATE dinner_connections SET status='INVALIDATED',reason='CA 임명이 변경되었습니다.' WHERE status IN ('PENDING','APPROVED')")
-        return self._finish(op, dict(role=self._role()), 'ROLE_CHANGED', 'ca')
+        table = 'dinner_roles' if role_id == 1 else 'dinner_appointments'
+        self.cur.execute(f'INSERT INTO {table} VALUES(?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET member_name=excluded.member_name,start_date=excluded.start_date,end_date=excluded.end_date,revision=excluded.revision',
+                         (role_id, name, start, end, revision))
+        self.cur.execute("UPDATE dinner_connections SET status='INVALIDATED',reason='CA 임명이 변경되었습니다.' WHERE role_id=? AND status IN ('PENDING','APPROVED')", (role_id,))
+        return self._finish(op, dict(role=self._role(role_id), roles=self._roles()), 'ROLE_CHANGED', str(role_id))
 
     def request_connection(self, body):
         self._key()
         name = text(body.get('memberName'), 'CA 이름', 100)
-        role = self._role()
+        role = self._role(self._role_id(body['roleId'])) if 'roleId' in body else self._role(member_name=name)
         if not role or role['memberName'] != name or name not in self._members() or role['endDate'] < self.now.date().isoformat():
             fail('현재 임명된 CA만 사용 연결을 요청할 수 있습니다.', 403, 'FORBIDDEN')
         op = self._operation('connection', body)
         if op[3] is not None:
             return op[3]
-        existing = self._connection()
+        existing = self._connection(role['roleId'])
         if self._connection_valid(existing, role) and existing['status'] in ('PENDING', 'APPROVED'):
             return self._finish(op, dict(connection=self._public_connection(existing)), 'CONNECTION_REOPENED', existing['id'])
         label = text(body.get('deviceLabel', ''), 'PC 표시 이름', 120, empty=True) or '이 PC'
         cid = str(uuid.uuid4())
-        self.cur.execute('INSERT INTO dinner_connections(id,key_hash,member_name,role_revision,dataset_id,generation,status,verification_code,device_label,created_at) VALUES(?,?,?,?,?,?,?,?,?,?)',
+        self.cur.execute('INSERT INTO dinner_connections(id,key_hash,member_name,role_revision,dataset_id,generation,status,verification_code,device_label,created_at,role_id) VALUES(?,?,?,?,?,?,?,?,?,?,?)',
                          (cid, self.key_hash, name, role['revision'], self.identity.dataset_id, self.identity.generation,
-                          'PENDING', str(secrets.randbelow(1000000)).zfill(6), label, self._stamp()))
-        return self._finish(op, dict(connection=self._public_connection(self._connection())), 'CONNECTION_REQUESTED', cid)
+                          'PENDING', str(secrets.randbelow(1000000)).zfill(6), label, self._stamp(), role['roleId']))
+        return self._finish(op, dict(connection=self._public_connection(self._connection(role['roleId']))), 'CONNECTION_REQUESTED', cid)
 
     def decide_connection(self, connection_id, body):
         self._admin()
@@ -317,7 +363,7 @@ class DinnerService:
         if row is None:
             fail('사용 연결 요청을 찾을 수 없습니다.', 404, 'NOT_FOUND')
         row = dict(row)
-        role = self._role()
+        role = self._role(row.get('role_id', 1))
         if not self._connection_valid(row, role) or row['status'] != 'PENDING' or role['endDate'] < self.now.date().isoformat():
             fail('이미 처리되었거나 임명이 변경된 연결 요청입니다.', 409, 'STATE_CHANGED')
         decision = body.get('decision')

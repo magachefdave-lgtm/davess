@@ -77,3 +77,14 @@ def test_concurrent_identical_retry_commits_one_receipt_and_one_operation(db, tm
         assert connection.execute('SELECT COUNT(*) FROM dinner_responses').fetchone()[0] == 1
         assert connection.execute('SELECT COUNT(*) FROM dinner_operations WHERE operation_id=?',
                                   (body['operationId'],)).fetchone()[0] == 1
+
+
+def test_overlapping_appointments_racing_on_separate_ids_cannot_both_commit(db, tmp_path):
+    def appoint(role_id, name):
+        return lambda connection: actor(connection, admin=True).set_role(operation(
+            roleId=role_id, memberName=name, startDate='2030-06-01', endDate='2031-12-31', expectedRevision=0))
+    path, results = race(db, tmp_path, [appoint(2030, 'A'), appoint(2031, 'B')])
+    assert sorted(status for status, _ in results) == [200, 409]
+    assert next(result for status, result in results if status == 409) == 'ROLE_OVERLAP'
+    with sqlite3.connect(path) as connection:
+        assert connection.execute('SELECT COUNT(*) FROM dinner_appointments').fetchone()[0] == 1
