@@ -1,0 +1,138 @@
+/* 공휴일 관리: 메인 달력과 분리된 월 달력 · 목록 · 입력 영역 */
+#holiday-modal .hol-management { width:1220px; height:min(780px,calc(100dvh - 64px)); max-width:calc(100vw - 48px); max-height:calc(100dvh - 32px); padding:0; gap:0; border:1px solid var(--border); border-radius:22px; overflow:hidden; }
+#holiday-modal .hol-head { flex:none; min-height:84px; padding:20px 26px 16px; align-items:flex-start; }
+#holiday-modal .modal-title { display:flex; align-items:center; gap:10px; font-size:18px; }
+#holiday-modal .modal-title .ico { width:21px; height:21px; color:var(--primary); }
+#holiday-modal .hol-head p { margin:6px 0 0 31px; font-size:12px; color:var(--text-sub); line-height:1.5; }
+#holiday-modal .hol-workspace { display:grid; grid-template-columns:350px minmax(0,1fr); gap:24px; padding:22px 26px; flex:1; min-height:0; }
+#holiday-modal .hol-calendar-panel { display:flex; flex-direction:column; min-height:0; border:1px solid var(--border); border-radius:16px; background:var(--surface); padding:18px 16px; gap:12px; }
+#holiday-modal .hol-month-head { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+#holiday-modal .hol-month-head strong { font-size:17px; font-weight:750; }
+#holiday-modal .hol-month-head>div { display:flex; gap:5px; }
+#holiday-modal .hol-month-head button { width:28px; height:28px; min-height:0; padding:0; justify-content:center; border:1px solid var(--border); border-radius:8px; background:var(--card); font-size:18px; }
+#holiday-modal .hol-weekdays, #holiday-modal .hol-calendar-grid { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:4px 3px; flex:none; }
+#holiday-modal .hol-weekdays { color:var(--text-sub); font-size:11px; text-align:center; }
+#holiday-modal .hol-weekdays span:first-child { color:var(--holiday-text); }
+#holiday-modal .hol-weekdays span:last-child { color:var(--male-text); }
+#holiday-modal .hol-calendar-grid { margin-top:-5px; }
+#holiday-modal .hol-day { min-width:0; min-height:0; height:38px; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:4px; border:0; border-radius:9px; padding:4px 1px; background:transparent; color:var(--text-main); box-shadow:none; transform:none; }
+#holiday-modal .hol-day-num { font-size:13px; font-weight:650; font-variant-numeric:tabular-nums; line-height:1; }
+#holiday-modal .hol-day.sun { color:var(--holiday-text); }
+#holiday-modal .hol-day.sat { color:var(--male-text); }
+#holiday-modal .hol-day.out { color:var(--text-muted); opacity:.6; }
+#holiday-modal .hol-day.holiday { color:var(--holiday-text); background:var(--holiday-bg); }
+#holiday-modal .hol-day.custom { color:var(--primary-hover); background:var(--primary-light); }
+#holiday-modal .hol-day.removed { color:var(--text-muted); background:var(--bg); }
+#holiday-modal .hol-day.removed .hol-day-num { text-decoration:line-through; }
+#holiday-modal .hol-day.selected { box-shadow:inset 0 0 0 2px var(--primary); background:var(--primary-light); color:var(--primary-hover); opacity:1; }
+#holiday-modal .hol-day.today .hol-day-num { font-weight:850; text-decoration:underline; text-underline-offset:3px; }
+#holiday-modal .hol-day:hover { outline:1px solid var(--primary-border); }
+#holiday-modal .hol-day:focus-visible { outline:2px solid var(--primary); outline-offset:1px; }
+#holiday-modal .hol-day-dot { width:4px; height:4px; border-radius:50%; background:currentColor; }
+#holiday-modal .hol-day-dot.empty { visibility:hidden; }
+#holiday-modal .hol-legend { display:flex; flex-wrap:wrap; align-items:center; gap:12px; font-size:11px; color:var(--text-sub); }
+#holiday-modal .hol-legend span { display:flex; align-items:center; gap:5px; }
+#holiday-modal .hol-legend i { display:block; width:7px; height:7px; border-radius:50%; background:var(--holiday-text); }
+#holiday-modal .hol-legend .hol-custom-dot { background:var(--primary); }
+#holiday-modal .hol-legend .hol-removed-dot { background:var(--text-muted); }
+#holiday-modal .hol-selection { border-top:1px solid var(--border); padding-top:16px; display:flex; flex-direction:column; gap:9px; }
+#holiday-modal .hol-selection-top { display:flex; align-items:center; justify-content:space-between; font-size:11px; color:var(--text-sub); }
+#holiday-modal .hol-selection-top button, #holiday-modal #hol-history-toggle { padding:2px 0; border:0; background:none; font-size:12px; font-weight:650; color:var(--primary-hover); box-shadow:none; }
+#holiday-modal #hol-selected-date { font-size:16px; }
+#holiday-modal #hol-selected-name { font-size:13px; font-weight:650; line-height:1.5; overflow-wrap:anywhere; }
+#holiday-modal #hol-selected-kind { align-self:flex-start; }
+#holiday-modal .hol-calendar-help { margin:auto 0 0; padding-top:6px; font-size:12px; line-height:1.6; color:var(--text-sub); }
+#holiday-modal .hol-right { display:flex; flex-direction:column; gap:15px; min-width:0; min-height:0; }
+#holiday-modal .hol-editor { flex:none; border:1px solid var(--border); background:var(--card); border-radius:12px; padding:13px 14px 12px; }
+#holiday-modal .hol-section-head { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:11px; }
+#holiday-modal h3 { margin:0; font-size:14px; font-weight:750; }
+#holiday-modal .hol-kind { display:inline-block; white-space:nowrap; padding:3px 5px; border-radius:5px; color:var(--text-sub); background:var(--surface); font-size:10.5px; font-weight:550; line-height:1.4; }
+#holiday-modal .hol-kind.custom { color:var(--primary-hover); background:var(--primary-light); }
+#holiday-modal .hol-kind.removed { color:var(--text-muted); background:var(--bg); }
+#holiday-modal .hol-form-grid { display:grid; grid-template-columns:164px minmax(0,1fr); gap:12px; }
+#holiday-modal .hol-form-grid>label { display:flex; flex-direction:column; gap:5px; font-size:11px; font-weight:600; color:var(--text-sub); }
+#holiday-modal input[type=date], #holiday-modal input[type=text], #holiday-modal input[type=search], #holiday-modal select { width:100%; min-width:0; height:34px; padding:6px 9px; border:1px solid var(--border-strong); border-radius:7px; font-family:inherit; font-size:13px; font-weight:400; color:var(--text-main); background:var(--card); }
+#holiday-modal input[type=date] { font-size:12px; }
+#holiday-modal #hol-date[aria-invalid="true"] { border-color:var(--holiday-text); }
+#holiday-modal .hol-form-bottom { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:10px; }
+#holiday-modal .hol-form-bottom>label { display:flex; align-items:center; gap:6px; font-size:12px; }
+#holiday-modal .hol-form-bottom input { width:15px; height:15px; margin:0; accent-color:var(--primary); }
+#holiday-modal .hol-form-bottom>div { display:flex; gap:7px; }
+#holiday-modal .hol-form-bottom button, #holiday-modal .hol-footer>button { border-radius:8px; padding:7px 12px; min-height:32px; font-size:12px; }
+#holiday-modal .hol-list-section { display:flex; flex-direction:column; min-height:0; flex:1; }
+#holiday-modal .hol-list-toolbar { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:9px; flex:none; }
+#holiday-modal .hol-list-title { display:flex; align-items:center; gap:8px; white-space:nowrap; }
+#holiday-modal #hol-list-count { font-size:11px; color:var(--text-sub); }
+#holiday-modal .hol-list-tools { display:flex; align-items:center; gap:7px; }
+#holiday-modal #hol-year { width:88px; height:30px; padding:3px 8px; font-size:12px; }
+#holiday-modal #hol-search { width:166px; height:30px; font-size:12px; }
+#holiday-modal .hol-table-wrap { flex:1; min-height:0; overflow:auto; border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+#holiday-modal .hol-table { width:100%; border-collapse:collapse; table-layout:fixed; font-size:12px; }
+#holiday-modal .hol-table .hol-date-col { width:125px; }
+#holiday-modal .hol-table .hol-major-col { width:44px; }
+#holiday-modal .hol-table .hol-source-col { width:74px; }
+#holiday-modal .hol-table .hol-action-col { width:102px; }
+#holiday-modal .hol-table th { position:sticky; top:0; z-index:1; background:var(--surface); padding:9px 8px; font-size:11px; font-weight:600; color:var(--text-sub); text-align:left; }
+#holiday-modal .hol-table td { padding:9px 8px; text-align:left; vertical-align:middle; font-size:12px; border-bottom:1px solid var(--border); line-height:1.4; white-space:normal; overflow-wrap:anywhere; }
+#holiday-modal .hol-table td:first-child { white-space:nowrap; font-size:11.5px; font-variant-numeric:tabular-nums; }
+#holiday-modal .hol-table .hol-row-name { font-weight:650; }
+#holiday-modal .hol-table .selected-row { background:var(--primary-light); }
+#holiday-modal .hol-table .selected-row td:first-child { box-shadow:inset 3px 0 0 var(--primary); }
+#holiday-modal .hol-table .removed-row .hol-row-name { color:var(--text-muted); text-decoration:line-through; }
+#holiday-modal .hol-row-actions { display:flex; flex-wrap:wrap; gap:8px; }
+#holiday-modal .hol-row-actions button { min-height:22px; padding:2px 0; border:0; background:none; box-shadow:none; color:var(--primary-hover); font-size:11px; font-weight:600; }
+#holiday-modal .hol-row-actions button.btn-danger { color:var(--holiday-text); }
+#holiday-modal .hol-pagination { display:flex; justify-content:space-between; align-items:center; flex:none; min-height:33px; padding-top:5px; color:var(--text-sub); font-size:11px; }
+#holiday-modal .hol-pagination>div { display:flex; align-items:center; gap:10px; }
+#holiday-modal .hol-pagination button { border:0; background:transparent; box-shadow:none; padding:4px; font-size:11px; }
+#holiday-modal .hol-history-section { flex:none; border-top:1px solid var(--border); padding-top:9px; }
+#holiday-modal .hol-history-section .hol-section-head { margin-bottom:7px; }
+#holiday-modal .hol-history-section h3 { font-size:12px; }
+#holiday-modal #hol-history { display:flex; flex-direction:column; gap:4px; max-height:44px; overflow-y:auto; font-size:11px; line-height:1.6; color:var(--text-sub); }
+#holiday-modal .hol-history-section.expanded #hol-history { max-height:125px; }
+#holiday-modal .hol-history-row { display:grid; grid-template-columns:112px minmax(0,1fr); gap:8px; }
+#holiday-modal .hol-history-row time { color:var(--text-muted); font-variant-numeric:tabular-nums; }
+#holiday-modal .hol-history-row span { overflow-wrap:anywhere; }
+#holiday-modal .hol-footer { flex:none; min-height:63px; padding:12px 26px; display:flex; align-items:center; justify-content:space-between; gap:16px; border-top:1px solid var(--border); }
+#holiday-modal .hol-footer .modal-hint { font-size:11px; }
+#holiday-modal .hol-empty { text-align:center!important; padding:22px!important; color:var(--text-muted); }
+#holiday-modal button:disabled { cursor:default; opacity:.45; }
+@media(max-height:850px) and (min-width:1001px) {
+  #holiday-modal .hol-management { height:calc(100dvh - 48px); }
+  #holiday-modal .hol-head { min-height:73px; padding-top:15px; padding-bottom:12px; }
+  #holiday-modal .hol-workspace { padding:16px 24px; gap:20px; }
+  #holiday-modal .hol-calendar-panel { padding:14px 16px; gap:9px; }
+  #holiday-modal .hol-day { height:32px; }
+  #holiday-modal .hol-selection { padding-top:12px; gap:7px; }
+  #holiday-modal .hol-right { gap:11px; }
+  #holiday-modal .hol-editor { padding:10px 13px; }
+  #holiday-modal .hol-section-head { margin-bottom:7px; }
+  #holiday-modal .hol-footer { padding:9px 24px; min-height:57px; }
+}
+@media(max-width:1000px) {
+  #holiday-modal .hol-management { width:780px; height:auto; max-height:calc(100dvh - 24px); max-width:calc(100vw - 24px); overflow-y:auto; }
+  #holiday-modal .hol-workspace { grid-template-columns:280px minmax(0,1fr); padding:16px; gap:14px; flex:none; }
+  #holiday-modal .hol-right { min-height:570px; }
+  #holiday-modal .hol-form-grid { grid-template-columns:1fr; gap:8px; }
+  #holiday-modal .hol-list-toolbar { align-items:flex-start; flex-direction:column; gap:8px; }
+  #holiday-modal .hol-table-wrap { min-height:240px; }
+  #holiday-modal .hol-table .hol-date-col { width:117px; }
+  #holiday-modal .hol-table .hol-source-col { width:66px; }
+  #holiday-modal .hol-table .hol-action-col { width:68px; }
+  #holiday-modal .hol-table { min-width:490px; }
+  #holiday-modal .hol-calendar-panel { align-self:start; min-height:520px; padding:14px 10px; }
+}
+@media(max-width:760px) {
+  #holiday-modal .hol-workspace { grid-template-columns:1fr; }
+  #holiday-modal .hol-calendar-panel { min-height:0; }
+  #holiday-modal .hol-calendar-grid { grid-template-columns:repeat(7,minmax(0,1fr)); }
+  #holiday-modal .hol-day { height:36px; }
+  #holiday-modal .hol-selection { display:grid; grid-template-columns:1fr 1fr; align-items:center; }
+  #holiday-modal .hol-selection-top { grid-column:1 / -1; }
+  #holiday-modal .hol-calendar-help { margin:0; }
+  #holiday-modal .hol-form-grid { grid-template-columns:140px minmax(0,1fr); }
+  #holiday-modal .hol-right { min-height:610px; }
+  #holiday-modal .hol-head { padding:16px; }
+  #holiday-modal .hol-head p { margin-left:0; }
+  #holiday-modal .hol-footer { padding:12px 16px; }
+}

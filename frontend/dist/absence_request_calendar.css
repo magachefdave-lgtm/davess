@@ -1,0 +1,90 @@
+/* Request calendar only; submission, ownership and approvals stay in OnAirRequests. */
+#absence-request-modal .arc-body{box-sizing:border-box;width:940px;max-width:calc(100vw - 48px);max-height:calc(100vh - 48px);padding:0;gap:0;border:1px solid var(--border);border-radius:18px;overflow:hidden}
+#absence-request-modal .arc-head{padding:18px 20px;margin:0;gap:12px;flex:none}
+#absence-request-modal .modal-title{font-size:18px;line-height:1.4}
+#absence-request-modal button{min-width:0;min-height:0;box-shadow:none;border-radius:7px;transform:none}
+#absence-request-modal .arc-head .arc-close{display:grid;place-items:center;flex:none;width:34px;height:34px;padding:0;gap:0;border:0;border-radius:50%;background:var(--surface)}
+#absence-request-modal .arc-close svg{display:block;width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+#absence-request-modal button:focus-visible,#absence-request-modal input:focus-visible,#absence-request-modal select:focus-visible,#absence-request-modal textarea:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+#absence-request-modal .arc-layout{display:grid;grid-template-columns:260px minmax(0,1fr);gap:18px;padding:18px 20px;flex:1;min-height:0;overflow:auto}
+#absence-request-modal .arc-calendar-panel{box-sizing:border-box;align-self:start;min-width:0;padding:14px;border:1px solid var(--border);border-radius:12px;background:var(--surface)}
+#absence-request-modal .arc-calendar-head{display:flex;align-items:center;justify-content:space-between;gap:6px}
+#absence-request-modal #arc-month-label{font-size:15px;font-weight:700;white-space:nowrap}
+#absence-request-modal .arc-calendar-nav{display:flex;gap:4px}
+#absence-request-modal .arc-calendar-nav button{display:grid;place-items:center;width:28px;height:28px;padding:0;border:1px solid var(--border);border-radius:6px;font-size:18px;line-height:1;background:var(--card)}
+#absence-request-modal .arc-instruction{font-size:11px;line-height:1.65;color:var(--text-muted);margin:10px 0 12px}
+#absence-request-modal .arc-weekdays,#absence-request-modal #arc-calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px 0;text-align:center}
+#absence-request-modal .arc-weekdays{font-size:10px;color:var(--text-muted);margin-bottom:6px}
+#absence-request-modal .arc-weekdays span:first-child{color:var(--holiday-text)}
+#absence-request-modal .arc-weekdays span:last-child{color:var(--sat-blue)}
+#absence-request-modal #arc-calendar-grid{touch-action:none;user-select:none;-webkit-user-select:none}
+#absence-request-modal .arc-day{box-sizing:border-box;display:grid;place-items:center;width:100%;height:32px;min-height:32px;border:0;border-radius:5px;padding:0;background:transparent;color:var(--text-main);font-size:12px;font-weight:500;line-height:1;cursor:pointer;font-variant-numeric:tabular-nums;touch-action:none;user-select:none;-webkit-user-select:none}
+#absence-request-modal .arc-day.sun{color:var(--holiday-text)}
+#absence-request-modal .arc-day.sat{color:var(--sat-blue)}
+#absence-request-modal .arc-day.outside{opacity:.45}
+#absence-request-modal .arc-day:hover{background:var(--primary-light)}
+#absence-request-modal .arc-day.today{box-shadow:inset 0 0 0 1px var(--primary)}
+#absence-request-modal .arc-day.in-range{background:var(--primary-light);color:var(--primary);border-radius:0;opacity:1}
+#absence-request-modal .arc-day.excluded{background:transparent;box-shadow:inset 0 -1px 0 var(--border-strong);opacity:.7}
+#absence-request-modal .arc-day.range-start,#absence-request-modal .arc-day.range-end{background:var(--primary);color:white;border-radius:6px;opacity:1;font-weight:700}
+#absence-request-modal .arc-day.anchor{outline:1px dashed var(--primary);outline-offset:2px}
+#absence-request-modal .arc-day:disabled{opacity:.25;cursor:default}
+#absence-request-modal .arc-calendar-tools{display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:6px;font-size:10px;color:var(--text-muted)}
+#absence-request-modal .arc-calendar-tools>span{display:flex;align-items:center;gap:5px}
+#absence-request-modal .arc-calendar-tools i{display:inline-block;width:10px;height:10px;box-sizing:border-box;border:1px solid var(--primary);background:var(--primary-light);border-radius:3px}
+#absence-request-modal #arc-today{font-size:11px;padding:4px 9px;min-height:26px;background:var(--card)}
+#absence-request-modal .arc-selection{border-top:1px solid var(--border);padding-top:12px;margin-top:10px;line-height:1.6}
+#absence-request-modal .arc-selection-caption{display:block;font-size:11px;color:var(--text-muted);margin-bottom:4px}
+/* Reserve two text lines so selection feedback cannot move the centered calendar during a gesture. */
+#absence-request-modal #arc-selection-label{min-height:3.3em;font-size:12px;font-weight:650;color:var(--text-main);font-variant-numeric:tabular-nums;line-height:1.65;overflow-wrap:anywhere}
+#absence-request-modal #arc-selection-label .arc-date{display:inline-block;white-space:nowrap}
+#absence-request-modal #arc-selection-hint{min-height:3.2em;font-size:11px;font-weight:400;color:var(--text-muted);line-height:1.6;margin:6px 0 0;overflow-wrap:anywhere}
+#absence-request-modal .arc-jumps{display:flex;gap:6px;margin-top:12px}
+#absence-request-modal .arc-jumps button{flex:1;justify-content:center;min-height:28px;font-size:11px;padding:4px 6px;background:var(--card)}
+#absence-request-modal .arc-form-panel{min-width:0;min-height:0;overflow:auto;padding:2px}
+#absence-request-modal .arc-form-panel .modal-hint{font-size:12px;line-height:1.65;margin:0 0 10px!important;color:var(--text-sub)}
+#absence-request-modal .arc-form-panel .ur-required-note{font-size:11px;line-height:1.6;margin:0 0 10px}
+#absence-request-modal .arc-fields{display:grid;grid-template-columns:104px minmax(0,1fr);align-items:center;gap:10px;padding:14px;border:1px solid var(--border);border-radius:10px;background:var(--surface);font-size:12px;font-weight:650}
+#absence-request-modal .arc-fields>label{font-size:12px;line-height:1.5;color:var(--text-sub)}
+#absence-request-modal .arc-fields input,#absence-request-modal .arc-fields select,#absence-request-modal .arc-fields textarea{box-sizing:border-box;min-width:0;width:100%;font:inherit;font-size:13px;font-weight:400;color:var(--text-main);background:var(--card)}
+#absence-request-modal .arc-fields input,#absence-request-modal .arc-fields select{height:35px}
+#absence-request-modal .arc-fields input[type="date"]{font-variant-numeric:tabular-nums}
+#absence-request-modal .arc-fields textarea{min-height:64px;line-height:1.5}
+#absence-request-modal .arc-form-panel .ur-education{margin:12px 0 0;padding:12px;font-size:12px}
+#absence-request-modal .arc-form-panel .ur-education legend{font-size:12px}
+#absence-request-modal .arc-form-panel .ur-education legend span{font-size:11px}
+#absence-request-modal .arc-form-panel .ur-education-grid{gap:10px}
+#absence-request-modal .arc-form-panel .ur-education-grid label{font-size:11px;gap:4px}
+#absence-request-modal .arc-form-panel .ur-education-grid input,#absence-request-modal .arc-form-panel .ur-education-grid textarea{font-size:12px;padding:7px;line-height:1.5}
+#absence-request-modal .arc-form-panel #ur-amendment-context{font-size:12px;line-height:1.55;padding:10px 12px;margin-bottom:10px}
+#absence-request-modal .arc-form-panel #absence-impact{font-size:12px;line-height:1.6;margin:12px 0 0;padding:10px 12px}
+#absence-request-modal .modal-body.arc-body>.arc-footer{display:flex;justify-content:flex-end;align-items:center;gap:8px;padding:13px 20px;border-top:1px solid var(--border);flex:none;position:static;bottom:auto;z-index:auto;margin:0;background:var(--card)}
+#absence-request-modal .arc-footer button{justify-content:center;min-height:34px;padding:7px 13px;font-size:12px;line-height:1.5}
+#absence-request-modal .arc-footer .btn-main{background:var(--primary);color:white;border-color:var(--primary)}
+/* The calendar sets the desktop row height; changing duty-impact text scrolls inside the form. */
+@media(min-width:800px){
+ #absence-request-modal .arc-form-panel{contain:size}
+ #absence-request-modal .arc-body:has(#ur-req-edu-group:not([hidden])),
+ #absence-request-modal .arc-body:has(#ur-amendment-context:not([hidden])){height:min(900px,calc(100vh - 48px))}
+}
+@media(max-height:850px){
+ #absence-request-modal .arc-head{padding:14px 18px}
+ #absence-request-modal .arc-layout{padding:14px 18px;gap:16px}
+ #absence-request-modal .arc-fields{gap:8px;padding:12px}
+ #absence-request-modal .modal-body.arc-body>.arc-footer{padding:11px 18px}
+}
+@media(max-width:799px){
+ #absence-request-modal .arc-body{max-width:calc(100vw - 24px);max-height:calc(100vh - 24px)}
+ #absence-request-modal .arc-layout{grid-template-columns:minmax(0,1fr);gap:14px}
+ #absence-request-modal .arc-calendar-panel{width:260px;max-width:100%;justify-self:center}
+ #absence-request-modal .arc-form-panel{overflow:visible}
+ #absence-request-modal .arc-footer{flex-wrap:wrap;gap:6px}
+}
+@media(max-width:450px){
+ #absence-request-modal .arc-head{padding:12px;align-items:flex-start}
+ #absence-request-modal .arc-layout{padding:12px}
+ #absence-request-modal .arc-fields{grid-template-columns:82px minmax(0,1fr);gap:8px;padding:10px}
+ #absence-request-modal .arc-form-panel .ur-education-grid{grid-template-columns:minmax(0,1fr)}
+ #absence-request-modal .modal-body.arc-body>.arc-footer{padding:10px 12px}
+ #absence-request-modal .arc-footer button{padding:7px 10px}
+}

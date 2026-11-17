@@ -1,6 +1,6 @@
 __pycache__/
 .pytest_cache/
-dist/
+/dist/
 build_logs/
 .build-envs/
 wheels/

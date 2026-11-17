@@ -1,0 +1,205 @@
+/* Scoped styles for new dialog content. The v3.18.0 section at the end tunes main-screen text only
+   (card positions/sizes unchanged, except the wide-screen header/menu width). */
+.oa-modal .modal-body{padding:22px 24px;max-width:94vw;max-height:88vh;overflow:auto;gap:0}
+.oa-modal .modal-title{font-size:18px;font-weight:700;line-height:1.4}
+.oa-modal .modal-head{gap:12px;margin-bottom:16px}
+.oa-modal .oa-body{font-size:14px;line-height:1.6;min-width:0;color:var(--text-main)}
+.oa-modal button,.oa-modal input,.oa-modal select,.oa-modal textarea{font-family:inherit}
+.oa-modal button{font-size:12px;min-height:32px;padding:4px 12px}
+.oa-modal input,.oa-modal select,.oa-modal textarea{font-size:14px;color:var(--text-main);background:var(--card);border:1px solid var(--border-strong);border-radius:8px;padding:8px;max-width:100%;box-sizing:border-box}
+.oa-modal input[type=checkbox],.oa-modal input[type=radio]{accent-color:var(--primary);padding:0;width:auto}
+.oa-modal button:focus-visible,.oa-modal input:focus-visible,.oa-modal select:focus-visible,.oa-modal textarea:focus-visible,.oa-modal summary:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.oa-modal .oa-sub{font-size:12px;color:var(--text-muted)}
+.oa-modal .oa-footer{display:flex;justify-content:flex-end;align-items:center;gap:8px;flex-wrap:wrap;border-top:1px solid var(--border);padding-top:16px;margin-top:18px}
+.oa-modal .oa-row{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)}
+.oa-modal .oa-row:last-child{border-bottom:0}
+.oa-modal .oa-title{font-size:14px;font-weight:600}
+.oa-modal .oa-pill{font-size:11px;display:inline-block;padding:1px 8px;border-radius:6px;background:var(--vacation-bg);color:var(--vacation-text);white-space:nowrap}
+.oa-modal table{width:100%;border-collapse:collapse;font-size:12px}
+.oa-modal th,.oa-modal td{padding:10px 8px;text-align:left;border-bottom:1px solid var(--border);overflow-wrap:anywhere}
+.oa-modal th{font-size:12px;font-weight:600;color:var(--text-muted);background:var(--surface)}
+.oa-modal details{margin-top:14px;border-top:1px solid var(--border);padding-top:12px}
+.oa-modal summary{font-size:12px;color:var(--text-muted);cursor:pointer}
+.oa-modal .oa-error{font-size:12px;color:var(--holiday-text);margin-top:4px}
+.oa-modal textarea{width:100%;min-height:74px;resize:vertical}
+@media(max-width:600px){.oa-modal .modal-body{padding:16px}.oa-modal .oa-row{flex-wrap:wrap}.oa-modal th,.oa-modal td{padding:8px 5px}.oa-modal .oa-body{overflow-wrap:anywhere}}
+
+/* ══ v3.18.0 메인 화면 가독성 (달력·상단 카드) ══════════════════════════
+   이 파일은 index.html 의 <style> 뒤에 읽히므로 같은 특이도면 여기 값이 이긴다.
+   ★ 카드 위치·크기는 바꾸지 않는다. 바꾸는 것은 카드 '안'의 글자·여백·표시 방식뿐이다.
+     예외: 넓은 화면(≥1440px)의 머리줄·메뉴 줄 폭(요청 승인 대기가 보일 때 메뉴가 두 줄이 되던 문제). */
+
+/* [10] 최소 글자 11px — 9~10.5px 이던 보조 글자를 올린다. */
+.rule-pill, .holiday-name-tag { font-size: 11px !important; line-height: 1.25; }
+.holiday-name-tag { display: inline-block; max-width: 7.5em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; vertical-align: -2px; }
+.member-duty-dates, .md-day, .md-sep, .md-none, .member-duty-count { font-size: 11px; }
+.md-more { font-size: 11px; padding: 0 3px; letter-spacing: -.02em; }
+.md-legend { font-size: 11px; }
+.cell-memo span { font-size: 11px; line-height: 1.3; }
+.person-badge, .noduty-banner, .abs-empty, .week-memo-empty, .v-more-badge { font-size: 11px; }
+.abs-more, .memo-more { font-size: 11px; }
+.abs-row-type, .abs-row-range { font-size: 11px; }
+/* usability_personal.js 가 #id 선택자로 10.5px 을 넣으므로 한 단계 높은 특이도로 덮는다 */
+.info-desk-col #week-vacation-container .abs-row-type, .info-desk-col #week-dispatch-container .abs-row-type { font-size: 11px; }
+.info-desk-col .abs-list .abs-more { font-size: 11px; }
+/* 11px 로 키운 만큼 줄 높이를 조여 1920×1080 에서 보이던 줄 수(3줄)를 지킨다 */
+.abs-row-top, .abs-row-name, .abs-row-type { line-height: 1.2; }
+.abs-row-range { line-height: 1.25; margin-top: 1px; }
+.abs-list[data-density="c"] .abs-row-type { font-size: 11px; }
+.abs-list[data-density="c"] .abs-row-name, .abs-list[data-density="d"] .abs-row-name { font-size: 11.5px; }
+#today-vacation-count, .today-vacation-empty, .today-vacation-type { font-size: 11px; }
+.today-duty-line, .duty-line-label { font-size: 11px; }
+@media (min-height: 701px) and (max-height: 985px) {
+  .today-duty-line, .duty-line-label { font-size: 11px; }
+  .cal-table .worker-tag { font-size: 11px; }
+}
+@media (max-height: 985px) { .cal-table .worker-tag { font-size: 11px; } }
+
+/* [11] 사원별 월 근무일 — 남는 높이만큼 날짜를 여러 줄로 (줄 수는 fitMemberDutyDates 가 정한다) */
+.member-duty-dates { display: block !important; white-space: normal; -webkit-line-clamp: unset;
+  line-height: 1.2; overflow: hidden; overflow-wrap: normal; word-break: keep-all; }
+.member-duty-btn { line-height: 1.15; padding: 1px 4px; gap: 0; }
+.member-duty-name { font-size: 11px; line-height: 1.1; }
+.member-duty-dates { line-height: 1.1; }
+.member-duty-dates { letter-spacing: -.04em; }
+.member-duty-dates > * { vertical-align: top; }
+.md-sep { padding: 0; }
+
+/* [4] 배정/필요 인원 — '1/2' 처럼 쓰고, 모자라면 경고색 */
+.rule-pill.duty-fill { font-family: 'JetBrains Mono', ui-monospace, monospace !important; font-weight: 700;
+  font-variant-numeric: tabular-nums; letter-spacing: -.02em !important; padding: 0 6px; flex: none; }
+.rule-pill.duty-fill.is-short,
+.cal-table td.cell-unassigned .rule-pill.duty-fill,
+.cal-table td:has(.cell-unassigned) .rule-pill.duty-fill {
+  color: var(--holiday-text); background: var(--holiday-bg); box-shadow: inset 0 0 0 1px var(--holiday-border); }
+/* 배정 인원 표기는 오른쪽에 두고, '미배정' 글자도 최소 11px 을 지킨다. */
+.cal-table .day-header-cell .rule-pill.duty-fill { margin-left: auto; }
+.cal-table .cell-unassigned { font-size: 11px; }
+
+/* [5] 부재 칩 꼬리표(휴/교/출/부) + 달력 범례 */
+.cal-table .v-mini-chip { padding: 1px 5px 1px 3px; }
+/* 꼬리표와 11px 글자로 늘어난 높이를 칸 안에서 되돌려, 같은 해상도에서 달력이 더 길어지지 않게 한다 */
+.cal-table .absence-detail-trigger { min-height: 20px; }
+.cal-table .cell-absence-list { gap: 2px 3px; }
+.cal-table .noduty-banner { padding: 2px 4px; }
+.v-mini-chip .chip-tag { display: inline-block; margin-right: 2px; padding: 0 2px; border-radius: 4px;
+  font-weight: 800; background: color-mix(in srgb, currentColor 16%, transparent); line-height: 1.3; }
+.cal-legend { flex: 999 1 0; min-width: 0; align-self: center; display: flex; justify-content: flex-start;
+  flex-wrap: nowrap; gap: 10px; overflow: hidden; white-space: nowrap; font-size: 11px; font-weight: 600;
+  color: var(--text-muted); padding: 0 4px; }
+.cal-legend > span { display: inline-flex; align-items: center; gap: 4px; flex: none; }
+.cal-legend i { font-style: normal; font-weight: 800; padding: 0 4px; border-radius: 4px; line-height: 1.35;
+  color: var(--vacation-text); background: var(--vacation-bg); }
+.cal-legend i.lg-short { color: var(--short-absence-text); background: var(--short-absence-bg); }
+.cal-legend i.lg-fill { color: var(--text-muted); background: var(--surface);
+  font-family: 'JetBrains Mono', ui-monospace, monospace; font-weight: 700; }
+.year-month-nav { flex: 0 1 auto; }
+@media (max-width: 1100px) { .cal-legend { display: none; } }
+/* 좁은 폭 — 인원 표기 설명은 칸의 말풍선(배정 N명 / 필요 M명)에 있으므로 범례에서 먼저 뺀다 */
+@media (max-width: 1400px) { .cal-legend .lg-fill-item { display: none; } .cal-legend { gap: 8px; } }
+
+/* [7] 휴무 칸 이름표 — 패밀리데이·명절 */
+.noduty-banner.noduty-family { color: var(--live); }
+.noduty-banner.noduty-major { color: var(--holiday-text); }
+.week-memo-tag { display: inline-block; margin-right: 5px; padding: 0 5px; border-radius: 4px; font-weight: 800;
+  color: var(--live); background: color-mix(in srgb, var(--live) 12%, transparent); }
+
+/* [12] 공지(globalMemo) — 메모 칸 맨 위 한 줄 */
+.week-notice { flex: none; grid-column: 1 / -1; display: flex; align-items: center; gap: 6px; min-width: 0;
+  padding: 3px 8px; border-radius: var(--radius-sm); font-size: 11px; line-height: 1.4;
+  color: var(--text-main); background: color-mix(in srgb, var(--primary) 10%, transparent); }
+.week-notice-tag { flex: none; font-weight: 800; color: var(--primary-hover, var(--primary)); }
+.week-notice-text { min-width: 0; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* [6] 메모 밀도 a·b = 본문 2줄, c = 1줄 (applyMemoDensity). 예전 c(날짜만 격자)는 쓰지 않는다. */
+.week-memo-board[data-density="b"] .week-memo-text { -webkit-line-clamp: 2; }
+.week-memo-board[data-density="c"] { display: flex; gap: 3px; }
+.week-memo-board[data-density="c"] .week-memo-item { padding: 2px 8px; gap: 6px; }
+.week-memo-board[data-density="c"] .week-memo-text { display: -webkit-box; -webkit-line-clamp: 1; }
+.week-memo-board[data-density="c"] .week-memo-date { min-width: 0; }
+
+/* 데스크 소제목 — 글자를 한 덩어리로(.tt-text) 묶어야 inline-flex 의 gap 이 단어 사이에 끼지 않는다 */
+.info-desk-col .card-title .tt-text { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.today-vacation-heading .tv-title { white-space: nowrap; }
+
+/* [6] 좁은 폭 — 제목을 줄이고(이번 주 → 생략), 금일 당직자 제목과 시계를 띄운다 */
+.today-summary-card .card-head { gap: 10px; min-width: 0; }
+.today-summary-card .card-head .card-title { flex: none; }
+.today-summary-card .now-clock { min-width: 0; overflow: hidden; }
+/* 메모 줄은 버튼이라 (max-height:985px) 의 button{min-height:32px} 를 물려받아 한 줄 메모도 32px 이었다 */
+.week-memo-item { min-height: 0; }
+@media (max-width: 1439px) {
+  .info-desk-col .card-title .tt-week, .today-vacation-heading .tt-week { display: none; }
+  .info-desk-col .card-head { gap: 6px; }
+  .info-desk-col .card-title { gap: 4px; }
+  .info-desk-col .card-head > span:not(.card-title) { font-size: 11.5px !important; }
+  .desk-count .cnt-sep { margin: 0 2px; }
+  .week-memo-date { min-width: 0; }
+  .week-memo-item { gap: 6px; }
+}
+@media (max-width: 1300px) { .info-desk-col .card-title .tt-long { display: none; } }
+@media (max-width: 1439px) { .now-clock .cd-year { display: none; } .today-summary-card .now-clock { gap: 6px; } }
+
+/* 금일 휴가·부재 — 휴가(보라)·부재(주황) */
+.today-vacation-person.kind-short { background: var(--short-absence-bg); color: var(--short-absence-text); }
+.today-vacation-type .tv-tag { font-weight: 800; }
+
+/* [3] 달력 카드 안에서 스크롤될 때 월 이동줄·요일 머리줄을 붙여 둔다 */
+@media screen and (min-height: 701px) and (min-width: 1101px) {
+  /* 그림자로 위쪽 안쪽 여백(상단 띠 3px 은 남긴다)과 아래 간격을 카드 색으로 덮어, 스크롤된 칸이 비치지 않게 한다 */
+  body > .card > .cal-header-bar { position: sticky; top: 0; z-index: 6; background: var(--card);
+    box-shadow: 0 -8px 0 var(--card), 0 8px 0 var(--card); }
+  body > .card > .cal-table thead th { position: sticky; top: var(--cal-bar-h, 0px); z-index: 5; background: var(--card);
+    box-shadow: 0 0 0 4px var(--card); }
+}
+
+/* [8] 넓은 화면 — 머리줄·메뉴 줄 최대 폭을 넓혀 '요청 승인 대기'가 있어도 한 줄 */
+@media (min-width: 1440px) { header, .menu-row { width: min(1680px, 100%); } }
+.btn-approval-notify .approval-label { white-space: nowrap; }
+
+/* [9] 다크 — 공휴일·휴무 칸이 평일 칸과 거의 구분되지 않던 문제 (다크에서만) */
+:root[data-theme="dark"] .cal-table td.holiday-cell:not(.today-cell):not(.member-duty-highlight) {
+  background: color-mix(in srgb, #ff7780 15%, var(--card)) !important; }
+:root[data-theme="dark"] .cal-table td.noduty-cell:not(.today-cell) {
+  background: repeating-linear-gradient(135deg, rgba(255,255,255,.045) 0 6px, transparent 6px 12px),
+              color-mix(in srgb, #ffffff 9%, var(--card)) !important; }
+:root[data-theme="dark"] .noduty-banner { background: rgba(255,255,255,.08); color: #b7c7cb; }
+:root[data-theme="dark"] .noduty-banner.noduty-family { color: var(--live); }
+:root[data-theme="dark"] .noduty-banner.noduty-major { color: var(--holiday-text); }
+/* 3.18.0 QA: 신청 창은 내용이 길어져도(교육 정보 등) 아래 [신청하기] 줄이 늘 보이게 한다. 1366×768 에서 버튼이 화면 밖으로 밀렸다. */
+#absence-request-modal .modal-body>div:last-child{position:sticky;bottom:-24px;z-index:3;background:var(--card);margin-bottom:-24px;padding:12px 0 18px;border-top:1px solid var(--border)}
+#abs-editor>div:has(>#abs-submit-btn){position:sticky;bottom:-24px;z-index:3;background:linear-gradient(var(--surface),var(--surface)),var(--card);margin:12px -14px -14px !important;padding:10px 14px 14px;border-top:1px solid var(--border);border-radius:0 0 10px 10px}
+.oa-modal .oa-body .ur-footer{position:sticky;bottom:-22px;z-index:3;background:var(--card);margin-bottom:-22px;padding:12px 0 16px;border-top:1px solid var(--border)}
+
+/* v3.18.4: 당직 없음 안내는 이름용 한 줄 크기로 옆 휴가 칸을 침범하지 않게 한다. */
+.today-summary-card .noduty-card { min-width: 0; gap: 4px; }
+.today-summary-card .noduty-card .person-badge {
+  align-self: center; padding-inline: 4px; white-space: nowrap;
+}
+.today-summary-card .noduty-card .person-name {
+  font-size: 13px; line-height: 1.4; white-space: normal;
+  word-break: keep-all; overflow-wrap: anywhere;
+}
+/* v3.18.4 — 이번 주 두 목록의 마지막 밀도 단계에서 여백만 조인다.
+   이름 11.5px·구분/날짜 11px와 날짜 원문은 유지한다. 1920×1080에서는
+   일반 기간 8건, 두 줄 연도 기간 6건이 기존 칸과 8px 하단 여유 안에 들어간다. */
+.abs-list[data-density="d"] { gap: 2px; }
+.abs-list[data-density="d"] .abs-row { padding: 1px 4px; }
+#week-vacation-container[data-density="d"] .abs-row-range,
+#week-dispatch-container[data-density="d"] .abs-row-range { margin-top: 1px; line-height: 1.2; }
+
+/* v3.18.10 — 오늘 칸의 바깥 발광은 고정 요일 머리줄에 위쪽이 가려진다.
+   강조를 칸 안에 그려 네 변을 일정하게 유지한다. 개인 근무 강조의
+   !important 배경/그림자는 그대로 두고, 오늘 테두리만 그 위에 겹친다. */
+@media screen {
+  .cal-table td.today-cell {
+    box-shadow: inset 0 1px 0 var(--inner-line);
+  }
+  .cal-table td.today-cell:hover { transform: none; }
+  .cal-table td.today-cell::after {
+    inset: 0; border-radius: inherit;
+    box-shadow: inset 0 0 0 1.5px var(--today-border),
+                inset 0 0 12px color-mix(in srgb, var(--today-border) 18%, transparent);
+    animation: none; opacity: 1;
+  }
+}

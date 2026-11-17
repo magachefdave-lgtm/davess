@@ -1,0 +1,81 @@
+/* Scoped dinner dialogs; existing dashboard cards and calendar retain their layout. */
+#header-dinner{width:128px;min-width:128px;max-width:128px;flex:none;justify-content:center;gap:5px;white-space:nowrap}
+#header-dinner.is-pending{color:var(--primary-hover)!important;background:var(--primary-light)!important;border:1px solid var(--primary-border)!important;font-weight:750!important}
+#header-dinner .dp-header-count{font-size:10px;line-height:17px;min-width:17px;border-radius:5px;background:var(--primary-hover);color:var(--card);padding:0 3px}
+/* The added entry borrows search-field space before a desktop header can wrap. */
+@media(min-width:1101px) and (max-width:1439px){header:has(#header-dinner){flex-wrap:nowrap}header:has(#header-dinner) .search-input-group{flex:1 1 180px;min-width:160px;max-width:300px}header:has(#header-dinner) .search-input{min-width:0}header:has(#header-dinner) #theme-toggle{flex:none}}
+#dinner-modal .modal-body{width:940px;max-width:calc(100vw - 28px);max-height:calc(100dvh - 40px);border-radius:22px}
+#dinner-modal .dp-content{min-width:0;font-size:14px;line-height:1.6}
+#dinner-modal h3,#dinner-modal p{margin:0}
+#dinner-modal h3{font-size:15px;font-weight:700;line-height:1.5}
+#dinner-modal .dp-caption{font-size:12px;color:var(--text-sub);line-height:1.6}
+#dinner-modal .dp-toolbar,#dinner-modal .dp-row,#dinner-modal .dp-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+#dinner-modal .dp-toolbar{justify-content:space-between;margin-bottom:16px}
+#dinner-modal .dp-actions{justify-content:flex-end}
+#dinner-modal .dp-pill{display:inline-flex;padding:3px 9px;border-radius:6px;white-space:nowrap;background:var(--surface);color:var(--text-sub);font-size:11px;font-weight:650}
+#dinner-modal .dp-pill.good{background:var(--vacation-bg);color:var(--vacation-text)}
+#dinner-modal .dp-pill.warn{background:var(--holiday-bg);color:var(--holiday-text)}
+#dinner-modal .dp-list-item{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:19px 0;border-bottom:1px solid var(--border)}
+#dinner-modal .dp-list-item:first-of-type{border-top:1px solid var(--border)}
+#dinner-modal .dp-list-copy{min-width:0;overflow-wrap:anywhere}
+#dinner-modal .dp-list-copy>p{margin-top:6px;font-size:12px;color:var(--text-sub)}
+#dinner-modal .dp-list-item>button{flex:none}
+#dinner-modal .dp-empty{padding:32px 12px;text-align:center;color:var(--text-sub)}
+#dinner-modal .dp-empty button{margin:14px 4px 0}
+#dinner-modal .dp-empty p+h3,#dinner-modal .dp-empty h3+p{margin-top:8px}
+#dinner-modal .dp-description{font-size:13px;color:var(--text-sub);margin:0 0 15px;white-space:pre-wrap}
+#dinner-modal .dp-vote-layout{display:grid;grid-template-columns:280px minmax(0,1fr);align-items:start;gap:24px}
+#dinner-modal .dp-calendar-pane{padding:15px 12px;background:var(--surface);border-radius:12px;min-width:0}
+#dinner-modal .dp-calendar-nav{display:grid;grid-template-columns:32px minmax(0,1fr) 32px;align-items:center;gap:4px;margin:10px 0 12px;text-align:center;font-size:14px}
+#dinner-modal .dp-calendar-nav button{display:flex;align-items:center;justify-content:center;padding:0!important;min-height:32px;width:32px;font-size:20px;line-height:1;background:var(--card);border:0}
+#dinner-modal .dp-calendar{width:100%;table-layout:fixed;border-collapse:separate;border-spacing:3px;font-size:13px}
+#dinner-modal .dp-calendar th,#dinner-modal .dp-calendar td{padding:0;border:0;text-align:center;background:none}
+#dinner-modal .dp-calendar th{font-size:11px;font-weight:600;height:26px}
+#dinner-modal .dp-calendar td{height:36px;vertical-align:middle}
+#dinner-modal .dp-day{position:relative;display:flex;align-items:center;justify-content:center;min-width:0;width:100%;height:36px;min-height:36px;font-size:13px;font-weight:500;border-radius:7px;padding:0;box-sizing:border-box}
+#dinner-modal .is-sunday{color:var(--holiday-text)}
+#dinner-modal .is-saturday{color:var(--primary-hover)}
+#dinner-modal .dp-day.is-today{box-shadow:inset 0 0 0 1px var(--text-sub);font-weight:700}
+#dinner-modal .dp-calendar button.dp-candidate{padding:0;min-height:36px;border:1px solid var(--primary-hover);color:var(--primary-hover);background:var(--primary-light);font-weight:750}
+#dinner-modal .dp-candidate::after{content:"";position:absolute;width:3px;height:3px;border-radius:50%;background:currentColor;bottom:3px;left:calc(50% - 1.5px)}
+#dinner-modal .dp-candidate[aria-pressed=true]{outline:2px solid var(--primary-hover);outline-offset:1px}
+#dinner-modal .dp-candidate.is-intro{animation:dp-candidate-glow 950ms ease-in-out 2}
+@keyframes dp-candidate-glow{0%,100%{box-shadow:0 0 0 0 transparent}50%{box-shadow:0 0 0 3px color-mix(in srgb,var(--primary) 30%,transparent)}}
+#dinner-modal .dp-calendar-legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;font-size:11px;color:var(--text-sub)}
+#dinner-modal .dp-calendar-legend>span{display:flex;gap:6px;align-items:center}
+#dinner-modal .dp-calendar-legend i{width:12px;height:12px;border:1px solid var(--primary-hover);background:var(--primary-light);border-radius:3px}
+#dinner-modal .dp-calendar-legend .is-today{border-color:var(--text-sub);background:transparent}
+#dinner-modal .dp-calendar-detail{min-height:66px;margin-top:13px;padding-top:12px;border-top:1px solid var(--border);color:var(--text-sub);font-size:12px}
+#dinner-modal .dp-calendar-detail strong{display:block;color:var(--text-main);font-size:12px}
+#dinner-modal .dp-calendar-picker{display:grid;gap:6px;margin-top:12px;font-size:12px;color:var(--text-sub)}
+#dinner-modal .dp-calendar-picker select{width:100%;font-size:12px;min-width:0}
+#dinner-modal .dp-vote-form{min-width:0}
+#dinner-modal .dp-note{padding:12px 14px;background:var(--surface);border-radius:8px;font-size:13px;color:var(--text-sub);white-space:pre-wrap}
+#dinner-modal .dp-ballot{border:0;border-bottom:1px solid var(--border);border-radius:8px;margin:0;padding:16px 10px;min-width:0}
+#dinner-modal .dp-ballot legend{float:left;width:100%;margin-bottom:8px;padding:0;font-size:14px;font-weight:700}
+#dinner-modal .dp-ballot legend+*{clear:both}
+#dinner-modal .dp-ballot>.dp-caption{margin-bottom:8px}
+#dinner-modal .dp-ballot.is-linked{background:var(--primary-light)}
+#dinner-modal .dp-ballot.is-linked legend{color:var(--primary-hover)}
+#dinner-modal .dp-choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+#dinner-modal .dp-choice{display:flex;align-items:center;justify-content:center;gap:6px;min-height:38px;border:1px solid var(--border-strong);border-radius:7px;background:var(--card);font-size:13px;line-height:1.4;padding:7px 5px;cursor:pointer}
+#dinner-modal .dp-choice:has(input:checked){border-color:var(--primary-hover);color:var(--primary-hover);background:var(--primary-light);font-weight:700}
+#dinner-modal .dp-choice input{margin:0;flex:none;width:14px;height:14px}
+#dinner-modal .dp-suggestion{display:grid;gap:7px;font-size:13px;margin:16px 0 10px}
+#dinner-modal .dp-suggestion textarea{min-height:65px;font-size:13px;resize:vertical}
+#dinner-modal .dp-footer{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap;border-top:1px solid var(--border);margin-top:18px;padding-top:16px}
+#dinner-modal .dp-footer>.dp-caption{margin-right:auto}
+#dinner-modal .dp-error{margin-top:12px;color:var(--holiday-text);font-size:13px;white-space:pre-wrap}
+#dinner-modal [hidden]{display:none!important}
+#dinner-modal .dp-state{margin:16px 0;padding:20px;border-radius:12px;background:var(--surface)}
+#dinner-modal .dp-final-date{font-size:27px;font-weight:800;letter-spacing:-.035em;margin-top:8px}
+#dinner-modal .dp-meta{display:grid;grid-template-columns:50px minmax(0,1fr);gap:10px 16px;font-size:13px;margin:18px 0 0}
+#dinner-modal .dp-meta dt{color:var(--text-sub)}
+#dinner-modal .dp-meta dd{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+#dinner-modal .dp-success{background:var(--vacation-bg);color:var(--vacation-text);padding:13px 14px;border-radius:8px;font-weight:650}
+#dinner-modal .dp-answer-table{margin:16px 0}
+#dinner-modal .dp-answer-table th:last-child,#dinner-modal .dp-answer-table td:last-child{text-align:right;white-space:nowrap}
+@media(max-width:800px){#dinner-modal .dp-vote-layout{grid-template-columns:minmax(0,1fr);gap:18px}#dinner-modal .dp-calendar-pane{width:100%;max-width:370px;margin:0 auto;box-sizing:border-box}}
+@media(max-width:500px){#dinner-modal .modal-body{padding:16px;max-width:calc(100vw - 20px);max-height:calc(100dvh - 20px);border-radius:16px}#dinner-modal .dp-list-item{align-items:flex-start;flex-direction:column;gap:10px}#dinner-modal .dp-ballot{padding:16px 4px}#dinner-modal .dp-choice{font-size:12px;gap:4px;padding:7px 3px}#dinner-modal .dp-choices{gap:5px}#dinner-modal .dp-toolbar{align-items:flex-start}#dinner-modal .dp-final-date{font-size:22px}}
+@media(pointer:coarse){#dinner-modal button,#dinner-modal .dp-choice{min-height:44px}#dinner-modal select{min-height:44px;font-size:16px}}
+@media(prefers-reduced-motion:reduce){#dinner-modal .dp-candidate.is-intro{animation:none}}

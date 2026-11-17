@@ -1,0 +1,89 @@
+#rule-modal .modal-body{width:1360px;max-width:calc(100vw - 32px);box-sizing:border-box;padding:20px 24px 0;overflow-x:hidden}
+#rule-modal .modal-title{font-size:20px}
+#rule-modal .modal-head{margin-bottom:14px}
+#rule-modal .rule-common{display:grid;grid-template-columns:1fr 1fr;gap:10px 28px;padding:14px 16px;background:var(--surface);border:1px solid var(--border);border-radius:10px 10px 0 0;font-size:13px;font-weight:700}
+#rule-modal .rule-common>div{display:flex;align-items:center;gap:12px;min-width:0!important;flex:none!important}
+#rule-modal .rule-common select{flex:1;min-width:0;width:auto!important;font-size:13px;padding:6px!important}
+#rule-modal .rule-family-summary{padding:9px 16px;border:1px solid var(--border);border-top:0;border-radius:0 0 10px 10px;font-size:13px}
+#rule-modal .rule-family-summary span{color:var(--text-muted);font-size:12px}
+#rule-modal .rule-details{margin:8px 0 12px;font-size:12px;color:var(--text-sub)}
+#rule-modal summary{cursor:pointer;font-weight:700;padding:5px 0}
+#rule-modal .rule-details .modal-hint{font-size:12px;line-height:1.65}
+#rule-modal .rule-matrix-heading{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+#rule-modal h3{font-size:18px;margin:0}
+#rule-modal #fixed-order-state{font-size:12px;font-weight:700}
+#rule-modal .rule-editor-hint{font-size:12px;color:var(--text-muted);margin:6px 0 10px}
+#rule-modal .rule-matrix{width:100%;table-layout:fixed;border-spacing:0;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+#rule-modal .rule-matrix th,#rule-modal .rule-matrix td{border-bottom:1px solid var(--border);border-right:1px solid var(--border);padding:8px 12px;vertical-align:top;overflow-wrap:anywhere}
+#rule-modal .rule-matrix tr:last-child>*{border-bottom:0}
+#rule-modal .rule-matrix tr>*:last-child{border-right:0}
+#rule-modal .rule-matrix thead th{background:var(--surface);text-align:left;font-size:15px;padding:9px 12px}
+#rule-modal .rule-matrix th:first-child{width:112px}
+#rule-modal .rule-matrix tbody th{background:var(--surface);text-align:left;vertical-align:middle;font-size:15px}
+#rule-modal .rule-matrix th small{display:block;font-size:12px;color:var(--text-muted);margin-top:4px;font-weight:400}
+#rule-modal .rule-male{color:var(--male-text)}#rule-modal .rule-female{color:var(--female-text)}
+#rule-modal .rule-na{text-align:center;vertical-align:middle!important;color:var(--text-muted)}
+#rule-modal .oa-chips{gap:6px;margin:0}
+#rule-modal .oa-roster-bar{display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:12px;color:var(--primary);font-weight:700}
+#rule-modal .oa-roster-bar select{max-width:130px;min-width:0;padding:2px 4px;font-size:12px}
+#rule-modal .oa-chip-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px 8px}
+#rule-modal .oa-chip{display:block;min-width:0;padding:0;overflow:hidden;border-radius:18px;background:var(--surface)}
+#rule-modal .oa-chip button{display:flex;width:100%;align-items:center;gap:4px;padding:3px 7px;min-height:26px;font-size:14px;color:var(--text-main);cursor:pointer;border-radius:18px}
+#rule-modal .oa-chip-no{font-size:11px;flex-shrink:0}
+#rule-modal .oa-chip-name{font-size:14px;overflow-wrap:anywhere}
+#rule-modal .oa-chip button:disabled{opacity:1;cursor:default}
+#rule-modal .oa-chip-selected{border-color:var(--primary);box-shadow:0 0 0 1px var(--primary)}
+#rule-modal .oa-chip button:focus-visible,#rule-modal select:focus-visible,#rule-modal .oa-chip-toolbar button:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+#rule-modal .oa-chip-toolbar{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:12px}
+#rule-modal .oa-chip-toolbar>span{font-weight:700}
+#rule-modal .oa-chip-toolbar button{font-size:12px;padding:3px 7px}
+#rule-modal .oa-chip-toolbar button[data-remove]{color:var(--holiday-text)}
+#rule-modal #fixed-order-box[data-active="false"] .rule-matrix{background:var(--surface)}
+#rule-modal #fixed-order-box[data-active="false"] .oa-chip{border-style:dashed}
+#rule-modal .roster-check{font-size:12px;margin-top:3px}
+#rule-modal #weekend-pair-preview{margin:12px 0;border:1px solid var(--border);border-radius:10px;background:var(--surface);padding:8px 12px;font-size:12px;line-height:1.6}
+#rule-modal .rule-pair-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#rule-modal .rule-pair-grid>div{min-width:0;overflow-wrap:anywhere}
+#rule-modal .rule-footer{position:sticky;bottom:0;display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;background:var(--bg);padding:14px 0;margin-top:14px;border-top:1px solid var(--border);z-index:2}
+#rule-modal .rule-footer button{min-height:36px;font-size:13px}
+@media(max-width:1000px){#rule-modal .modal-body{padding:16px 16px 0}#rule-modal .rule-common{gap:10px 16px}#rule-modal .rule-common>div{flex-direction:column;align-items:stretch;gap:4px}#rule-modal .rule-matrix th:first-child{width:88px}#rule-modal .rule-matrix td,#rule-modal .rule-matrix th{padding:8px}#rule-modal .oa-chip-list{gap:5px} }
+@media(max-width:650px){#rule-modal .modal-body{max-width:calc(100vw - 16px);padding:12px 10px 0}#rule-modal .rule-common{grid-template-columns:1fr}#rule-modal .rule-matrix th:first-child{width:54px}#rule-modal .rule-matrix td,#rule-modal .rule-matrix th{padding:6px 4px}#rule-modal .oa-chip-list{grid-template-columns:repeat(2,minmax(0,1fr))}#rule-modal .oa-roster-bar{align-items:stretch;flex-direction:column}#rule-modal .rule-pair-grid{grid-template-columns:1fr}#rule-modal .rule-footer{gap:5px}#rule-modal .rule-footer button{font-size:12px;padding:6px!important}}
+
+/* Match the selected table concept without inherited modal flex gaps. */
+#rule-modal .modal-body{gap:0;display:block;max-width:calc(100vw - 40px);padding:20px 28px 0}
+#rule-modal .modal-head{margin-bottom:16px;padding-bottom:12px;border-bottom:0}
+#rule-modal .rule-common{gap:10px 36px;padding:14px 20px}
+#rule-modal .rule-common>div{display:grid;grid-template-columns:145px minmax(0,1fr);gap:10px}
+#rule-modal .rule-common select{width:100%!important;box-sizing:border-box}
+#rule-modal .rule-details{margin:0 0 18px;border:1px solid var(--border);border-top:0;border-radius:0 0 10px 10px;color:var(--text-main)}
+#rule-modal .rule-details>summary{display:flex;align-items:center;gap:20px;flex-wrap:wrap;list-style:none;padding:9px 20px;font-size:13px}
+#rule-modal .rule-details>summary::-webkit-details-marker{display:none}
+#rule-modal .rule-family-summary{padding:0;border:0;font-size:13px}
+#rule-modal .rule-details-toggle{border:1px solid var(--border);border-radius:5px;padding:2px 12px;font-weight:700;white-space:nowrap;background:var(--card)}
+#rule-modal .rule-details-toggle::after{content:' ⌄'}
+#rule-modal .rule-details[open] .rule-details-toggle::after{content:' ⌃'}
+#rule-modal .rule-details>.modal-hint{padding:0 20px 10px;margin:0!important}
+#rule-modal .rule-matrix-heading{margin:0 0 12px;gap:12px;align-items:center}
+#rule-modal .rule-editor-hint{margin:0 0 0 auto}
+#rule-modal .rule-matrix th:first-child{width:132px}
+#rule-modal .rule-matrix tbody th{font-size:17px}
+#rule-modal .rule-matrix td{padding:7px 16px 9px}
+#rule-modal .oa-roster-bar{min-height:24px;align-items:center}
+#rule-modal .oa-roster-status{min-width:0;flex:1}
+#rule-modal .oa-roster-status .roster-check{margin:0;font-size:12px;line-height:1.35}
+#rule-modal .oa-roster-status .rc-off{opacity:1;color:var(--text-muted)}
+#rule-modal .oa-chip-list{gap:5px 12px}
+#rule-modal .oa-chip button{padding:2px 9px;min-height:26px;box-sizing:border-box;justify-content:flex-start}
+#rule-modal .oa-chip-no{min-width:18px}
+#rule-modal .oa-chip-name{flex:1;text-align:center}
+#rule-modal #weekend-pair-preview{margin-top:14px;padding:9px 16px;font-size:13px}
+#rule-modal .rule-pair-grid{gap:14px;margin-top:5px}
+#rule-modal .rule-pair-card{background:color-mix(in srgb,var(--male-text) 6%,var(--card));padding:4px 16px;border-radius:8px}
+#rule-modal .rule-pair-card:nth-child(2){background:color-mix(in srgb,var(--female-text) 6%,var(--card))}
+#rule-modal .rule-pair-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;line-height:1.8}
+#rule-modal .rule-pair-row>span{background:var(--surface);border-radius:5px;min-width:76px;text-align:center;font-size:12px;font-weight:700}
+#rule-modal #weekend-pair-preview details>summary{font-size:12px;padding:4px 0 0;color:var(--text-muted)}
+#rule-modal .rule-footer{margin-top:14px;padding:14px 0;background:var(--card)}
+#rule-modal .rule-footer button{padding:8px 20px!important;border-radius:8px}
+@media(max-width:1100px){#rule-modal .rule-common>div{display:flex;flex-direction:column;align-items:stretch;gap:4px}#rule-modal .rule-matrix th:first-child{width:95px}#rule-modal .modal-body{padding:16px 18px 0}#rule-modal .rule-matrix td{padding:7px 10px}#rule-modal .oa-chip-list{gap:5px 7px}}
+@media(max-width:650px){#rule-modal .modal-body{max-width:calc(100vw - 16px);padding:12px 10px 0}#rule-modal .rule-matrix th:first-child{width:54px}#rule-modal .rule-matrix td{padding:6px 4px}#rule-modal .rule-details>summary{padding:9px 12px;gap:8px}#rule-modal .rule-editor-hint{margin-left:0}#rule-modal .oa-roster-bar{align-items:stretch}#rule-modal .oa-chip-list{gap:4px}#rule-modal .rule-footer button{padding:6px 8px!important}#rule-modal .rule-pair-card{padding:4px 8px}}
