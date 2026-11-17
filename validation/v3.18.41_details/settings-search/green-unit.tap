@@ -1,0 +1,916 @@
+TAP version 13
+# Subtest: all pages expose upcoming rows before past records once and clamp both ends
+ok 1 - all pages expose upcoming rows before past records once and clamp both ends
+  ---
+  duration_ms: 23.813838
+  type: 'test'
+  ...
+# Subtest: compact desktop page has seven records and resize retains accessible pages
+ok 2 - compact desktop page has seven records and resize retains accessible pages
+  ---
+  duration_ms: 10.4942
+  type: 'test'
+  ...
+# Subtest: search resets page while status filters combine with search without changing records
+ok 3 - search resets page while status filters combine with search without changing records
+  ---
+  duration_ms: 6.668757
+  type: 'test'
+  ...
+# Subtest: today is included in current/upcoming and yesterday in past; empty search has accurate controls
+ok 4 - today is included in current/upcoming and yesterday in past; empty search has accurate controls
+  ---
+  duration_ms: 3.482467
+  type: 'test'
+  ...
+# Subtest: record deletion on final page clamps to remaining records without losing selected highlight
+ok 5 - record deletion on final page clamps to remaining records without losing selected highlight
+  ---
+  duration_ms: 5.478317
+  type: 'test'
+  ...
+# Subtest: combined periods keep full years and weekdays; user values are escaped
+ok 6 - combined periods keep full years and weekdays; user values are escaped
+  ---
+  duration_ms: 3.978661
+  type: 'test'
+  ...
+# Subtest: selected id zero is highlighted only when explicitly editing it
+ok 7 - selected id zero is highlighted only when explicitly editing it
+  ---
+  duration_ms: 2.328001
+  type: 'test'
+  ...
+# Subtest: upcoming sorts all matching rows before pagination and leaves stored order unchanged
+ok 8 - upcoming sorts all matching rows before pagination and leaves stored order unchanged
+  ---
+  duration_ms: 5.069402
+  type: 'test'
+  ...
+# Subtest: same start sorts by end, Korean name and record id consistently
+ok 9 - same start sorts by end, Korean name and record id consistently
+  ---
+  duration_ms: 2.58435
+  type: 'test'
+  ...
+# Subtest: expected-start header, badges and empty span follow filter without changing day totals
+ok 10 - expected-start header, badges and empty span follow filter without changing day totals
+  ---
+  duration_ms: 2.82826
+  type: 'test'
+  ...
+# Subtest: countdown covers year, leap-day and daylight-saving calendar boundaries
+ok 11 - countdown covers year, leap-day and daylight-saving calendar boundaries
+  ---
+  duration_ms: 2.495689
+  type: 'test'
+  ...
+# Subtest: clock date change refreshes an open upcoming list without touching an editor draft
+ok 12 - clock date change refreshes an open upcoming list without touching an editor draft
+  ---
+  duration_ms: 3.268641
+  type: 'test'
+  ...
+# Subtest: opening and reopening absence management always selects upcoming with cleared query and page
+ok 13 - opening and reopening absence management always selects upcoming with cleared query and page
+  ---
+  duration_ms: 5.637512
+  type: 'test'
+  ...
+# Subtest: all includes ongoing and today before future and past sorted by recent end and stable ties
+ok 14 - all includes ongoing and today before future and past sorted by recent end and stable ties
+  ---
+  duration_ms: 8.255102
+  type: 'test'
+  ...
+# Subtest: all tab moves a finished row behind upcoming rows at midnight and retains the editor draft
+ok 15 - all tab moves a finished row behind upcoming rows at midnight and retains the editor draft
+  ---
+  duration_ms: 2.701663
+  type: 'test'
+  ...
+# Subtest: active moves 14-day records out of the table while all retains long records and ended badges
+ok 16 - active moves 14-day records out of the table while all retains long records and ended badges
+  ---
+  duration_ms: 2.781802
+  type: 'test'
+  ...
+# Subtest: a long-only search points to the left list and does not hide results behind a misleading empty message
+ok 17 - a long-only search points to the left list and does not hide results behind a misleading empty message
+  ---
+  duration_ms: 1.804487
+  type: 'test'
+  ...
+# Subtest: approval list shows pending count and retains each request action identity
+ok 18 - approval list shows pending count and retains each request action identity
+  ---
+  duration_ms: 10.072307
+  type: 'test'
+  ...
+# Subtest: only substitute requests expose zero-score and the box starts from the requester choice
+ok 19 - only substitute requests expose zero-score and the box starts from the requester choice
+  ---
+  duration_ms: 2.220161
+  type: 'test'
+  ...
+# Subtest: server blockers and all user-entered fields stay visible and HTML-escaped
+ok 20 - server blockers and all user-entered fields stay visible and HTML-escaped
+  ---
+  duration_ms: 1.98252
+  type: 'test'
+  ...
+# Subtest: empty requests refresh the count and show the empty message
+ok 21 - empty requests refresh the count and show the empty message
+  ---
+  duration_ms: 1.832909
+  type: 'test'
+  ...
+# Subtest: cancelled authentication does not leave an old pending count visible
+ok 22 - cancelled authentication does not leave an old pending count visible
+  ---
+  duration_ms: 1.75872
+  type: 'test'
+  ...
+# Subtest: load failures show an error and clear any stale count
+ok 23 - load failures show an error and clear any stale count
+  ---
+  duration_ms: 2.324686
+  type: 'test'
+  ...
+# Subtest: cancellation approval is labelled distinctly and never offers substitute scoring or duty release
+ok 24 - cancellation approval is labelled distinctly and never offers substitute scoring or duty release
+  ---
+  duration_ms: 2.168094
+  type: 'test'
+  ...
+# Subtest: pending absence kinds keep a distinct badge above the applicant and correct decision labels
+ok 25 - pending absence kinds keep a distinct badge above the applicant and correct decision labels
+  ---
+  duration_ms: 2.037372
+  type: 'test'
+  ...
+# Subtest: approval periods show weekdays, both years across New Year, and escape invalid date input
+ok 26 - approval periods show weekdays, both years across New Year, and escape invalid date input
+  ---
+  duration_ms: 1.966137
+  type: 'test'
+  ...
+# Subtest: new absence searches every visible period endpoint using ISO dates and displayed weekdays
+ok 27 - new absence searches every visible period endpoint using ISO dates and displayed weekdays
+  ---
+  duration_ms: 6.638502
+  type: 'test'
+  ...
+# Subtest: amendment searches original dates, actual original segments, and requested dates
+ok 28 - amendment searches original dates, actual original segments, and requested dates
+  ---
+  duration_ms: 4.338853
+  type: 'test'
+  ...
+# Subtest: legacy amendment without an original snapshot searches its displayed requested period
+ok 29 - legacy amendment without an original snapshot searches its displayed requested period
+  ---
+  duration_ms: 2.901929
+  type: 'test'
+  ...
+# Subtest: cancellation searches the ranges actually shown and falls back to request endpoints
+ok 30 - cancellation searches the ranges actually shown and falls back to request endpoints
+  ---
+  duration_ms: 4.062394
+  type: 'test'
+  ...
+# Subtest: search includes education text without exposing JSON keys or mutating filtered rows
+ok 31 - search includes education text without exposing JSON keys or mutating filtered rows
+  ---
+  duration_ms: 3.267069
+  type: 'test'
+  ...
+# Subtest: same dialog saves A to B and back to A against the last successful submission
+ok 32 - same dialog saves A to B and back to A against the last successful submission
+  ---
+  duration_ms: 3.062457
+  type: 'test'
+  ...
+# Subtest: save locks concurrent submissions and preserves edits made while awaiting success
+ok 33 - save locks concurrent submissions and preserves edits made while awaiting success
+  ---
+  duration_ms: 1.132363
+  type: 'test'
+  ...
+# Subtest: failed save keeps the draft and comparison baseline available for retry
+ok 34 - failed save keeps the draft and comparison baseline available for retry
+  ---
+  duration_ms: 1.286611
+  type: 'test'
+  ...
+# Subtest: both controls appear; unsupported source execution disables only restart
+ok 35 - both controls appear; unsupported source execution disables only restart
+  ---
+  duration_ms: 1.214054
+  type: 'test'
+  ...
+# Subtest: cancel confirmation sends no restart request
+ok 36 - cancel confirmation sends no restart request
+  ---
+  duration_ms: 0.871849
+  type: 'test'
+  ...
+# Subtest: double click submits once and reload requires actual version/new instance
+ok 37 - double click submits once and reload requires actual version/new instance
+  ---
+  duration_ms: 1.051474
+  type: 'test'
+  ...
+# Subtest: changed password during status reconnect stops polling with reauthentication guidance
+ok 38 - changed password during status reconnect stops polling with reauthentication guidance
+  ---
+  duration_ms: 1.114196
+  type: 'test'
+  ...
+# Subtest: changed password during health reconnect stops polling with reauthentication guidance
+ok 39 - changed password during health reconnect stops polling with reauthentication guidance
+  ---
+  duration_ms: 0.701557
+  type: 'test'
+  ...
+# Subtest: vacation date plans split around weekends and the current holiday calendar only
+ok 40 - vacation date plans split around weekends and the current holiday calendar only
+  ---
+  duration_ms: 2.812106
+  type: 'test'
+  ...
+# Subtest: vacation bulk conflicts and freed duties ignore excluded holiday dates including record zero
+ok 41 - vacation bulk conflicts and freed duties ignore excluded holiday dates including record zero
+  ---
+  duration_ms: 2.237697
+  type: 'test'
+  ...
+# Subtest: weekend-only vacation is rejected without saving or confirmation
+ok 42 - weekend-only vacation is rejected without saving or confirmation
+  ---
+  duration_ms: 2.710025
+  type: 'test'
+  ...
+# Subtest: holiday changes during confirmation preserve the draft and prevent a stale save
+ok 43 - holiday changes during confirmation preserve the draft and prevent a stale save
+  ---
+  duration_ms: 2.758157
+  type: 'test'
+  ...
+# Subtest: vacation save persists only working-day segments while keeping weekend duties
+ok 44 - vacation save persists only working-day segments while keeping weekend duties
+  ---
+  duration_ms: 3.604988
+  type: 'test'
+  ...
+# Subtest: viewer confirmation reports effective vacation days and does not send after a holiday change
+ok 45 - viewer confirmation reports effective vacation days and does not send after a holiday change
+  ---
+  duration_ms: 3.050899
+  type: 'test'
+  ...
+# Subtest: new admin schedule selects an exact or unique partial name from the search
+ok 46 - new admin schedule selects an exact or unique partial name from the search
+  ---
+  duration_ms: 2.745027
+  type: 'test'
+  ...
+# Subtest: ambiguous or non-name search never assigns an arbitrary employee
+ok 47 - ambiguous or non-name search never assigns an arbitrary employee
+  ---
+  duration_ms: 2.710346
+  type: 'test'
+  ...
+# Subtest: new schedule preserves a draft when discard is declined or a save is in progress
+ok 48 - new schedule preserves a draft when discard is declined or a save is in progress
+  ---
+  duration_ms: 2.391525
+  type: 'test'
+  ...
+# Subtest: absence save confirmation locks second submission and releases lock after cancellation
+ok 49 - absence save confirmation locks second submission and releases lock after cancellation
+  ---
+  duration_ms: 5.003335
+  type: 'test'
+  ...
+# Subtest: absence rejects data changed during confirmation: dataVersion++
+ok 50 - absence rejects data changed during confirmation: dataVersion++
+  ---
+  duration_ms: 2.375791
+  type: 'test'
+  ...
+# Subtest: absence rejects data changed during confirmation: closedMonths=['2026-10']
+ok 51 - absence rejects data changed during confirmation: closedMonths=['2026-10']
+  ---
+  duration_ms: 2.038163
+  type: 'test'
+  ...
+# Subtest: absence rejects data changed during confirmation: scheduleMap['2026-10-15'].push({name:'B'})
+ok 52 - absence rejects data changed during confirmation: scheduleMap['2026-10-15'].push({name:'B'})
+  ---
+  duration_ms: 2.010701
+  type: 'test'
+  ...
+# Subtest: absence confirmation reacquires an unchanged record after object refresh
+ok 53 - absence confirmation reacquires an unchanged record after object refresh
+  ---
+  duration_ms: 4.491128
+  type: 'test'
+  ...
+# Subtest: new absence draft cancellation preserves education, dates and active editor
+ok 54 - new absence draft cancellation preserves education, dates and active editor
+  ---
+  duration_ms: 4.513732
+  type: 'test'
+  ...
+# Subtest: absence editor fields stay disabled during network save and restore after success
+ok 55 - absence editor fields stay disabled during network save and restore after success
+  ---
+  duration_ms: 40.052404
+  type: 'test'
+  ...
+# Subtest: absence delete confirmation blocks repeated deletion and changed record is retained
+ok 56 - absence delete confirmation blocks repeated deletion and changed record is retained
+  ---
+  duration_ms: 12.436761
+  type: 'test'
+  ...
+# Subtest: grouped cancellation pending remains in its original row with child action targets
+ok 57 - grouped cancellation pending remains in its original row with child action targets
+  ---
+  duration_ms: 12.540074
+  type: 'test'
+  ...
+# Subtest: grouped cancellation rejection preserves approval and keeps private reason in the owned timeline
+ok 58 - grouped cancellation rejection preserves approval and keeps private reason in the owned timeline
+  ---
+  duration_ms: 8.847868
+  type: 'test'
+  ...
+# Subtest: grouping does not hide orphan cancellations or merge different people and amendment requests
+ok 59 - grouping does not hide orphan cancellations or merge different people and amendment requests
+  ---
+  duration_ms: 4.958038
+  type: 'test'
+  ...
+# Subtest: later approved amendments supersede historical cancellation rejection or withdrawal in owner and name views
+ok 60 - later approved amendments supersede historical cancellation rejection or withdrawal in owner and name views
+  ---
+  duration_ms: 19.325723
+  type: 'test'
+  ...
+# Subtest: my requests renders labeled cells, readable timestamps and explicit approved/rejected result badges
+ok 61 - my requests renders labeled cells, readable timestamps and explicit approved/rejected result badges
+  ---
+  duration_ms: 2.342052
+  type: 'test'
+  ...
+# Subtest: my requests keeps decision badges separate from owned actions and preserves action targets
+ok 62 - my requests keeps decision badges separate from owned actions and preserves action targets
+  ---
+  duration_ms: 2.243176
+  type: 'test'
+  ...
+# Subtest: completed cancellation exposes its owned history without exposing controls to another PC or administrator
+ok 63 - completed cancellation exposes its owned history without exposing controls to another PC or administrator
+  ---
+  duration_ms: 7.969479
+  type: 'test'
+  ...
+# Subtest: my requests message rows span all columns for empty, loading, unselected and error states
+ok 64 - my requests message rows span all columns for empty, loading, unselected and error states
+  ---
+  duration_ms: 3.800167
+  type: 'test'
+  ...
+# Subtest: my requests uses owned reasons and education while retaining server-provided education compatibility
+ok 65 - my requests uses owned reasons and education while retaining server-provided education compatibility
+  ---
+  duration_ms: 3.811694
+  type: 'test'
+  ...
+# Subtest: my requests escapes unknown results, malformed timestamps and long request fields
+ok 66 - my requests escapes unknown results, malformed timestamps and long request fields
+  ---
+  duration_ms: 4.055545
+  type: 'test'
+  ...
+# Subtest: approved absence exposes amendment only for an owned receipt and locks original applicant
+ok 67 - approved absence exposes amendment only for an owned receipt and locks original applicant
+  ---
+  duration_ms: 4.728569
+  type: 'test'
+  ...
+# Subtest: administrator never receives approved-absence amendment buttons from retained viewer receipts
+ok 68 - administrator never receives approved-absence amendment buttons from retained viewer receipts
+  ---
+  duration_ms: 3.737064
+  type: 'test'
+  ...
+# Subtest: amendment comparison displays old and new schedule and escaped education without mutating DTO
+ok 69 - amendment comparison displays old and new schedule and escaped education without mutating DTO
+  ---
+  duration_ms: 3.269483
+  type: 'test'
+  ...
+# Subtest: approval comparison retains changed types, original split ranges and escaped education in the compact view
+ok 70 - approval comparison retains changed types, original split ranges and escaped education in the compact view
+  ---
+  duration_ms: 3.35569
+  type: 'test'
+  ...
+# Subtest: approval cancellation keeps every real segment and effective day count without adding excluded weekend
+ok 71 - approval cancellation keeps every real segment and effective day count without adding excluded weekend
+  ---
+  duration_ms: 3.346135
+  type: 'test'
+  ...
+# Subtest: approved amendment creates new receipt without changing original approved tracking
+ok 72 - approved amendment creates new receipt without changing original approved tracking
+  ---
+  duration_ms: 5.278683
+  type: 'test'
+  ...
+# Subtest: amendment conflicts retain editable draft instead of treating normal APPROVED parent as processed error
+ok 73 - amendment conflicts retain editable draft instead of treating normal APPROVED parent as processed error
+  ---
+  duration_ms: 3.988806
+  type: 'test'
+  ...
+# Subtest: rejected amendment retry keeps original receipt and proposed fields rather than creating unrelated absence
+ok 74 - rejected amendment retry keeps original receipt and proposed fields rather than creating unrelated absence
+  ---
+  duration_ms: 4.137065
+  type: 'test'
+  ...
+# Subtest: rejected amendment cannot fall back to a name-only new absence when original receipt is missing
+ok 75 - rejected amendment cannot fall back to a name-only new absence when original receipt is missing
+  ---
+  duration_ms: 2.098231
+  type: 'test'
+  ...
+# Subtest: owner status recovers linked amendment receipt after lost submit response
+ok 76 - owner status recovers linked amendment receipt after lost submit response
+  ---
+  duration_ms: 2.790664
+  type: 'test'
+  ...
+# Subtest: lost response recovery retains retry ownership after REJECTED
+ok 77 - lost response recovery retains retry ownership after REJECTED
+  ---
+  duration_ms: 2.389892
+  type: 'test'
+  ...
+# Subtest: lost response recovery retains retry ownership after CANCELLED
+ok 78 - lost response recovery retains retry ownership after CANCELLED
+  ---
+  duration_ms: 2.321701
+  type: 'test'
+  ...
+# Subtest: terminal recovery does not label a blocked original as superseded by an approved change
+ok 79 - terminal recovery does not label a blocked original as superseded by an approved change
+  ---
+  duration_ms: 2.514306
+  type: 'test'
+  ...
+# Subtest: absence draft survives close and restore; personal name fills only new draft
+ok 80 - absence draft survives close and restore; personal name fills only new draft
+  ---
+  duration_ms: 2.252009
+  type: 'test'
+  ...
+# Subtest: invalid fields focus first field and prevent HTTP without generic alert
+ok 81 - invalid fields focus first field and prevent HTTP without generic alert
+  ---
+  duration_ms: 2.113194
+  type: 'test'
+  ...
+# Subtest: all education fields can be empty while reason remains required
+ok 82 - all education fields can be empty while reason remains required
+  ---
+  duration_ms: 2.405756
+  type: 'test'
+  ...
+# Subtest: absence request can be submitted with an empty reason and the reason field is not marked required
+ok 83 - absence request can be submitted with an empty reason and the reason field is not marked required
+  ---
+  duration_ms: 2.714703
+  type: 'test'
+  ...
+# Subtest: failed submission keeps draft and education for reopening
+ok 84 - failed submission keeps draft and education for reopening
+  ---
+  duration_ms: 2.79426
+  type: 'test'
+  ...
+# Subtest: identity confirmation includes selected name and cancellation leaves draft
+ok 85 - identity confirmation includes selected name and cancellation leaves draft
+  ---
+  duration_ms: 2.309784
+  type: 'test'
+  ...
+# Subtest: bulk plan previews overlaps, unique names, freed duties and closed months
+ok 86 - bulk plan previews overlaps, unique names, freed duties and closed months
+  ---
+  duration_ms: 2.242905
+  type: 'test'
+  ...
+# Subtest: bulk registration saves all names and freed duties once atomically
+ok 87 - bulk registration saves all names and freed duties once atomically
+  ---
+  duration_ms: 2.546354
+  type: 'test'
+  ...
+# Subtest: closed-month bulk attempt cannot mutate or call save
+ok 88 - closed-month bulk attempt cannot mutate or call save
+  ---
+  duration_ms: 2.031512
+  type: 'test'
+  ...
+# Subtest: education-only edit retains id and does not release existing duty
+ok 89 - education-only edit retains id and does not release existing duty
+  ---
+  duration_ms: 3.040153
+  type: 'test'
+  ...
+# Subtest: filter and sorting search reasons without changing queue DTOs
+ok 90 - filter and sorting search reasons without changing queue DTOs
+  ---
+  duration_ms: 2.512483
+  type: 'test'
+  ...
+# Subtest: management rejects an unowned receipt token before any HTTP call
+ok 91 - management rejects an unowned receipt token before any HTTP call
+  ---
+  duration_ms: 2.182485
+  type: 'test'
+  ...
+# Subtest: owned withdrawal posts token action and marks cancellation
+ok 92 - owned withdrawal posts token action and marks cancellation
+  ---
+  duration_ms: 2.989749
+  type: 'test'
+  ...
+# Subtest: owned edit posts full DTO with unchanged identity and education
+ok 93 - owned edit posts full DTO with unchanged identity and education
+  ---
+  duration_ms: 2.804315
+  type: 'test'
+  ...
+# Subtest: rejected resubmission opens populated form without network submission
+ok 94 - rejected resubmission opens populated form without network submission
+  ---
+  duration_ms: 2.172831
+  type: 'test'
+  ...
+# Subtest: personal swap entry opens filled change form and keeps no submit side effect
+ok 95 - personal swap entry opens filled change form and keeps no submit side effect
+  ---
+  duration_ms: 3.034175
+  type: 'test'
+  ...
+# Subtest: owned rejected retry reads private reason and education from receipt status, not name list
+ok 96 - owned rejected retry reads private reason and education from receipt status, not name list
+  ---
+  duration_ms: 2.580344
+  type: 'test'
+  ...
+# Subtest: declining discard on same-record edit preserves unsaved education
+ok 97 - declining discard on same-record edit preserves unsaved education
+  ---
+  duration_ms: 1.962511
+  type: 'test'
+  ...
+# Subtest: editable change composer retains gender, duty-day and current assignment constraints
+ok 98 - editable change composer retains gender, duty-day and current assignment constraints
+  ---
+  duration_ms: 9.974913
+  type: 'test'
+  ...
+# Subtest: approval action posts the displayed revision even if queue refreshes during rejection input
+ok 99 - approval action posts the displayed revision even if queue refreshes during rejection input
+  ---
+  duration_ms: 2.874759
+  type: 'test'
+  ...
+# Subtest: reopening snapshots draft before legacy field reset triggers a textarea blur change
+ok 100 - reopening snapshots draft before legacy field reset triggers a textarea blur change
+  ---
+  duration_ms: 2.721873
+  type: 'test'
+  ...
+# Subtest: approval checkbox survives unchanged refresh and resets only edited or processed request
+ok 101 - approval checkbox survives unchanged refresh and resets only edited or processed request
+  ---
+  duration_ms: 3.426634
+  type: 'test'
+  ...
+# Subtest: viewing another date preserves authored composer draft and owned edit token
+ok 102 - viewing another date preserves authored composer draft and owned edit token
+  ---
+  duration_ms: 5.512448
+  type: 'test'
+  ...
+# Subtest: owned absence edit focuses first editable field and restores opener on close
+ok 103 - owned absence edit focuses first editable field and restores opener on close
+  ---
+  duration_ms: 2.369742
+  type: 'test'
+  ...
+# Subtest: explicit legacy swap action transfers draft to composer without submitting
+ok 104 - explicit legacy swap action transfers draft to composer without submitting
+  ---
+  duration_ms: 3.877852
+  type: 'test'
+  ...
+# Subtest: absence editor Tab trap wraps both directions and yields to a later active dialog
+ok 105 - absence editor Tab trap wraps both directions and yields to a later active dialog
+  ---
+  duration_ms: 2.64545
+  type: 'test'
+  ...
+# Subtest: my requests: education row without absence_details shows no false "no education info" note
+ok 106 - my requests: education row without absence_details shows no false "no education info" note
+  ---
+  duration_ms: 2.423212
+  type: 'test'
+  ...
+# Subtest: my requests: education details are still shown when the server includes them
+ok 107 - my requests: education details are still shown when the server includes them
+  ---
+  duration_ms: 4.435075
+  type: 'test'
+  ...
+# Subtest: request inputs carry the shared maxlength limits
+ok 108 - request inputs carry the shared maxlength limits
+  ---
+  duration_ms: 4.934573
+  type: 'test'
+  ...
+# Subtest: VIEWER date window is information plus one entry button; no second form and no empty swap form on a no-duty day
+ok 109 - VIEWER date window is information plus one entry button; no second form and no empty swap form on a no-duty day
+  ---
+  duration_ms: 15.36541
+  type: 'test'
+  ...
+# Subtest: VIEWER without a duty on that date: swap-with offers an eligible own duty; past dates offer nothing
+ok 110 - VIEWER without a duty on that date: swap-with offers an eligible own duty; past dates offer nothing
+  ---
+  duration_ms: 3.898092
+  type: 'test'
+  ...
+# Subtest: clicked partner date lists every own duty from today through three calendar months in date order
+ok 111 - clicked partner date lists every own duty from today through three calendar months in date order
+  ---
+  duration_ms: 3.830672
+  type: 'test'
+  ...
+# Subtest: three-month range uses inclusive calendar months with month-end clamp: 2026-11-30
+ok 112 - three-month range uses inclusive calendar months with month-end clamp: 2026-11-30
+  ---
+  duration_ms: 3.040604
+  type: 'test'
+  ...
+# Subtest: three-month range uses inclusive calendar months with month-end clamp: 2027-11-30
+ok 113 - three-month range uses inclusive calendar months with month-end clamp: 2027-11-30
+  ---
+  duration_ms: 2.690637
+  type: 'test'
+  ...
+# Subtest: three-month range uses inclusive calendar months with month-end clamp: 2026-05-31
+ok 114 - three-month range uses inclusive calendar months with month-end clamp: 2026-05-31
+  ---
+  duration_ms: 3.294008
+  type: 'test'
+  ...
+# Subtest: second own duty row opens the exact chosen source and clicked target, preserving other composer date options
+ok 115 - second own duty row opens the exact chosen source and clicked target, preserving other composer date options
+  ---
+  duration_ms: 8.444391
+  type: 'test'
+  ...
+# Subtest: own duty stays visible with disabled request and existing reason: closed source month
+ok 116 - own duty stays visible with disabled request and existing reason: closed source month
+  ---
+  duration_ms: 3.48502
+  type: 'test'
+  ...
+# Subtest: own duty stays visible with disabled request and existing reason: major source day
+ok 117 - own duty stays visible with disabled request and existing reason: major source day
+  ---
+  duration_ms: 2.77434
+  type: 'test'
+  ...
+# Subtest: own duty stays visible with disabled request and existing reason: weekday versus holiday
+ok 118 - own duty stays visible with disabled request and existing reason: weekday versus holiday
+  ---
+  duration_ms: 2.416222
+  type: 'test'
+  ...
+# Subtest: own duty stays visible with disabled request and existing reason: partner absent on source
+ok 119 - own duty stays visible with disabled request and existing reason: partner absent on source
+  ---
+  duration_ms: 2.50338
+  type: 'test'
+  ...
+# Subtest: own duty stays visible with disabled request and existing reason: partner already on source
+ok 120 - own duty stays visible with disabled request and existing reason: partner already on source
+  ---
+  duration_ms: 2.262364
+  type: 'test'
+  ...
+# Subtest: own duty stays visible with disabled request and existing reason: own absence on target
+ok 121 - own duty stays visible with disabled request and existing reason: own absence on target
+  ---
+  duration_ms: 2.580324
+  type: 'test'
+  ...
+# Subtest: own duty stays visible with disabled request and existing reason: authoritative personal rule rejects exchange
+ok 122 - own duty stays visible with disabled request and existing reason: authoritative personal rule rejects exchange
+  ---
+  duration_ms: 4.733756
+  type: 'test'
+  ...
+# Subtest: stale own-duty shortcut is rechecked before closing the date dialog or replacing a draft: source removed
+ok 123 - stale own-duty shortcut is rechecked before closing the date dialog or replacing a draft: source removed
+  ---
+  duration_ms: 5.072016
+  type: 'test'
+  ...
+# Subtest: stale own-duty shortcut is rechecked before closing the date dialog or replacing a draft: target partner removed
+ok 124 - stale own-duty shortcut is rechecked before closing the date dialog or replacing a draft: target partner removed
+  ---
+  duration_ms: 3.309671
+  type: 'test'
+  ...
+# Subtest: stale own-duty shortcut is rechecked before closing the date dialog or replacing a draft: identity changed
+ok 125 - stale own-duty shortcut is rechecked before closing the date dialog or replacing a draft: identity changed
+  ---
+  duration_ms: 2.892816
+  type: 'test'
+  ...
+# Subtest: stale own-duty shortcut is rechecked before closing the date dialog or replacing a draft: window moved before chosen date
+ok 126 - stale own-duty shortcut is rechecked before closing the date dialog or replacing a draft: window moved before chosen date
+  ---
+  duration_ms: 3.258096
+  type: 'test'
+  ...
+# Subtest: stale own-duty shortcut is rechecked before closing the date dialog or replacing a draft: chosen date now past
+ok 127 - stale own-duty shortcut is rechecked before closing the date dialog or replacing a draft: chosen date now past
+  ---
+  duration_ms: 3.194581
+  type: 'test'
+  ...
+# Subtest: stale own-duty shortcut is rechecked before closing the date dialog or replacing a draft: month closed
+ok 128 - stale own-duty shortcut is rechecked before closing the date dialog or replacing a draft: month closed
+  ---
+  duration_ms: 20.325847
+  type: 'test'
+  ...
+# Subtest: stale own-duty shortcut is rechecked before closing the date dialog or replacing a draft: disconnected
+ok 129 - stale own-duty shortcut is rechecked before closing the date dialog or replacing a draft: disconnected
+  ---
+  duration_ms: 3.027865
+  type: 'test'
+  ...
+# Subtest: stale own-duty shortcut is rechecked before closing the date dialog or replacing a draft: role changed
+ok 130 - stale own-duty shortcut is rechecked before closing the date dialog or replacing a draft: role changed
+  ---
+  duration_ms: 2.642606
+  type: 'test'
+  ...
+# Subtest: no own duties within the inclusive three-month range explains the empty state
+ok 131 - no own duties within the inclusive three-month range explains the empty state
+  ---
+  duration_ms: 2.362632
+  type: 'test'
+  ...
+# Subtest: one composer: choosing a partner defaults the exchange date to their next future duty; a past date says so
+ok 132 - one composer: choosing a partner defaults the exchange date to their next future duty; a past date says so
+  ---
+  duration_ms: 3.780898
+  type: 'test'
+  ...
+# Subtest: substitute list shows only same-gender, available people under "대신 근무할 사람"
+ok 133 - substitute list shows only same-gender, available people under "대신 근무할 사람"
+  ---
+  duration_ms: 2.701293
+  type: 'test'
+  ...
+# Subtest: 0점 option: substitute only, weekend/holiday default by rule, weekday not preselected, explicit choice kept
+ok 134 - 0점 option: substitute only, weekend/holiday default by rule, weekday not preselected, explicit choice kept
+  ---
+  duration_ms: 2.928829
+  type: 'test'
+  ...
+# Subtest: required markers, optional reason and a confirmation that summarizes the whole request
+ok 135 - required markers, optional reason and a confirmation that summarizes the whole request
+  ---
+  duration_ms: 3.502657
+  type: 'test'
+  ...
+# Subtest: vacation form opens on the next day without my duty and warns about released duties only after I pick dates
+ok 136 - vacation form opens on the next day without my duty and warns about released duties only after I pick dates
+  ---
+  duration_ms: 2.359628
+  type: 'test'
+  ...
+# Subtest: editing a request decided meanwhile explains the decision with the reject reason and offers 다시 작성
+ok 137 - editing a request decided meanwhile explains the decision with the reject reason and offers 다시 작성
+  ---
+  duration_ms: 2.526694
+  type: 'test'
+  ...
+# Subtest: requests from another PC say where they can be changed instead of silently hiding buttons; no token wording
+ok 138 - requests from another PC say where they can be changed instead of silently hiding buttons; no token wording
+  ---
+  duration_ms: 2.248894
+  type: 'test'
+  ...
+# Subtest: pending requests are exposed for 내 일정 and calendar badges, including the swap partner side
+ok 139 - pending requests are exposed for 내 일정 and calendar badges, including the swap partner side
+  ---
+  duration_ms: 2.243175
+  type: 'test'
+  ...
+# Subtest: connection info hides data location and admin password state from the employee program
+ok 140 - connection info hides data location and admin password state from the employee program
+  ---
+  duration_ms: 3.814258
+  type: 'test'
+  ...
+# Subtest: prefilled composer keeps the seeded date, partner and exchange date with real select semantics
+ok 141 - prefilled composer keeps the seeded date, partner and exchange date with real select semantics
+  ---
+  duration_ms: 3.176334
+  type: 'test'
+  ...
+# Subtest: 3.18.0 QA: swap "내 당직 날짜" shows the year for dates outside this year
+ok 142 - 3.18.0 QA: swap "내 당직 날짜" shows the year for dates outside this year
+  ---
+  duration_ms: 3.048056
+  type: 'test'
+  ...
+# Subtest: 3.18.0 QA: a sent request keeps a local copy so a vanished request can be rewritten
+ok 143 - 3.18.0 QA: a sent request keeps a local copy so a vanished request can be rewritten
+  ---
+  duration_ms: 2.279399
+  type: 'test'
+  ...
+# Subtest: owned approved absence exposes category-specific cancellation with historical segments
+ok 144 - owned approved absence exposes category-specific cancellation with historical segments
+  ---
+  duration_ms: 2.983961
+  type: 'test'
+  ...
+# Subtest: cancellation cannot be opened using an unowned id or administrator mode
+ok 145 - cancellation cannot be opened using an unowned id or administrator mode
+  ---
+  duration_ms: 2.355401
+  type: 'test'
+  ...
+# Subtest: cancellation posts only original receipt and optional reason, no client-selected deletion ids
+ok 146 - cancellation posts only original receipt and optional reason, no client-selected deletion ids
+  ---
+  duration_ms: 3.053753
+  type: 'test'
+  ...
+# Subtest: cancellation does not double-submit and keeps draft on server rejection
+ok 147 - cancellation does not double-submit and keeps draft on server rejection
+  ---
+  duration_ms: 3.072692
+  type: 'test'
+  ...
+# Subtest: cancellation validates reason length before send and respects server cancellation blocker
+ok 148 - cancellation validates reason length before send and respects server cancellation blocker
+  ---
+  duration_ms: 9.814987
+  type: 'test'
+  ...
+# Subtest: parent cancelled state and pending cancellation have distinct labels with no edit form
+ok 149 - parent cancelled state and pending cancellation have distinct labels with no edit form
+  ---
+  duration_ms: 6.381702
+  type: 'test'
+  ...
+# Subtest: cancellation approval confirmation describes removal without duty release or vacation registration
+ok 150 - cancellation approval confirmation describes removal without duty release or vacation registration
+  ---
+  duration_ms: 11.712381
+  type: 'test'
+  ...
+# Subtest: cancellation details keep years visible for a range crossing a year boundary
+ok 151 - cancellation details keep years visible for a range crossing a year boundary
+  ---
+  duration_ms: 8.016929
+  type: 'test'
+  ...
+1..151
+# tests 151
+# suites 0
+# pass 151
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 720.774316

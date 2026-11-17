@@ -1,0 +1,2020 @@
+{
+  "phase": "red",
+  "checks": [
+    {
+      "name": "1920 keyboard save writes B",
+      "passed": true,
+      "detail": {
+        "step": "A-to-B",
+        "port": "18234",
+        "hosts": "",
+        "file": {
+          "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1920/shared",
+          "server_port": "18234",
+          "bind_host": "127.0.0.1",
+          "admin_password": "",
+          "open_browser": "false",
+          "tray_icon": "false"
+        },
+        "message": "저장했습니다. 프로그램을 다시 시작해야 적용됩니다. (원래 파일 사본: config_admin.ini.bak-20261117-202504)",
+        "posts": [
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18234"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "1920 same-window restore writes A",
+      "passed": false,
+      "detail": {
+        "step": "B-to-A-same-window",
+        "port": "43747",
+        "hosts": "",
+        "file": {
+          "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1920/shared",
+          "server_port": "18234",
+          "bind_host": "127.0.0.1",
+          "admin_password": "",
+          "open_browser": "false",
+          "tray_icon": "false"
+        },
+        "message": "바뀐 값이 없습니다.",
+        "posts": [
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18234"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "1920 restore sends second request",
+      "passed": false,
+      "detail": {
+        "step": "B-to-A-same-window",
+        "port": "43747",
+        "hosts": "",
+        "file": {
+          "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1920/shared",
+          "server_port": "18234",
+          "bind_host": "127.0.0.1",
+          "admin_password": "",
+          "open_browser": "false",
+          "tray_icon": "false"
+        },
+        "message": "바뀐 값이 없습니다.",
+        "posts": [
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18234"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "1920 failed save retains inputs",
+      "passed": true,
+      "detail": {
+        "step": "injected-failure",
+        "port": "18235",
+        "hosts": "retry-office",
+        "file": {
+          "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1920/shared",
+          "server_port": "18234",
+          "bind_host": "127.0.0.1",
+          "admin_password": "",
+          "open_browser": "false",
+          "tray_icon": "false"
+        },
+        "message": "검증용 일시적인 저장 실패",
+        "posts": [
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18234"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "1920 failed save leaves file untouched",
+      "passed": true,
+      "detail": {
+        "step": "injected-failure",
+        "port": "18235",
+        "hosts": "retry-office",
+        "file": {
+          "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1920/shared",
+          "server_port": "18234",
+          "bind_host": "127.0.0.1",
+          "admin_password": "",
+          "open_browser": "false",
+          "tray_icon": "false"
+        },
+        "message": "검증용 일시적인 저장 실패",
+        "posts": [
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18234"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "1920 failed save re-enables retry",
+      "passed": true,
+      "detail": {
+        "step": "injected-failure",
+        "port": "18235",
+        "hosts": "retry-office",
+        "file": {
+          "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1920/shared",
+          "server_port": "18234",
+          "bind_host": "127.0.0.1",
+          "admin_password": "",
+          "open_browser": "false",
+          "tray_icon": "false"
+        },
+        "message": "검증용 일시적인 저장 실패",
+        "posts": [
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18234"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "1920 retry reaches real file",
+      "passed": true,
+      "detail": {
+        "step": "real-retry",
+        "port": "18235",
+        "hosts": "retry-office",
+        "file": {
+          "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1920/shared",
+          "server_port": "18235",
+          "bind_host": "127.0.0.1",
+          "admin_password": "",
+          "open_browser": "false",
+          "tray_icon": "false",
+          "allowed_hosts": "retry-office"
+        },
+        "message": "저장했습니다. 프로그램을 다시 시작해야 적용됩니다. (원래 파일 사본: config_admin.ini.bak-20261117-202505)",
+        "posts": [
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18234"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "1920 save disabled during request",
+      "passed": false,
+      "detail": null
+    },
+    {
+      "name": "1920 concurrent handler sends no second save",
+      "passed": false,
+      "detail": {
+        "posts": [
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18234"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18236",
+              "allowed_hosts": "submitted-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18237",
+              "allowed_hosts": "typed-office"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "1920 submitted snapshot reaches file",
+      "passed": true,
+      "detail": {
+        "step": "success-after-further-input",
+        "port": "18237",
+        "hosts": "typed-office",
+        "file": {
+          "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1920/shared",
+          "server_port": "18236",
+          "bind_host": "127.0.0.1",
+          "admin_password": "",
+          "open_browser": "false",
+          "tray_icon": "false",
+          "allowed_hosts": "submitted-office"
+        },
+        "message": "저장했습니다. 프로그램을 다시 시작해야 적용됩니다. (원래 파일 사본: config_admin.ini.bak-20261117-202506)",
+        "posts": [
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18234"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18236",
+              "allowed_hosts": "submitted-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18237",
+              "allowed_hosts": "typed-office"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "1920 success preserves newer draft",
+      "passed": true,
+      "detail": {
+        "step": "success-after-further-input",
+        "port": "18237",
+        "hosts": "typed-office",
+        "file": {
+          "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1920/shared",
+          "server_port": "18236",
+          "bind_host": "127.0.0.1",
+          "admin_password": "",
+          "open_browser": "false",
+          "tray_icon": "false",
+          "allowed_hosts": "submitted-office"
+        },
+        "message": "저장했습니다. 프로그램을 다시 시작해야 적용됩니다. (원래 파일 사본: config_admin.ini.bak-20261117-202506)",
+        "posts": [
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18234"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18236",
+              "allowed_hosts": "submitted-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18237",
+              "allowed_hosts": "typed-office"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "1920 newer draft remains unsaved until next submit",
+      "passed": true,
+      "detail": {
+        "step": "save-newer-draft",
+        "port": "18237",
+        "hosts": "typed-office",
+        "file": {
+          "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1920/shared",
+          "server_port": "18237",
+          "bind_host": "127.0.0.1",
+          "admin_password": "",
+          "open_browser": "false",
+          "tray_icon": "false",
+          "allowed_hosts": "typed-office"
+        },
+        "message": "저장했습니다. 프로그램을 다시 시작해야 적용됩니다. (원래 파일 사본: config_admin.ini.bak-20261117-202506-2)",
+        "posts": [
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18234"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18236",
+              "allowed_hosts": "submitted-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18237",
+              "allowed_hosts": "typed-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18237",
+              "allowed_hosts": "typed-office"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "1920 dialog has no horizontal overflow",
+      "passed": true,
+      "detail": {
+        "width": 640,
+        "scrollWidth": 640
+      }
+    },
+    {
+      "name": "1366 keyboard save writes B",
+      "passed": true,
+      "detail": {
+        "step": "A-to-B",
+        "port": "18234",
+        "hosts": "",
+        "file": {
+          "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1366/shared",
+          "server_port": "18234",
+          "bind_host": "127.0.0.1",
+          "admin_password": "",
+          "open_browser": "false",
+          "tray_icon": "false"
+        },
+        "message": "저장했습니다. 프로그램을 다시 시작해야 적용됩니다. (원래 파일 사본: config_admin.ini.bak-20261117-202508)",
+        "posts": [
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18234"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "1366 same-window restore writes A",
+      "passed": false,
+      "detail": {
+        "step": "B-to-A-same-window",
+        "port": "52709",
+        "hosts": "",
+        "file": {
+          "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1366/shared",
+          "server_port": "18234",
+          "bind_host": "127.0.0.1",
+          "admin_password": "",
+          "open_browser": "false",
+          "tray_icon": "false"
+        },
+        "message": "바뀐 값이 없습니다.",
+        "posts": [
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18234"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "1366 restore sends second request",
+      "passed": false,
+      "detail": {
+        "step": "B-to-A-same-window",
+        "port": "52709",
+        "hosts": "",
+        "file": {
+          "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1366/shared",
+          "server_port": "18234",
+          "bind_host": "127.0.0.1",
+          "admin_password": "",
+          "open_browser": "false",
+          "tray_icon": "false"
+        },
+        "message": "바뀐 값이 없습니다.",
+        "posts": [
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18234"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "1366 failed save retains inputs",
+      "passed": true,
+      "detail": {
+        "step": "injected-failure",
+        "port": "18235",
+        "hosts": "retry-office",
+        "file": {
+          "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1366/shared",
+          "server_port": "18234",
+          "bind_host": "127.0.0.1",
+          "admin_password": "",
+          "open_browser": "false",
+          "tray_icon": "false"
+        },
+        "message": "검증용 일시적인 저장 실패",
+        "posts": [
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18234"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "1366 failed save leaves file untouched",
+      "passed": true,
+      "detail": {
+        "step": "injected-failure",
+        "port": "18235",
+        "hosts": "retry-office",
+        "file": {
+          "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1366/shared",
+          "server_port": "18234",
+          "bind_host": "127.0.0.1",
+          "admin_password": "",
+          "open_browser": "false",
+          "tray_icon": "false"
+        },
+        "message": "검증용 일시적인 저장 실패",
+        "posts": [
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18234"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "1366 failed save re-enables retry",
+      "passed": true,
+      "detail": {
+        "step": "injected-failure",
+        "port": "18235",
+        "hosts": "retry-office",
+        "file": {
+          "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1366/shared",
+          "server_port": "18234",
+          "bind_host": "127.0.0.1",
+          "admin_password": "",
+          "open_browser": "false",
+          "tray_icon": "false"
+        },
+        "message": "검증용 일시적인 저장 실패",
+        "posts": [
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18234"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "1366 retry reaches real file",
+      "passed": true,
+      "detail": {
+        "step": "real-retry",
+        "port": "18235",
+        "hosts": "retry-office",
+        "file": {
+          "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1366/shared",
+          "server_port": "18235",
+          "bind_host": "127.0.0.1",
+          "admin_password": "",
+          "open_browser": "false",
+          "tray_icon": "false",
+          "allowed_hosts": "retry-office"
+        },
+        "message": "저장했습니다. 프로그램을 다시 시작해야 적용됩니다. (원래 파일 사본: config_admin.ini.bak-20261117-202508-2)",
+        "posts": [
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18234"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "1366 save disabled during request",
+      "passed": false,
+      "detail": null
+    },
+    {
+      "name": "1366 concurrent handler sends no second save",
+      "passed": false,
+      "detail": {
+        "posts": [
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18234"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18236",
+              "allowed_hosts": "submitted-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18237",
+              "allowed_hosts": "typed-office"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "1366 submitted snapshot reaches file",
+      "passed": true,
+      "detail": {
+        "step": "success-after-further-input",
+        "port": "18237",
+        "hosts": "typed-office",
+        "file": {
+          "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1366/shared",
+          "server_port": "18236",
+          "bind_host": "127.0.0.1",
+          "admin_password": "",
+          "open_browser": "false",
+          "tray_icon": "false",
+          "allowed_hosts": "submitted-office"
+        },
+        "message": "저장했습니다. 프로그램을 다시 시작해야 적용됩니다. (원래 파일 사본: config_admin.ini.bak-20261117-202508-3)",
+        "posts": [
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18234"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18236",
+              "allowed_hosts": "submitted-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18237",
+              "allowed_hosts": "typed-office"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "1366 success preserves newer draft",
+      "passed": true,
+      "detail": {
+        "step": "success-after-further-input",
+        "port": "18237",
+        "hosts": "typed-office",
+        "file": {
+          "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1366/shared",
+          "server_port": "18236",
+          "bind_host": "127.0.0.1",
+          "admin_password": "",
+          "open_browser": "false",
+          "tray_icon": "false",
+          "allowed_hosts": "submitted-office"
+        },
+        "message": "저장했습니다. 프로그램을 다시 시작해야 적용됩니다. (원래 파일 사본: config_admin.ini.bak-20261117-202508-3)",
+        "posts": [
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18234"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18236",
+              "allowed_hosts": "submitted-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18237",
+              "allowed_hosts": "typed-office"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "1366 newer draft remains unsaved until next submit",
+      "passed": true,
+      "detail": {
+        "step": "save-newer-draft",
+        "port": "18237",
+        "hosts": "typed-office",
+        "file": {
+          "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1366/shared",
+          "server_port": "18237",
+          "bind_host": "127.0.0.1",
+          "admin_password": "",
+          "open_browser": "false",
+          "tray_icon": "false",
+          "allowed_hosts": "typed-office"
+        },
+        "message": "저장했습니다. 프로그램을 다시 시작해야 적용됩니다. (원래 파일 사본: config_admin.ini.bak-20261117-202509)",
+        "posts": [
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18234"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18236",
+              "allowed_hosts": "submitted-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18237",
+              "allowed_hosts": "typed-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18237",
+              "allowed_hosts": "typed-office"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "1366 dialog has no horizontal overflow",
+      "passed": true,
+      "detail": {
+        "width": 640,
+        "scrollWidth": 640
+      }
+    },
+    {
+      "name": "1024 keyboard save writes B",
+      "passed": true,
+      "detail": {
+        "step": "A-to-B",
+        "port": "18234",
+        "hosts": "",
+        "file": {
+          "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1024/shared",
+          "server_port": "18234",
+          "bind_host": "127.0.0.1",
+          "admin_password": "",
+          "open_browser": "false",
+          "tray_icon": "false"
+        },
+        "message": "저장했습니다. 프로그램을 다시 시작해야 적용됩니다. (원래 파일 사본: config_admin.ini.bak-20261117-202511)",
+        "posts": [
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18234"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "1024 same-window restore writes A",
+      "passed": false,
+      "detail": {
+        "step": "B-to-A-same-window",
+        "port": "33189",
+        "hosts": "",
+        "file": {
+          "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1024/shared",
+          "server_port": "18234",
+          "bind_host": "127.0.0.1",
+          "admin_password": "",
+          "open_browser": "false",
+          "tray_icon": "false"
+        },
+        "message": "바뀐 값이 없습니다.",
+        "posts": [
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18234"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "1024 restore sends second request",
+      "passed": false,
+      "detail": {
+        "step": "B-to-A-same-window",
+        "port": "33189",
+        "hosts": "",
+        "file": {
+          "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1024/shared",
+          "server_port": "18234",
+          "bind_host": "127.0.0.1",
+          "admin_password": "",
+          "open_browser": "false",
+          "tray_icon": "false"
+        },
+        "message": "바뀐 값이 없습니다.",
+        "posts": [
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18234"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "1024 failed save retains inputs",
+      "passed": true,
+      "detail": {
+        "step": "injected-failure",
+        "port": "18235",
+        "hosts": "retry-office",
+        "file": {
+          "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1024/shared",
+          "server_port": "18234",
+          "bind_host": "127.0.0.1",
+          "admin_password": "",
+          "open_browser": "false",
+          "tray_icon": "false"
+        },
+        "message": "검증용 일시적인 저장 실패",
+        "posts": [
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18234"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "1024 failed save leaves file untouched",
+      "passed": true,
+      "detail": {
+        "step": "injected-failure",
+        "port": "18235",
+        "hosts": "retry-office",
+        "file": {
+          "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1024/shared",
+          "server_port": "18234",
+          "bind_host": "127.0.0.1",
+          "admin_password": "",
+          "open_browser": "false",
+          "tray_icon": "false"
+        },
+        "message": "검증용 일시적인 저장 실패",
+        "posts": [
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18234"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "1024 failed save re-enables retry",
+      "passed": true,
+      "detail": {
+        "step": "injected-failure",
+        "port": "18235",
+        "hosts": "retry-office",
+        "file": {
+          "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1024/shared",
+          "server_port": "18234",
+          "bind_host": "127.0.0.1",
+          "admin_password": "",
+          "open_browser": "false",
+          "tray_icon": "false"
+        },
+        "message": "검증용 일시적인 저장 실패",
+        "posts": [
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18234"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "1024 retry reaches real file",
+      "passed": true,
+      "detail": {
+        "step": "real-retry",
+        "port": "18235",
+        "hosts": "retry-office",
+        "file": {
+          "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1024/shared",
+          "server_port": "18235",
+          "bind_host": "127.0.0.1",
+          "admin_password": "",
+          "open_browser": "false",
+          "tray_icon": "false",
+          "allowed_hosts": "retry-office"
+        },
+        "message": "저장했습니다. 프로그램을 다시 시작해야 적용됩니다. (원래 파일 사본: config_admin.ini.bak-20261117-202511-2)",
+        "posts": [
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18234"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "1024 save disabled during request",
+      "passed": false,
+      "detail": null
+    },
+    {
+      "name": "1024 concurrent handler sends no second save",
+      "passed": false,
+      "detail": {
+        "posts": [
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18234"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18236",
+              "allowed_hosts": "submitted-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18237",
+              "allowed_hosts": "typed-office"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "1024 submitted snapshot reaches file",
+      "passed": true,
+      "detail": {
+        "step": "success-after-further-input",
+        "port": "18237",
+        "hosts": "typed-office",
+        "file": {
+          "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1024/shared",
+          "server_port": "18236",
+          "bind_host": "127.0.0.1",
+          "admin_password": "",
+          "open_browser": "false",
+          "tray_icon": "false",
+          "allowed_hosts": "submitted-office"
+        },
+        "message": "저장했습니다. 프로그램을 다시 시작해야 적용됩니다. (원래 파일 사본: config_admin.ini.bak-20261117-202511-3)",
+        "posts": [
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18234"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18236",
+              "allowed_hosts": "submitted-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18237",
+              "allowed_hosts": "typed-office"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "1024 success preserves newer draft",
+      "passed": true,
+      "detail": {
+        "step": "success-after-further-input",
+        "port": "18237",
+        "hosts": "typed-office",
+        "file": {
+          "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1024/shared",
+          "server_port": "18236",
+          "bind_host": "127.0.0.1",
+          "admin_password": "",
+          "open_browser": "false",
+          "tray_icon": "false",
+          "allowed_hosts": "submitted-office"
+        },
+        "message": "저장했습니다. 프로그램을 다시 시작해야 적용됩니다. (원래 파일 사본: config_admin.ini.bak-20261117-202511-3)",
+        "posts": [
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18234"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18236",
+              "allowed_hosts": "submitted-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18237",
+              "allowed_hosts": "typed-office"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "1024 newer draft remains unsaved until next submit",
+      "passed": true,
+      "detail": {
+        "step": "save-newer-draft",
+        "port": "18237",
+        "hosts": "typed-office",
+        "file": {
+          "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1024/shared",
+          "server_port": "18237",
+          "bind_host": "127.0.0.1",
+          "admin_password": "",
+          "open_browser": "false",
+          "tray_icon": "false",
+          "allowed_hosts": "typed-office"
+        },
+        "message": "저장했습니다. 프로그램을 다시 시작해야 적용됩니다. (원래 파일 사본: config_admin.ini.bak-20261117-202511-4)",
+        "posts": [
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18234"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18235",
+              "allowed_hosts": "retry-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18236",
+              "allowed_hosts": "submitted-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18237",
+              "allowed_hosts": "typed-office"
+            }
+          },
+          {
+            "action": "save_settings",
+            "settings": {
+              "server_port": "18237",
+              "allowed_hosts": "typed-office"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "1024 dialog has no horizontal overflow",
+      "passed": true,
+      "detail": {
+        "width": 640,
+        "scrollWidth": 640
+      }
+    }
+  ],
+  "cases": [
+    {
+      "width": 1920,
+      "snapshots": [
+        {
+          "step": "A-to-B",
+          "port": "18234",
+          "hosts": "",
+          "file": {
+            "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1920/shared",
+            "server_port": "18234",
+            "bind_host": "127.0.0.1",
+            "admin_password": "",
+            "open_browser": "false",
+            "tray_icon": "false"
+          },
+          "message": "저장했습니다. 프로그램을 다시 시작해야 적용됩니다. (원래 파일 사본: config_admin.ini.bak-20261117-202504)",
+          "posts": [
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18234"
+              }
+            }
+          ]
+        },
+        {
+          "step": "B-to-A-same-window",
+          "port": "43747",
+          "hosts": "",
+          "file": {
+            "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1920/shared",
+            "server_port": "18234",
+            "bind_host": "127.0.0.1",
+            "admin_password": "",
+            "open_browser": "false",
+            "tray_icon": "false"
+          },
+          "message": "바뀐 값이 없습니다.",
+          "posts": [
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18234"
+              }
+            }
+          ]
+        },
+        {
+          "step": "injected-failure",
+          "port": "18235",
+          "hosts": "retry-office",
+          "file": {
+            "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1920/shared",
+            "server_port": "18234",
+            "bind_host": "127.0.0.1",
+            "admin_password": "",
+            "open_browser": "false",
+            "tray_icon": "false"
+          },
+          "message": "검증용 일시적인 저장 실패",
+          "posts": [
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18234"
+              }
+            },
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18235",
+                "allowed_hosts": "retry-office"
+              }
+            }
+          ]
+        },
+        {
+          "step": "real-retry",
+          "port": "18235",
+          "hosts": "retry-office",
+          "file": {
+            "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1920/shared",
+            "server_port": "18235",
+            "bind_host": "127.0.0.1",
+            "admin_password": "",
+            "open_browser": "false",
+            "tray_icon": "false",
+            "allowed_hosts": "retry-office"
+          },
+          "message": "저장했습니다. 프로그램을 다시 시작해야 적용됩니다. (원래 파일 사본: config_admin.ini.bak-20261117-202505)",
+          "posts": [
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18234"
+              }
+            },
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18235",
+                "allowed_hosts": "retry-office"
+              }
+            },
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18235",
+                "allowed_hosts": "retry-office"
+              }
+            }
+          ]
+        },
+        {
+          "step": "success-after-further-input",
+          "port": "18237",
+          "hosts": "typed-office",
+          "file": {
+            "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1920/shared",
+            "server_port": "18236",
+            "bind_host": "127.0.0.1",
+            "admin_password": "",
+            "open_browser": "false",
+            "tray_icon": "false",
+            "allowed_hosts": "submitted-office"
+          },
+          "message": "저장했습니다. 프로그램을 다시 시작해야 적용됩니다. (원래 파일 사본: config_admin.ini.bak-20261117-202506)",
+          "posts": [
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18234"
+              }
+            },
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18235",
+                "allowed_hosts": "retry-office"
+              }
+            },
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18235",
+                "allowed_hosts": "retry-office"
+              }
+            },
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18236",
+                "allowed_hosts": "submitted-office"
+              }
+            },
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18237",
+                "allowed_hosts": "typed-office"
+              }
+            }
+          ]
+        },
+        {
+          "step": "save-newer-draft",
+          "port": "18237",
+          "hosts": "typed-office",
+          "file": {
+            "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1920/shared",
+            "server_port": "18237",
+            "bind_host": "127.0.0.1",
+            "admin_password": "",
+            "open_browser": "false",
+            "tray_icon": "false",
+            "allowed_hosts": "typed-office"
+          },
+          "message": "저장했습니다. 프로그램을 다시 시작해야 적용됩니다. (원래 파일 사본: config_admin.ini.bak-20261117-202506-2)",
+          "posts": [
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18234"
+              }
+            },
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18235",
+                "allowed_hosts": "retry-office"
+              }
+            },
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18235",
+                "allowed_hosts": "retry-office"
+              }
+            },
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18236",
+                "allowed_hosts": "submitted-office"
+              }
+            },
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18237",
+                "allowed_hosts": "typed-office"
+              }
+            },
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18237",
+                "allowed_hosts": "typed-office"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "width": 1366,
+      "snapshots": [
+        {
+          "step": "A-to-B",
+          "port": "18234",
+          "hosts": "",
+          "file": {
+            "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1366/shared",
+            "server_port": "18234",
+            "bind_host": "127.0.0.1",
+            "admin_password": "",
+            "open_browser": "false",
+            "tray_icon": "false"
+          },
+          "message": "저장했습니다. 프로그램을 다시 시작해야 적용됩니다. (원래 파일 사본: config_admin.ini.bak-20261117-202508)",
+          "posts": [
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18234"
+              }
+            }
+          ]
+        },
+        {
+          "step": "B-to-A-same-window",
+          "port": "52709",
+          "hosts": "",
+          "file": {
+            "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1366/shared",
+            "server_port": "18234",
+            "bind_host": "127.0.0.1",
+            "admin_password": "",
+            "open_browser": "false",
+            "tray_icon": "false"
+          },
+          "message": "바뀐 값이 없습니다.",
+          "posts": [
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18234"
+              }
+            }
+          ]
+        },
+        {
+          "step": "injected-failure",
+          "port": "18235",
+          "hosts": "retry-office",
+          "file": {
+            "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1366/shared",
+            "server_port": "18234",
+            "bind_host": "127.0.0.1",
+            "admin_password": "",
+            "open_browser": "false",
+            "tray_icon": "false"
+          },
+          "message": "검증용 일시적인 저장 실패",
+          "posts": [
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18234"
+              }
+            },
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18235",
+                "allowed_hosts": "retry-office"
+              }
+            }
+          ]
+        },
+        {
+          "step": "real-retry",
+          "port": "18235",
+          "hosts": "retry-office",
+          "file": {
+            "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1366/shared",
+            "server_port": "18235",
+            "bind_host": "127.0.0.1",
+            "admin_password": "",
+            "open_browser": "false",
+            "tray_icon": "false",
+            "allowed_hosts": "retry-office"
+          },
+          "message": "저장했습니다. 프로그램을 다시 시작해야 적용됩니다. (원래 파일 사본: config_admin.ini.bak-20261117-202508-2)",
+          "posts": [
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18234"
+              }
+            },
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18235",
+                "allowed_hosts": "retry-office"
+              }
+            },
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18235",
+                "allowed_hosts": "retry-office"
+              }
+            }
+          ]
+        },
+        {
+          "step": "success-after-further-input",
+          "port": "18237",
+          "hosts": "typed-office",
+          "file": {
+            "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1366/shared",
+            "server_port": "18236",
+            "bind_host": "127.0.0.1",
+            "admin_password": "",
+            "open_browser": "false",
+            "tray_icon": "false",
+            "allowed_hosts": "submitted-office"
+          },
+          "message": "저장했습니다. 프로그램을 다시 시작해야 적용됩니다. (원래 파일 사본: config_admin.ini.bak-20261117-202508-3)",
+          "posts": [
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18234"
+              }
+            },
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18235",
+                "allowed_hosts": "retry-office"
+              }
+            },
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18235",
+                "allowed_hosts": "retry-office"
+              }
+            },
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18236",
+                "allowed_hosts": "submitted-office"
+              }
+            },
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18237",
+                "allowed_hosts": "typed-office"
+              }
+            }
+          ]
+        },
+        {
+          "step": "save-newer-draft",
+          "port": "18237",
+          "hosts": "typed-office",
+          "file": {
+            "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1366/shared",
+            "server_port": "18237",
+            "bind_host": "127.0.0.1",
+            "admin_password": "",
+            "open_browser": "false",
+            "tray_icon": "false",
+            "allowed_hosts": "typed-office"
+          },
+          "message": "저장했습니다. 프로그램을 다시 시작해야 적용됩니다. (원래 파일 사본: config_admin.ini.bak-20261117-202509)",
+          "posts": [
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18234"
+              }
+            },
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18235",
+                "allowed_hosts": "retry-office"
+              }
+            },
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18235",
+                "allowed_hosts": "retry-office"
+              }
+            },
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18236",
+                "allowed_hosts": "submitted-office"
+              }
+            },
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18237",
+                "allowed_hosts": "typed-office"
+              }
+            },
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18237",
+                "allowed_hosts": "typed-office"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "snapshots": [
+        {
+          "step": "A-to-B",
+          "port": "18234",
+          "hosts": "",
+          "file": {
+            "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1024/shared",
+            "server_port": "18234",
+            "bind_host": "127.0.0.1",
+            "admin_password": "",
+            "open_browser": "false",
+            "tray_icon": "false"
+          },
+          "message": "저장했습니다. 프로그램을 다시 시작해야 적용됩니다. (원래 파일 사본: config_admin.ini.bak-20261117-202511)",
+          "posts": [
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18234"
+              }
+            }
+          ]
+        },
+        {
+          "step": "B-to-A-same-window",
+          "port": "33189",
+          "hosts": "",
+          "file": {
+            "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1024/shared",
+            "server_port": "18234",
+            "bind_host": "127.0.0.1",
+            "admin_password": "",
+            "open_browser": "false",
+            "tray_icon": "false"
+          },
+          "message": "바뀐 값이 없습니다.",
+          "posts": [
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18234"
+              }
+            }
+          ]
+        },
+        {
+          "step": "injected-failure",
+          "port": "18235",
+          "hosts": "retry-office",
+          "file": {
+            "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1024/shared",
+            "server_port": "18234",
+            "bind_host": "127.0.0.1",
+            "admin_password": "",
+            "open_browser": "false",
+            "tray_icon": "false"
+          },
+          "message": "검증용 일시적인 저장 실패",
+          "posts": [
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18234"
+              }
+            },
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18235",
+                "allowed_hosts": "retry-office"
+              }
+            }
+          ]
+        },
+        {
+          "step": "real-retry",
+          "port": "18235",
+          "hosts": "retry-office",
+          "file": {
+            "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1024/shared",
+            "server_port": "18235",
+            "bind_host": "127.0.0.1",
+            "admin_password": "",
+            "open_browser": "false",
+            "tray_icon": "false",
+            "allowed_hosts": "retry-office"
+          },
+          "message": "저장했습니다. 프로그램을 다시 시작해야 적용됩니다. (원래 파일 사본: config_admin.ini.bak-20261117-202511-2)",
+          "posts": [
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18234"
+              }
+            },
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18235",
+                "allowed_hosts": "retry-office"
+              }
+            },
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18235",
+                "allowed_hosts": "retry-office"
+              }
+            }
+          ]
+        },
+        {
+          "step": "success-after-further-input",
+          "port": "18237",
+          "hosts": "typed-office",
+          "file": {
+            "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1024/shared",
+            "server_port": "18236",
+            "bind_host": "127.0.0.1",
+            "admin_password": "",
+            "open_browser": "false",
+            "tray_icon": "false",
+            "allowed_hosts": "submitted-office"
+          },
+          "message": "저장했습니다. 프로그램을 다시 시작해야 적용됩니다. (원래 파일 사본: config_admin.ini.bak-20261117-202511-3)",
+          "posts": [
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18234"
+              }
+            },
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18235",
+                "allowed_hosts": "retry-office"
+              }
+            },
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18235",
+                "allowed_hosts": "retry-office"
+              }
+            },
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18236",
+                "allowed_hosts": "submitted-office"
+              }
+            },
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18237",
+                "allowed_hosts": "typed-office"
+              }
+            }
+          ]
+        },
+        {
+          "step": "save-newer-draft",
+          "port": "18237",
+          "hosts": "typed-office",
+          "file": {
+            "shared_folder_path": "/tmp/onair-settings-31841-ifq2i4l9/1024/shared",
+            "server_port": "18237",
+            "bind_host": "127.0.0.1",
+            "admin_password": "",
+            "open_browser": "false",
+            "tray_icon": "false",
+            "allowed_hosts": "typed-office"
+          },
+          "message": "저장했습니다. 프로그램을 다시 시작해야 적용됩니다. (원래 파일 사본: config_admin.ini.bak-20261117-202511-4)",
+          "posts": [
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18234"
+              }
+            },
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18235",
+                "allowed_hosts": "retry-office"
+              }
+            },
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18235",
+                "allowed_hosts": "retry-office"
+              }
+            },
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18236",
+                "allowed_hosts": "submitted-office"
+              }
+            },
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18237",
+                "allowed_hosts": "typed-office"
+              }
+            },
+            {
+              "action": "save_settings",
+              "settings": {
+                "server_port": "18237",
+                "allowed_hosts": "typed-office"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "summary": {
+    "passed": 27,
+    "failed": 12,
+    "errors": 0
+  }
+}

@@ -1,4 +1,4 @@
-"""WLR OnAir 3.18.40 — readable source recovered from supplied 3.14.5 executables.
+"""WLR OnAir 3.18.41 — readable source recovered from supplied 3.14.5 executables.
 
 Backend behavior is restored from Python 3.13 bytecode. Original comments and
 repository history are not recoverable. See RECOVERY_REPORT.md and tests.
@@ -53,7 +53,7 @@ from backend import request_access_api
 from backend import request_access_local
 from backend import dinner_schema, dinner_api
 
-APP_VERSION = '3.18.40'
+APP_VERSION = '3.18.41'
 NL = chr(10)
 if getattr(sys, 'frozen', False):
     BASE_DIR = sys._MEIPASS
@@ -5151,6 +5151,16 @@ def _save_all_data(dto, x_admin_token=None, x_client_id=None, holiday_restore=No
         before_hs_state = hs_read_state(cur)
         if holiday_restore is not None and holiday_restore['metadata'] is None and before_hs_state['holidaySupplements']['requiredContract'] and not holiday_restore['restoreLegacy']:
             raise HTTPException(status_code=409, detail='이 파일에는 공휴일 보완 기록이 없습니다. 보완 이전 상태로 전체 복원할지 확인해 주세요.')
+        if dto.members is not None:
+            existing_names = {row[0] for row in cur.execute('SELECT name FROM members')}
+            for member in dto.members:
+                name = member.get('name') if isinstance(member, dict) else None
+                if not isinstance(name, str):
+                    raise HTTPException(status_code=400, detail='사원 이름은 문자열로 입력해 주세요.')
+                # Names link schedules and requests. Keep existing identities and
+                # explicit backup restores intact; limit only new registrations.
+                if holiday_restore is None and name not in existing_names and len(name) > 4:
+                    raise HTTPException(status_code=400, detail='새 사원 이름은 4자 이내로 입력해 주세요.')
         validate_save_payload(dto, cur)
         ensure_absence_schema(cur)
         ensure_history_schema(cur)

@@ -1,0 +1,88 @@
+{
+  "checks": [
+    {
+      "name": "1920 최대4자 당직자 칸 내부",
+      "passed": true,
+      "evidence": {
+        "bounds": {
+          "left": 28,
+          "right": 144.8125
+        },
+        "cards": [
+          {
+            "name": "남궁민수",
+            "left": 28,
+            "right": 137.8125,
+            "width": 109.8125,
+            "title": "남궁민수"
+          },
+          {
+            "name": "제갈서연",
+            "left": 28,
+            "right": 137.8125,
+            "width": 109.8125,
+            "title": "제갈서연"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1366 최대4자 당직자 칸 내부",
+      "passed": true,
+      "evidence": {
+        "bounds": {
+          "left": 25,
+          "right": 96.3125
+        },
+        "cards": [
+          {
+            "name": "남궁민수",
+            "left": 25,
+            "right": 89.3125,
+            "width": 64.3125,
+            "title": "남궁민수"
+          },
+          {
+            "name": "제갈서연",
+            "left": 25,
+            "right": 89.3125,
+            "width": 64.3125,
+            "title": "제갈서연"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1024 최대4자 당직자 칸 내부",
+      "passed": true,
+      "evidence": {
+        "bounds": {
+          "left": 25,
+          "right": 145.734375
+        },
+        "cards": [
+          {
+            "name": "남궁민수",
+            "left": 25,
+            "right": 138.734375,
+            "width": 113.734375,
+            "title": "남궁민수"
+          },
+          {
+            "name": "제갈서연",
+            "left": 25,
+            "right": 138.734375,
+            "width": 113.734375,
+            "title": "제갈서연"
+          }
+        ]
+      }
+    },
+    {
+      "name": "브라우저 오류 없음",
+      "passed": true,
+      "evidence": []
+    }
+  ],
+  "errors": []
+}

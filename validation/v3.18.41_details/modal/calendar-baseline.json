@@ -1,0 +1,45 @@
+{
+  "checks": [
+    {
+      "name": "1366: calendar Escape cancels anchor before closing editor",
+      "passed": false,
+      "detail": {
+        "focus": "BODY",
+        "modal": null,
+        "open": [],
+        "top": null
+      }
+    },
+    {
+      "name": "1366: next Escape closes editor after selection cancel",
+      "passed": true,
+      "detail": {
+        "focus": "BODY",
+        "modal": null,
+        "open": [],
+        "top": null
+      }
+    },
+    {
+      "name": "1920: calendar Escape cancels anchor before closing editor",
+      "passed": false,
+      "detail": {
+        "focus": "BODY",
+        "modal": null,
+        "open": [],
+        "top": null
+      }
+    },
+    {
+      "name": "1920: next Escape closes editor after selection cancel",
+      "passed": true,
+      "detail": {
+        "focus": "BODY",
+        "modal": null,
+        "open": [],
+        "top": null
+      }
+    }
+  ],
+  "errors": []
+}

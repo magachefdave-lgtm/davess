@@ -1,0 +1,205 @@
+.....FFFFF                                                               [100%]
+=================================== FAILURES ===================================
+_________ test_non_string_name_cannot_bypass_registration_limit[12345] _________
+
+seeded = <test_backend_regression.App object at 0x7f27a64ae060>, name = 12345
+
+    @pytest.mark.parametrize('name',[12345,None,True,[],{}])
+    def test_non_string_name_cannot_bypass_registration_limit(seeded,name):
+        before=seeded.data()
+        response=seeded.post('/api/duty/save-all',dict(baseVersion=before['dataVersion'],members=before['members']+[dict(id=7,name=name,gender='M')]))
+>       assert response.status_code==400,response.text
+E       AssertionError: {"status":"success","dataVersion":2,"holidaySupplements":{"schema":1,"requiredContract":0,"events":[],"bases":[]}}
+E       assert 200 == 400
+E        +  where 200 = <Response [200 OK]>.status_code
+
+tests/test_member_name_limit.py:43: AssertionError
+------------------------------ Captured log setup ------------------------------
+INFO     smartduty:main.py:128 설정 파일에 없는 항목은 기본값을 사용합니다: shared_folder_path, server_port
+INFO     smartduty:main.py:128 === WLR OnAir 3.18.41 시작 | 모드=ADMIN | 포트=8000 | 바인딩=127.0.0.1 | 암호보호=ON | DB=/tmp/pytest-of-agent/pytest-51/test_non_string_name_cannot_by0/3537d694672641199968f05ac3dd4128/backend/smart_duty.db ===
+INFO     smartduty:main.py:128 change_requests.reject_reason 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.requester_host 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.requester_account 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.absence_details 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.revision 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.approved_history_id 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.amends_request_id 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.amendment_original 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 absences.education_json 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_history.actor 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_history.host 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_history.before_json 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_history.after_json 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 DB 초기화 완료.
+INFO     smartduty:main.py:128 DB 초기화 완료.
+INFO     smartduty:main.py:128 자동 백업 저장: /tmp/pytest-of-agent/pytest-51/test_non_string_name_cannot_by0/3537d694672641199968f05ac3dd4128/backend/backups/smart_duty_2026-11-17.db
+_________ test_non_string_name_cannot_bypass_registration_limit[None] __________
+
+seeded = <test_backend_regression.App object at 0x7f27a65030b0>, name = None
+
+    @pytest.mark.parametrize('name',[12345,None,True,[],{}])
+    def test_non_string_name_cannot_bypass_registration_limit(seeded,name):
+        before=seeded.data()
+        response=seeded.post('/api/duty/save-all',dict(baseVersion=before['dataVersion'],members=before['members']+[dict(id=7,name=name,gender='M')]))
+>       assert response.status_code==400,response.text
+E       AssertionError: {"detail":"저장하지 못했습니다. 잠시 후 다시 시도하고, 계속되면 [연결 정보 → 자가 진단 열기 → 진단 리포트 저장]으로 만든 파일을 관리자에게 전달해 주세요."}
+E       assert 500 == 400
+E        +  where 500 = <Response [500 Internal Server Error]>.status_code
+
+tests/test_member_name_limit.py:43: AssertionError
+------------------------------ Captured log setup ------------------------------
+INFO     smartduty:main.py:128 설정 파일에 없는 항목은 기본값을 사용합니다: shared_folder_path, server_port
+INFO     smartduty:main.py:128 === WLR OnAir 3.18.41 시작 | 모드=ADMIN | 포트=8000 | 바인딩=127.0.0.1 | 암호보호=ON | DB=/tmp/pytest-of-agent/pytest-51/test_non_string_name_cannot_by1/3f60087b2044420e868ac7ff21c30247/backend/smart_duty.db ===
+INFO     smartduty:main.py:128 change_requests.reject_reason 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.requester_host 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.requester_account 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.absence_details 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.revision 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.approved_history_id 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.amends_request_id 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.amendment_original 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 absences.education_json 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_history.actor 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_history.host 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_history.before_json 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_history.after_json 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 DB 초기화 완료.
+INFO     smartduty:main.py:128 DB 초기화 완료.
+INFO     smartduty:main.py:128 자동 백업 저장: /tmp/pytest-of-agent/pytest-51/test_non_string_name_cannot_by1/3f60087b2044420e868ac7ff21c30247/backend/backups/smart_duty_2026-11-17.db
+------------------------------ Captured log call -------------------------------
+ERROR    smartduty:main.py:135 저장 실패: NOT NULL constraint failed: members.name
+Traceback (most recent call last):
+  File "/workspace/onair-github-build/backend/main.py", line 5193, in _save_all_data
+    cur.execute('INSERT INTO members (id, name, gender) VALUES (?, ?, ?)',
+sqlite3.IntegrityError: NOT NULL constraint failed: members.name
+ERROR    smartduty:main.py:135 저장 실패(원문): NOT NULL constraint failed: members.name
+_________ test_non_string_name_cannot_bypass_registration_limit[True] __________
+
+seeded = <test_backend_regression.App object at 0x7f27a6335970>, name = True
+
+    @pytest.mark.parametrize('name',[12345,None,True,[],{}])
+    def test_non_string_name_cannot_bypass_registration_limit(seeded,name):
+        before=seeded.data()
+        response=seeded.post('/api/duty/save-all',dict(baseVersion=before['dataVersion'],members=before['members']+[dict(id=7,name=name,gender='M')]))
+>       assert response.status_code==400,response.text
+E       AssertionError: {"status":"success","dataVersion":2,"holidaySupplements":{"schema":1,"requiredContract":0,"events":[],"bases":[]}}
+E       assert 200 == 400
+E        +  where 200 = <Response [200 OK]>.status_code
+
+tests/test_member_name_limit.py:43: AssertionError
+------------------------------ Captured log setup ------------------------------
+INFO     smartduty:main.py:128 설정 파일에 없는 항목은 기본값을 사용합니다: shared_folder_path, server_port
+INFO     smartduty:main.py:128 === WLR OnAir 3.18.41 시작 | 모드=ADMIN | 포트=8000 | 바인딩=127.0.0.1 | 암호보호=ON | DB=/tmp/pytest-of-agent/pytest-51/test_non_string_name_cannot_by2/7c021d39e4e946fc89a9d51dba1a41c0/backend/smart_duty.db ===
+INFO     smartduty:main.py:128 change_requests.reject_reason 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.requester_host 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.requester_account 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.absence_details 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.revision 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.approved_history_id 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.amends_request_id 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.amendment_original 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 absences.education_json 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_history.actor 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_history.host 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_history.before_json 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_history.after_json 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 DB 초기화 완료.
+INFO     smartduty:main.py:128 DB 초기화 완료.
+INFO     smartduty:main.py:128 자동 백업 저장: /tmp/pytest-of-agent/pytest-51/test_non_string_name_cannot_by2/7c021d39e4e946fc89a9d51dba1a41c0/backend/backups/smart_duty_2026-11-17.db
+_________ test_non_string_name_cannot_bypass_registration_limit[name3] _________
+
+seeded = <test_backend_regression.App object at 0x7f27a6899550>, name = []
+
+    @pytest.mark.parametrize('name',[12345,None,True,[],{}])
+    def test_non_string_name_cannot_bypass_registration_limit(seeded,name):
+        before=seeded.data()
+        response=seeded.post('/api/duty/save-all',dict(baseVersion=before['dataVersion'],members=before['members']+[dict(id=7,name=name,gender='M')]))
+>       assert response.status_code==400,response.text
+E       AssertionError: {"detail":"저장하지 못했습니다. 잠시 후 다시 시도하고, 계속되면 [연결 정보 → 자가 진단 열기 → 진단 리포트 저장]으로 만든 파일을 관리자에게 전달해 주세요."}
+E       assert 500 == 400
+E        +  where 500 = <Response [500 Internal Server Error]>.status_code
+
+tests/test_member_name_limit.py:43: AssertionError
+------------------------------ Captured log setup ------------------------------
+INFO     smartduty:main.py:128 설정 파일에 없는 항목은 기본값을 사용합니다: shared_folder_path, server_port
+INFO     smartduty:main.py:128 === WLR OnAir 3.18.41 시작 | 모드=ADMIN | 포트=8000 | 바인딩=127.0.0.1 | 암호보호=ON | DB=/tmp/pytest-of-agent/pytest-51/test_non_string_name_cannot_by3/9fe0b11a19ca4a2b95dd887500677aad/backend/smart_duty.db ===
+INFO     smartduty:main.py:128 change_requests.reject_reason 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.requester_host 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.requester_account 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.absence_details 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.revision 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.approved_history_id 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.amends_request_id 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.amendment_original 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 absences.education_json 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_history.actor 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_history.host 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_history.before_json 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_history.after_json 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 DB 초기화 완료.
+INFO     smartduty:main.py:128 DB 초기화 완료.
+INFO     smartduty:main.py:128 자동 백업 저장: /tmp/pytest-of-agent/pytest-51/test_non_string_name_cannot_by3/9fe0b11a19ca4a2b95dd887500677aad/backend/backups/smart_duty_2026-11-17.db
+------------------------------ Captured log call -------------------------------
+ERROR    smartduty:main.py:135 저장 실패: Error binding parameter 2: type 'list' is not supported
+Traceback (most recent call last):
+  File "/workspace/onair-github-build/backend/main.py", line 5193, in _save_all_data
+    cur.execute('INSERT INTO members (id, name, gender) VALUES (?, ?, ?)',
+sqlite3.ProgrammingError: Error binding parameter 2: type 'list' is not supported
+ERROR    smartduty:main.py:135 저장 실패(원문): Error binding parameter 2: type 'list' is not supported
+_________ test_non_string_name_cannot_bypass_registration_limit[name4] _________
+
+seeded = <test_backend_regression.App object at 0x7f27a4f9dd60>, name = {}
+
+    @pytest.mark.parametrize('name',[12345,None,True,[],{}])
+    def test_non_string_name_cannot_bypass_registration_limit(seeded,name):
+        before=seeded.data()
+        response=seeded.post('/api/duty/save-all',dict(baseVersion=before['dataVersion'],members=before['members']+[dict(id=7,name=name,gender='M')]))
+>       assert response.status_code==400,response.text
+E       AssertionError: {"detail":"저장하지 못했습니다. 잠시 후 다시 시도하고, 계속되면 [연결 정보 → 자가 진단 열기 → 진단 리포트 저장]으로 만든 파일을 관리자에게 전달해 주세요."}
+E       assert 500 == 400
+E        +  where 500 = <Response [500 Internal Server Error]>.status_code
+
+tests/test_member_name_limit.py:43: AssertionError
+------------------------------ Captured log setup ------------------------------
+INFO     smartduty:main.py:128 설정 파일에 없는 항목은 기본값을 사용합니다: shared_folder_path, server_port
+INFO     smartduty:main.py:128 === WLR OnAir 3.18.41 시작 | 모드=ADMIN | 포트=8000 | 바인딩=127.0.0.1 | 암호보호=ON | DB=/tmp/pytest-of-agent/pytest-51/test_non_string_name_cannot_by4/fc418be655b04b76bc3111ed9ab98955/backend/smart_duty.db ===
+INFO     smartduty:main.py:128 change_requests.reject_reason 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.requester_host 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.requester_account 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.absence_details 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.revision 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.approved_history_id 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.amends_request_id 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.amendment_original 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 absences.education_json 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_history.actor 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_history.host 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_history.before_json 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_history.after_json 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 DB 초기화 완료.
+INFO     smartduty:main.py:128 DB 초기화 완료.
+INFO     smartduty:main.py:128 자동 백업 저장: /tmp/pytest-of-agent/pytest-51/test_non_string_name_cannot_by4/fc418be655b04b76bc3111ed9ab98955/backend/backups/smart_duty_2026-11-17.db
+------------------------------ Captured log call -------------------------------
+ERROR    smartduty:main.py:135 저장 실패: Error binding parameter 2: type 'dict' is not supported
+Traceback (most recent call last):
+  File "/workspace/onair-github-build/backend/main.py", line 5193, in _save_all_data
+    cur.execute('INSERT INTO members (id, name, gender) VALUES (?, ?, ?)',
+sqlite3.ProgrammingError: Error binding parameter 2: type 'dict' is not supported
+ERROR    smartduty:main.py:135 저장 실패(원문): Error binding parameter 2: type 'dict' is not supported
+=============================== warnings summary ===============================
+../audit-31712/backend/venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /workspace/audit-31712/backend/venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+../audit-31712/backend/venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /workspace/audit-31712/backend/venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_member_name_limit.py::test_non_string_name_cannot_bypass_registration_limit[12345]
+FAILED tests/test_member_name_limit.py::test_non_string_name_cannot_bypass_registration_limit[None]
+FAILED tests/test_member_name_limit.py::test_non_string_name_cannot_bypass_registration_limit[True]
+FAILED tests/test_member_name_limit.py::test_non_string_name_cannot_bypass_registration_limit[name3]
+FAILED tests/test_member_name_limit.py::test_non_string_name_cannot_bypass_registration_limit[name4]
+5 failed, 5 passed, 2 warnings in 1.67s

@@ -1,0 +1,42 @@
+✔ mixed receipt lookup keeps unknown rows unresolved (19.919483ms)
+✔ missing receipt does not erase durable ownership (7.125673ms)
+✔ business blocker is not ownership loss (17.31235ms)
+✔ switching names drops previous render state (5.847433ms)
+✔ partial ownership renders retry guidance without another-PC diagnosis (5.847032ms)
+✔ ownership records are retained beyond the notification copy limit (28.451073ms)
+✔ recovery registers one common close callback and restores its opener (10.570915ms)
+✔ employee manual and polling refresh preserve the corresponding focused control and panel scroll (3.449799ms)
+✔ successful latest employee refresh clears a previous read failure without clearing it on failure (1.781363ms)
+✔ candidate checkbox selection keeps its DOM focus and list scroll while invalidating approval (2.728543ms)
+✔ admin refresh preserves an edited search and clears its previous read error on success (7.802723ms)
+✔ successful latest preview retry clears its failed read while retaining the selected scope (4.360931ms)
+✔ an earlier preview failure cannot overwrite a newer successful preview (6.242887ms)
+✔ a delayed employee response cannot render or claim after the selected name changes (2.283375ms)
+✔ a delayed admin candidate response cannot replace the list after navigating back (2.311867ms)
+✔ closing invalidates pending recovery reads and their errors across reopening (1.830195ms)
+✔ admin recovery arrivals survive reload, detect equal-count replacements, and clear only on successful reads (2.168486ms)
+✔ admin searches historical pages, explicitly selects roots, previews digest and approves only selected scope (3.473284ms)
+✔ claimed recovery stays storing until verified completion and retries same claim operation (1.599804ms)
+✔ polling pauses hidden documents and refreshes immediately when visible (1.645001ms)
+✔ changing employee never claims or renders another employee recovery (1.525936ms)
+✔ durable retry survives reload with only digest and operation id in metadata (6.423394ms)
+✔ blocked admin preview cannot be approved even by direct handler call (2.227292ms)
+✔ changing selection during preview invalidates its approval digest (1.721424ms)
+✔ approved claim failures remain retryable without false completion (2.096379ms)
+✔ transient bootstrap receipt failure can retry with the valid session and write contract (1.208787ms)
+✔ disabled recovery permits a safe legacy amendment without a pending durable operation (1.639493ms)
+✔ disabled feature never falls back for an unresolved durable operation after reload (5.471968ms)
+✔ feature disabled after bootstrap safely falls back only for a fresh durable operation (1.440689ms)
+✔ candidate metadata and exclusions are readable and guarded GET requests carry the write contract (1.943993ms)
+✔ session bootstrap exchanges once and removes in-memory launch ticket (1.839419ms)
+✔ manual browser keeps legacy path when no launch session exists (1.580797ms)
+✔ uncertain durable submission retries same operation and never falls back (2.204809ms)
+✔ fragment credential is removed before main application starts (13.814579ms)
+ℹ tests 34
+ℹ suites 0
+ℹ pass 34
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 234.757306

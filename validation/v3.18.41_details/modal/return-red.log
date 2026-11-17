@@ -1,0 +1,3 @@
+FAIL 1366: hidden menu opener returns to visible menu toggle
+FAIL 1920: hidden menu opener returns to visible menu toggle
+{"checks": 2, "failed": 2, "errors": []}

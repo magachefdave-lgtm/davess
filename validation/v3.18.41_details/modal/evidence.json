@@ -1,0 +1,1307 @@
+{
+  "checks": [
+    {
+      "name": "1366: Rule Tab stays inside",
+      "passed": true,
+      "detail": {
+        "focus": "rule-algo",
+        "modal": "rule-modal",
+        "open": [
+          "rule-modal"
+        ],
+        "top": "rule-modal"
+      }
+    },
+    {
+      "name": "1366: Rule Enter cannot activate background auto assignment",
+      "passed": true,
+      "detail": {
+        "focus": "rule-algo",
+        "modal": "rule-modal",
+        "open": [
+          "rule-modal"
+        ],
+        "top": "rule-modal"
+      }
+    },
+    {
+      "name": "1366: rule last Tab remains in modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "rule-modal",
+        "open": [
+          "rule-modal"
+        ],
+        "top": "rule-modal"
+      }
+    },
+    {
+      "name": "1366: rule first Shift+Tab remains in modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "rule-modal",
+        "open": [
+          "rule-modal"
+        ],
+        "top": "rule-modal"
+      }
+    },
+    {
+      "name": "1366: rule lost focus Tab recovers into modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "rule-modal",
+        "open": [
+          "rule-modal"
+        ],
+        "top": "rule-modal"
+      }
+    },
+    {
+      "name": "1366: close returns to rule opener",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": null,
+        "open": [],
+        "top": null
+      }
+    },
+    {
+      "name": "1366: member-modal initial focus",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "member-modal",
+        "open": [
+          "member-modal"
+        ],
+        "top": "member-modal"
+      }
+    },
+    {
+      "name": "1366: member-modal last Tab remains in modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "member-modal",
+        "open": [
+          "member-modal"
+        ],
+        "top": "member-modal"
+      }
+    },
+    {
+      "name": "1366: member-modal first Shift+Tab remains in modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "member-modal",
+        "open": [
+          "member-modal"
+        ],
+        "top": "member-modal"
+      }
+    },
+    {
+      "name": "1366: member-modal lost focus Tab recovers into modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "member-modal",
+        "open": [
+          "member-modal"
+        ],
+        "top": "member-modal"
+      }
+    },
+    {
+      "name": "1366: member-modal clean Escape closes",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": null,
+        "open": [],
+        "top": null
+      }
+    },
+    {
+      "name": "1366: member-modal close returns to visible opener",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": null,
+        "open": [],
+        "top": null
+      }
+    },
+    {
+      "name": "1366: stats-modal initial focus",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "stats-modal",
+        "open": [
+          "stats-modal"
+        ],
+        "top": "stats-modal"
+      }
+    },
+    {
+      "name": "1366: stats-modal last Tab remains in modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "stats-modal",
+        "open": [
+          "stats-modal"
+        ],
+        "top": "stats-modal"
+      }
+    },
+    {
+      "name": "1366: stats-modal first Shift+Tab remains in modal",
+      "passed": true,
+      "detail": {
+        "focus": "stat-month",
+        "modal": "stats-modal",
+        "open": [
+          "stats-modal"
+        ],
+        "top": "stats-modal"
+      }
+    },
+    {
+      "name": "1366: stats-modal lost focus Tab recovers into modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "stats-modal",
+        "open": [
+          "stats-modal"
+        ],
+        "top": "stats-modal"
+      }
+    },
+    {
+      "name": "1366: stats-modal clean Escape closes",
+      "passed": true,
+      "detail": {
+        "focus": "btn-duty-stats",
+        "modal": null,
+        "open": [],
+        "top": null
+      }
+    },
+    {
+      "name": "1366: stats-modal close returns to visible opener",
+      "passed": true,
+      "detail": {
+        "focus": "btn-duty-stats",
+        "modal": null,
+        "open": [],
+        "top": null
+      }
+    },
+    {
+      "name": "1366: history-modal initial focus",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "history-modal",
+        "open": [
+          "history-modal"
+        ],
+        "top": "history-modal"
+      }
+    },
+    {
+      "name": "1366: history-modal last Tab remains in modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "history-modal",
+        "open": [
+          "history-modal"
+        ],
+        "top": "history-modal"
+      }
+    },
+    {
+      "name": "1366: history-modal first Shift+Tab remains in modal",
+      "passed": true,
+      "detail": {
+        "focus": "TR",
+        "modal": "history-modal",
+        "open": [
+          "history-modal"
+        ],
+        "top": "history-modal"
+      }
+    },
+    {
+      "name": "1366: history-modal lost focus Tab recovers into modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "history-modal",
+        "open": [
+          "history-modal"
+        ],
+        "top": "history-modal"
+      }
+    },
+    {
+      "name": "1366: history-modal clean Escape closes",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": null,
+        "open": [],
+        "top": null
+      }
+    },
+    {
+      "name": "1366: history-modal close returns to visible opener",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": null,
+        "open": [],
+        "top": null
+      }
+    },
+    {
+      "name": "1366: festival-modal initial focus",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "festival-modal",
+        "open": [
+          "festival-modal"
+        ],
+        "top": "festival-modal"
+      }
+    },
+    {
+      "name": "1366: festival-modal last Tab remains in modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "festival-modal",
+        "open": [
+          "festival-modal"
+        ],
+        "top": "festival-modal"
+      }
+    },
+    {
+      "name": "1366: festival-modal first Shift+Tab remains in modal",
+      "passed": true,
+      "detail": {
+        "focus": "SELECT",
+        "modal": "festival-modal",
+        "open": [
+          "festival-modal"
+        ],
+        "top": "festival-modal"
+      }
+    },
+    {
+      "name": "1366: festival-modal lost focus Tab recovers into modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "festival-modal",
+        "open": [
+          "festival-modal"
+        ],
+        "top": "festival-modal"
+      }
+    },
+    {
+      "name": "1366: festival-modal clean Escape closes",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": null,
+        "open": [],
+        "top": null
+      }
+    },
+    {
+      "name": "1366: festival-modal close returns to visible opener",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": null,
+        "open": [],
+        "top": null
+      }
+    },
+    {
+      "name": "1366: holiday-modal initial focus",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "holiday-modal",
+        "open": [
+          "holiday-modal"
+        ],
+        "top": "holiday-modal"
+      }
+    },
+    {
+      "name": "1366: holiday-modal last Tab remains in modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "holiday-modal",
+        "open": [
+          "holiday-modal"
+        ],
+        "top": "holiday-modal"
+      }
+    },
+    {
+      "name": "1366: holiday-modal first Shift+Tab remains in modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "holiday-modal",
+        "open": [
+          "holiday-modal"
+        ],
+        "top": "holiday-modal"
+      }
+    },
+    {
+      "name": "1366: holiday-modal lost focus Tab recovers into modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "holiday-modal",
+        "open": [
+          "holiday-modal"
+        ],
+        "top": "holiday-modal"
+      }
+    },
+    {
+      "name": "1366: holiday-modal clean Escape closes",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": null,
+        "open": [],
+        "top": null
+      }
+    },
+    {
+      "name": "1366: holiday-modal close returns to visible opener",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": null,
+        "open": [],
+        "top": null
+      }
+    },
+    {
+      "name": "1366: discard last Tab remains in modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "oa-admin-discard",
+        "open": [
+          "rule-modal",
+          "oa-admin-discard"
+        ],
+        "top": "oa-admin-discard"
+      }
+    },
+    {
+      "name": "1366: discard first Shift+Tab remains in modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "oa-admin-discard",
+        "open": [
+          "rule-modal",
+          "oa-admin-discard"
+        ],
+        "top": "oa-admin-discard"
+      }
+    },
+    {
+      "name": "1366: discard lost focus Tab recovers into modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "oa-admin-discard",
+        "open": [
+          "rule-modal",
+          "oa-admin-discard"
+        ],
+        "top": "oa-admin-discard"
+      }
+    },
+    {
+      "name": "1366: discard visually top",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1366: child Escape preserves dirty rule and focus",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "rule-modal",
+        "open": [
+          "rule-modal"
+        ],
+        "top": "rule-modal"
+      }
+    },
+    {
+      "name": "1366: password last Tab remains in modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "admin-password-modal",
+        "open": [
+          "rule-modal",
+          "admin-password-modal"
+        ],
+        "top": "admin-password-modal"
+      }
+    },
+    {
+      "name": "1366: password first Shift+Tab remains in modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "admin-password-modal",
+        "open": [
+          "rule-modal",
+          "admin-password-modal"
+        ],
+        "top": "admin-password-modal"
+      }
+    },
+    {
+      "name": "1366: password lost focus Tab recovers into modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "admin-password-modal",
+        "open": [
+          "rule-modal",
+          "admin-password-modal"
+        ],
+        "top": "admin-password-modal"
+      }
+    },
+    {
+      "name": "1366: password visually top",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1366: password Escape preserves dirty parent and focus",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "rule-modal",
+        "open": [
+          "rule-modal"
+        ],
+        "top": "rule-modal"
+      }
+    },
+    {
+      "name": "1366: dynamic content refresh does not steal focus",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "oa-modal-regression",
+        "open": [
+          "rule-modal",
+          "oa-modal-regression"
+        ],
+        "top": "oa-modal-regression"
+      }
+    },
+    {
+      "name": "1366: parent refresh preserves child focus and top layer",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "oa-modal-child-regression",
+        "open": [
+          "rule-modal",
+          "oa-modal-regression",
+          "oa-modal-child-regression"
+        ],
+        "top": "oa-modal-child-regression"
+      }
+    },
+    {
+      "name": "1366: refreshed parent remains visually below child",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1366: child Escape after parent refresh preserves parent",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "oa-modal-regression",
+        "open": [
+          "rule-modal",
+          "oa-modal-regression"
+        ],
+        "top": "oa-modal-regression"
+      }
+    },
+    {
+      "name": "1366: dynamic last Tab remains in modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "oa-modal-regression",
+        "open": [
+          "rule-modal",
+          "oa-modal-regression"
+        ],
+        "top": "oa-modal-regression"
+      }
+    },
+    {
+      "name": "1366: dynamic first Shift+Tab remains in modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "oa-modal-regression",
+        "open": [
+          "rule-modal",
+          "oa-modal-regression"
+        ],
+        "top": "oa-modal-regression"
+      }
+    },
+    {
+      "name": "1366: dynamic lost focus Tab recovers into modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "oa-modal-regression",
+        "open": [
+          "rule-modal",
+          "oa-modal-regression"
+        ],
+        "top": "oa-modal-regression"
+      }
+    },
+    {
+      "name": "1366: dynamic Escape leaves original parent",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "rule-modal",
+        "open": [
+          "rule-modal"
+        ],
+        "top": "rule-modal"
+      }
+    },
+    {
+      "name": "1920: Rule Tab stays inside",
+      "passed": true,
+      "detail": {
+        "focus": "rule-algo",
+        "modal": "rule-modal",
+        "open": [
+          "rule-modal"
+        ],
+        "top": "rule-modal"
+      }
+    },
+    {
+      "name": "1920: Rule Enter cannot activate background auto assignment",
+      "passed": true,
+      "detail": {
+        "focus": "rule-algo",
+        "modal": "rule-modal",
+        "open": [
+          "rule-modal"
+        ],
+        "top": "rule-modal"
+      }
+    },
+    {
+      "name": "1920: rule last Tab remains in modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "rule-modal",
+        "open": [
+          "rule-modal"
+        ],
+        "top": "rule-modal"
+      }
+    },
+    {
+      "name": "1920: rule first Shift+Tab remains in modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "rule-modal",
+        "open": [
+          "rule-modal"
+        ],
+        "top": "rule-modal"
+      }
+    },
+    {
+      "name": "1920: rule lost focus Tab recovers into modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "rule-modal",
+        "open": [
+          "rule-modal"
+        ],
+        "top": "rule-modal"
+      }
+    },
+    {
+      "name": "1920: close returns to rule opener",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": null,
+        "open": [],
+        "top": null
+      }
+    },
+    {
+      "name": "1920: member-modal initial focus",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "member-modal",
+        "open": [
+          "member-modal"
+        ],
+        "top": "member-modal"
+      }
+    },
+    {
+      "name": "1920: member-modal last Tab remains in modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "member-modal",
+        "open": [
+          "member-modal"
+        ],
+        "top": "member-modal"
+      }
+    },
+    {
+      "name": "1920: member-modal first Shift+Tab remains in modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "member-modal",
+        "open": [
+          "member-modal"
+        ],
+        "top": "member-modal"
+      }
+    },
+    {
+      "name": "1920: member-modal lost focus Tab recovers into modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "member-modal",
+        "open": [
+          "member-modal"
+        ],
+        "top": "member-modal"
+      }
+    },
+    {
+      "name": "1920: member-modal clean Escape closes",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": null,
+        "open": [],
+        "top": null
+      }
+    },
+    {
+      "name": "1920: member-modal close returns to visible opener",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": null,
+        "open": [],
+        "top": null
+      }
+    },
+    {
+      "name": "1920: stats-modal initial focus",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "stats-modal",
+        "open": [
+          "stats-modal"
+        ],
+        "top": "stats-modal"
+      }
+    },
+    {
+      "name": "1920: stats-modal last Tab remains in modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "stats-modal",
+        "open": [
+          "stats-modal"
+        ],
+        "top": "stats-modal"
+      }
+    },
+    {
+      "name": "1920: stats-modal first Shift+Tab remains in modal",
+      "passed": true,
+      "detail": {
+        "focus": "stat-month",
+        "modal": "stats-modal",
+        "open": [
+          "stats-modal"
+        ],
+        "top": "stats-modal"
+      }
+    },
+    {
+      "name": "1920: stats-modal lost focus Tab recovers into modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "stats-modal",
+        "open": [
+          "stats-modal"
+        ],
+        "top": "stats-modal"
+      }
+    },
+    {
+      "name": "1920: stats-modal clean Escape closes",
+      "passed": true,
+      "detail": {
+        "focus": "btn-duty-stats",
+        "modal": null,
+        "open": [],
+        "top": null
+      }
+    },
+    {
+      "name": "1920: stats-modal close returns to visible opener",
+      "passed": true,
+      "detail": {
+        "focus": "btn-duty-stats",
+        "modal": null,
+        "open": [],
+        "top": null
+      }
+    },
+    {
+      "name": "1920: history-modal initial focus",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "history-modal",
+        "open": [
+          "history-modal"
+        ],
+        "top": "history-modal"
+      }
+    },
+    {
+      "name": "1920: history-modal last Tab remains in modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "history-modal",
+        "open": [
+          "history-modal"
+        ],
+        "top": "history-modal"
+      }
+    },
+    {
+      "name": "1920: history-modal first Shift+Tab remains in modal",
+      "passed": true,
+      "detail": {
+        "focus": "TR",
+        "modal": "history-modal",
+        "open": [
+          "history-modal"
+        ],
+        "top": "history-modal"
+      }
+    },
+    {
+      "name": "1920: history-modal lost focus Tab recovers into modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "history-modal",
+        "open": [
+          "history-modal"
+        ],
+        "top": "history-modal"
+      }
+    },
+    {
+      "name": "1920: history-modal clean Escape closes",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": null,
+        "open": [],
+        "top": null
+      }
+    },
+    {
+      "name": "1920: history-modal close returns to visible opener",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": null,
+        "open": [],
+        "top": null
+      }
+    },
+    {
+      "name": "1920: festival-modal initial focus",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "festival-modal",
+        "open": [
+          "festival-modal"
+        ],
+        "top": "festival-modal"
+      }
+    },
+    {
+      "name": "1920: festival-modal last Tab remains in modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "festival-modal",
+        "open": [
+          "festival-modal"
+        ],
+        "top": "festival-modal"
+      }
+    },
+    {
+      "name": "1920: festival-modal first Shift+Tab remains in modal",
+      "passed": true,
+      "detail": {
+        "focus": "SELECT",
+        "modal": "festival-modal",
+        "open": [
+          "festival-modal"
+        ],
+        "top": "festival-modal"
+      }
+    },
+    {
+      "name": "1920: festival-modal lost focus Tab recovers into modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "festival-modal",
+        "open": [
+          "festival-modal"
+        ],
+        "top": "festival-modal"
+      }
+    },
+    {
+      "name": "1920: festival-modal clean Escape closes",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": null,
+        "open": [],
+        "top": null
+      }
+    },
+    {
+      "name": "1920: festival-modal close returns to visible opener",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": null,
+        "open": [],
+        "top": null
+      }
+    },
+    {
+      "name": "1920: holiday-modal initial focus",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "holiday-modal",
+        "open": [
+          "holiday-modal"
+        ],
+        "top": "holiday-modal"
+      }
+    },
+    {
+      "name": "1920: holiday-modal last Tab remains in modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "holiday-modal",
+        "open": [
+          "holiday-modal"
+        ],
+        "top": "holiday-modal"
+      }
+    },
+    {
+      "name": "1920: holiday-modal first Shift+Tab remains in modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "holiday-modal",
+        "open": [
+          "holiday-modal"
+        ],
+        "top": "holiday-modal"
+      }
+    },
+    {
+      "name": "1920: holiday-modal lost focus Tab recovers into modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "holiday-modal",
+        "open": [
+          "holiday-modal"
+        ],
+        "top": "holiday-modal"
+      }
+    },
+    {
+      "name": "1920: holiday-modal clean Escape closes",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": null,
+        "open": [],
+        "top": null
+      }
+    },
+    {
+      "name": "1920: holiday-modal close returns to visible opener",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": null,
+        "open": [],
+        "top": null
+      }
+    },
+    {
+      "name": "1920: discard last Tab remains in modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "oa-admin-discard",
+        "open": [
+          "rule-modal",
+          "oa-admin-discard"
+        ],
+        "top": "oa-admin-discard"
+      }
+    },
+    {
+      "name": "1920: discard first Shift+Tab remains in modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "oa-admin-discard",
+        "open": [
+          "rule-modal",
+          "oa-admin-discard"
+        ],
+        "top": "oa-admin-discard"
+      }
+    },
+    {
+      "name": "1920: discard lost focus Tab recovers into modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "oa-admin-discard",
+        "open": [
+          "rule-modal",
+          "oa-admin-discard"
+        ],
+        "top": "oa-admin-discard"
+      }
+    },
+    {
+      "name": "1920: discard visually top",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1920: child Escape preserves dirty rule and focus",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "rule-modal",
+        "open": [
+          "rule-modal"
+        ],
+        "top": "rule-modal"
+      }
+    },
+    {
+      "name": "1920: password last Tab remains in modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "admin-password-modal",
+        "open": [
+          "rule-modal",
+          "admin-password-modal"
+        ],
+        "top": "admin-password-modal"
+      }
+    },
+    {
+      "name": "1920: password first Shift+Tab remains in modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "admin-password-modal",
+        "open": [
+          "rule-modal",
+          "admin-password-modal"
+        ],
+        "top": "admin-password-modal"
+      }
+    },
+    {
+      "name": "1920: password lost focus Tab recovers into modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "admin-password-modal",
+        "open": [
+          "rule-modal",
+          "admin-password-modal"
+        ],
+        "top": "admin-password-modal"
+      }
+    },
+    {
+      "name": "1920: password visually top",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1920: password Escape preserves dirty parent and focus",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "rule-modal",
+        "open": [
+          "rule-modal"
+        ],
+        "top": "rule-modal"
+      }
+    },
+    {
+      "name": "1920: dynamic content refresh does not steal focus",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "oa-modal-regression",
+        "open": [
+          "rule-modal",
+          "oa-modal-regression"
+        ],
+        "top": "oa-modal-regression"
+      }
+    },
+    {
+      "name": "1920: parent refresh preserves child focus and top layer",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "oa-modal-child-regression",
+        "open": [
+          "rule-modal",
+          "oa-modal-regression",
+          "oa-modal-child-regression"
+        ],
+        "top": "oa-modal-child-regression"
+      }
+    },
+    {
+      "name": "1920: refreshed parent remains visually below child",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1920: child Escape after parent refresh preserves parent",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "oa-modal-regression",
+        "open": [
+          "rule-modal",
+          "oa-modal-regression"
+        ],
+        "top": "oa-modal-regression"
+      }
+    },
+    {
+      "name": "1920: dynamic last Tab remains in modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "oa-modal-regression",
+        "open": [
+          "rule-modal",
+          "oa-modal-regression"
+        ],
+        "top": "oa-modal-regression"
+      }
+    },
+    {
+      "name": "1920: dynamic first Shift+Tab remains in modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "oa-modal-regression",
+        "open": [
+          "rule-modal",
+          "oa-modal-regression"
+        ],
+        "top": "oa-modal-regression"
+      }
+    },
+    {
+      "name": "1920: dynamic lost focus Tab recovers into modal",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "oa-modal-regression",
+        "open": [
+          "rule-modal",
+          "oa-modal-regression"
+        ],
+        "top": "oa-modal-regression"
+      }
+    },
+    {
+      "name": "1920: dynamic Escape leaves original parent",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "rule-modal",
+        "open": [
+          "rule-modal"
+        ],
+        "top": "rule-modal"
+      }
+    },
+    {
+      "name": "Connection password cancellation leaves parent and focus",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": "serverinfo-modal",
+        "open": [
+          "serverinfo-modal"
+        ],
+        "top": "serverinfo-modal"
+      }
+    },
+    {
+      "name": "Second Escape closes connection parent",
+      "passed": true,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": null,
+        "open": [],
+        "top": null
+      }
+    },
+    {
+      "name": "1366: calendar Escape cancels anchor before closing editor",
+      "passed": true,
+      "detail": {
+        "focus": "absence-req-name",
+        "modal": "absence-request-modal",
+        "open": [
+          "absence-request-modal"
+        ],
+        "top": "absence-request-modal"
+      }
+    },
+    {
+      "name": "1366: next Escape closes editor after selection cancel",
+      "passed": true,
+      "detail": {
+        "focus": "BODY",
+        "modal": null,
+        "open": [],
+        "top": null
+      }
+    },
+    {
+      "name": "1920: calendar Escape cancels anchor before closing editor",
+      "passed": true,
+      "detail": {
+        "focus": "absence-req-name",
+        "modal": "absence-request-modal",
+        "open": [
+          "absence-request-modal"
+        ],
+        "top": "absence-request-modal"
+      }
+    },
+    {
+      "name": "1920: next Escape closes editor after selection cancel",
+      "passed": true,
+      "detail": {
+        "focus": "BODY",
+        "modal": null,
+        "open": [],
+        "top": null
+      }
+    }
+  ],
+  "errors": []
+}

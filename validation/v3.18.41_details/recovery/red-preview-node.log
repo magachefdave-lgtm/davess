@@ -1,0 +1,50 @@
+✖ successful latest preview retry clears its failed read while retaining the selected scope (21.220686ms)
+✖ an earlier preview failure cannot overwrite a newer successful preview (3.587943ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 46.547059
+
+✖ failing tests:
+
+test at tests/frontend/request_access_recovery.test.cjs:56:1
+✖ successful latest preview retry clears its failed read while retaining the selected scope (21.220686ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'temporary preview failure'
+  - ''
+  
+      at TestContext.<anonymous> (/workspace/onair-github-build/tests/frontend/request_access_recovery.test.cjs:59:42)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'temporary preview failure',
+    expected: '',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/frontend/request_access_recovery.test.cjs:61:1
+✖ an earlier preview failure cannot overwrite a newer successful preview (3.587943ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'obsolete preview failure'
+  - ''
+  
+      at TestContext.<anonymous> (/workspace/onair-github-build/tests/frontend/request_access_recovery.test.cjs:63:142)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'obsolete preview failure',
+    expected: '',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

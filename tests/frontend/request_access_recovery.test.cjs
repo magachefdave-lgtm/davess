@@ -2,25 +2,78 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),vm=require('node:vm'),fs=require('node:fs'),path=require('node:path'),{webcrypto}=require('node:crypto');
 const source=fs.readFileSync(path.resolve(__dirname,'../../frontend/dist/request_access.js'),'utf8');
 function app({storage=new Map(),handler=()=>({}),ticket='launch',name='A'}={}){
- const nodes=new Map(),events={},ticks=[],sent=[];let sequence=0;
+ const nodes=new Map(),events={},ticks=[],sent=[],closers=new Map();let sequence=0;
  class Element{
-  constructor(tag='div'){this.tagName=tag;this.id='';this.dataset={};this.children=[];this.value='';this.textContent='';this.checked=false;this.disabled=false;this.attrs={};const classes=new Set();this.classList={add:x=>classes.add(x),remove:x=>classes.delete(x),contains:x=>classes.has(x)};}
-  set innerHTML(html){this.html=html;for(const node of this.children)if(node.id)nodes.delete(node.id);this.children=[];for(const match of html.matchAll(/<([a-z][\w-]*)\b([^>]*)>/gi)){const node=new Element(match[1]);for(const a of match[2].matchAll(/([\w-]+)(?:="([^"]*)")?/g)){node.attrs[a[1]]=a[2]??'';if(a[1]==='id'){node.id=a[2];nodes.set(node.id,node);}if(a[1]==='value')node.value=a[2];if(a[1]==='checked')node.checked=true;if(a[1]==='disabled')node.disabled=true;if(a[1].startsWith('data-'))node.dataset[a[1].slice(5).replace(/-([a-z])/g,(_,c)=>c.toUpperCase())]=a[2];}this.children.push(node);}}
+  constructor(tag='div'){this.tagName=tag;this.id='';this.dataset={};this.children=[];this.value='';this.textContent='';this.checked=false;this.disabled=false;this.attrs={};this.scrollTop=0;this.scrollLeft=0;const classes=new Set();this.classList={add:x=>classes.add(x),remove:x=>classes.delete(x),contains:x=>classes.has(x)};}
+  set innerHTML(html){this.html=html;for(const node of this.children){if(node.contains(document.activeElement))document.activeElement=document.body;if(node.id)nodes.delete(node.id);}this.children=[];for(const match of html.matchAll(/<([a-z][\w-]*)\b([^>]*)>/gi)){const node=new Element(match[1]);for(const a of match[2].matchAll(/([\w-]+)(?:="([^"]*)")?/g)){node.attrs[a[1]]=a[2]??'';if(a[1]==='id'){node.id=a[2];nodes.set(node.id,node);}if(a[1]==='value')node.value=a[2];if(a[1]==='checked')node.checked=true;if(a[1]==='disabled')node.disabled=true;if(a[1].startsWith('data-'))node.dataset[a[1].slice(5).replace(/-([a-z])/g,(_,c)=>c.toUpperCase())]=a[2];}node.parentNode=this;this.children.push(node);}}
   get innerHTML(){return this.html||'';}
-  appendChild(node){this.children.push(node);if(node.id)nodes.set(node.id,node);return node;}
+  appendChild(node){node.parentNode=this;this.children.push(node);if(node.id)nodes.set(node.id,node);return node;}
   insertBefore(node){return this.appendChild(node);}
   focus(){document.activeElement=this;}
-  querySelectorAll(selector){const attr=selector.match(/^\[([^\]]+)\]$/)?.[1];return this.children.filter(node=>attr?Object.hasOwn(node.attrs,attr):!node.disabled&&['button','input'].includes(node.tagName));}
-  querySelector(){return null;}
+  contains(node){for(let current=node;current;current=current.parentNode)if(current===this)return true;return false;}
+  getAttribute(name){return this.attrs[name]??null;}
+  querySelectorAll(selector){const descendants=this.children.flatMap(node=>[node,...node.querySelectorAll('*')]);return descendants.filter(node=>selector==='*'||selector.split(',').some(s=>{s=s.trim();if(s[0]==='.')return (node.attrs.class||node.className||'').split(' ').includes(s.slice(1));if(s[0]==='#')return node.id===s.slice(1);const attr=s.match(/^\[([^=\]]+)(?:="([^"]*)")?\]$/);if(attr)return Object.hasOwn(node.attrs,attr[1])&&(attr[2]===undefined||node.attrs[attr[1]]===attr[2]);return !node.disabled&&s.startsWith(node.tagName);}));}
+  querySelector(selector){return this.querySelectorAll(selector)[0]||null;}
  }
  const document={hidden:false,activeElement:null,body:new Element(),getElementById:id=>nodes.get(id)||null,createElement:tag=>new Element(tag),querySelectorAll:selector=>nodes.get('ra-content')?.querySelectorAll(selector)||[],addEventListener:(type,fn)=>(events[type]??=[]).push(fn)};
  const nameEl=new Element('select');nameEl.id='myreq-name';nameEl.value=name;nodes.set(nameEl.id,nameEl);
  const fetch=async(url,options={})=>{const call={url,...options,input:options.body?JSON.parse(options.body):null};sent.push(call);const data=await handler(call);return {ok:!data?.error,status:data?.error?503:200,json:async()=>!data?.error&&url.endsWith('/session')?{sessionToken:'session-value',expiresAt:Math.floor(Date.now()/1000)+1000}:data};};
- const context={window:{__onairAccessTicket:ticket},document,sessionStorage:{getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,String(v)),removeItem:k=>storage.delete(k)},crypto:{randomUUID:()=>`operation-${++sequence}`,subtle:webcrypto.subtle},TextEncoder,Uint8Array,URLSearchParams,Date,JSON,Object,Map,Set,Number,Array,encodeURIComponent,setInterval:fn=>(ticks.push(fn),ticks.length),clearInterval(){},fetch,fetchWithAdminToken:fetch,prompt:()=> 'review reason'};
+ const context={window:{__onairAccessTicket:ticket,OnAirUI:Object.freeze({registerClose:(id,close)=>closers.set(id,close),raise(){}})},document,sessionStorage:{getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,String(v)),removeItem:k=>storage.delete(k)},crypto:{randomUUID:()=>`operation-${++sequence}`,subtle:webcrypto.subtle},TextEncoder,Uint8Array,URLSearchParams,Date,JSON,Object,Map,Set,Number,Array,encodeURIComponent,setInterval:fn=>(ticks.push(fn),ticks.length),clearInterval(){},fetch,fetchWithAdminToken:fetch,prompt:()=> 'review reason'};
  vm.createContext(context);vm.runInContext(source,context);
- return {api:context.window.OnAirRequestAccess,document,nodes,sent,storage,ticks,events,context,flush:()=>new Promise(resolve=>setImmediate(resolve))};
+ return {api:context.window.OnAirRequestAccess,document,nodes,sent,storage,ticks,events,closers,context,flush:()=>new Promise(resolve=>setImmediate(resolve))};
 }
 const recovery=(state='PENDING',name='A')=>({id:'recovery-one',state,requested_name:name,host_label:'PC',account_label:'user',created_at:123,expires_at:456});
+const action=(a,name)=>a.nodes.get('ra-content').children.find(node=>node.attrs.onclick===`OnAirRequestAccess.${name}()`);
+const employeeHandler=call=>call.url.endsWith('/recoveries')?{recoveries:[recovery()]}:{receipts:[]};
+test('recovery registers one common close callback and restores its opener',async()=>{
+ const a=app({handler:employeeHandler}),opener=a.nodes.get('myreq-name');opener.focus();await a.api.openRecovery();
+ assert.equal(typeof a.closers.get('ra-modal'),'function');
+ let prevented=false;for(const handler of a.events.keydown||[])handler({key:'Escape',preventDefault(){prevented=true;}});
+ assert.equal(prevented,false,'common modal manager owns Escape');assert.equal(a.nodes.get('ra-modal').classList.contains('active'),true);
+ a.closers.get('ra-modal')();assert.equal(a.nodes.get('ra-modal').classList.contains('active'),false);assert.ok(a.document.activeElement===opener);
+});
+test('employee manual and polling refresh preserve the corresponding focused control and panel scroll',async()=>{
+ const a=app({handler:employeeHandler});await a.api.openRecovery();action(a,'refresh').focus();const panel=a.nodes.get('ra-modal').querySelector('.ra-panel');panel.scrollTop=37;
+ await a.api.refresh();assert.ok(a.document.activeElement===action(a,'refresh'));assert.equal(panel.scrollTop,37);
+ action(a,'cancel').focus();a.ticks.at(-1)();await a.flush();assert.ok(a.document.activeElement===action(a,'cancel'));
+});
+test('successful latest employee refresh clears a previous read failure without clearing it on failure',async()=>{
+ let fail=false;const a=app({handler:call=>call.url.endsWith('/recoveries')&&fail?{error:true,detail:'temporary recovery failure'}:employeeHandler(call)});await a.api.openRecovery();
+ const content=a.nodes.get('ra-content').innerHTML;action(a,'refresh').focus();fail=true;await a.api.refresh();assert.equal(a.nodes.get('ra-content').innerHTML,content);assert.ok(a.document.activeElement===action(a,'refresh'));assert.match(a.nodes.get('ra-error').textContent,/temporary recovery failure/);
+ fail=false;await a.api.refresh();assert.equal(a.nodes.get('ra-error').textContent,'');
+});
+test('candidate checkbox selection keeps its DOM focus and list scroll while invalidating approval',async()=>{
+ const a=app({handler:call=>call.url.includes('/candidates')?{groups:[{rootUid:'stable-root'},{rootUid:'second-root'}],total:2}:call.url.endsWith('/request-recoveries')?{recoveries:[recovery()]}:{receipts:[]}});await a.api.openAdminRecovery();await a.document.querySelectorAll('[data-ra-review]')[0].onclick();
+ const content=a.nodes.get('ra-content'),checkbox=a.document.querySelectorAll('[data-ra-group]')[0],list=content.querySelector('.ra-candidates'),reads=a.sent.length;checkbox.focus();list.scrollTop=1800;checkbox.checked=true;await checkbox.onchange();
+ assert.ok(a.document.activeElement===checkbox);assert.ok(content.querySelector('.ra-candidates')===list);assert.equal(list.scrollTop,1800);assert.equal(a.sent.length,reads,'selection is a local update');assert.equal(checkbox.checked,true);
+ await a.api.approve();assert.equal(a.sent.filter(call=>call.url.endsWith('/decision')).length,0);
+});
+test('admin refresh preserves an edited search and clears its previous read error on success',async()=>{
+ let fail=false;const a=app({handler:call=>call.url.endsWith('/request-recoveries')?(fail?{error:true,detail:'admin temporary failure'}:{recoveries:[recovery()]}):call.url.includes('/candidates')?{groups:[],total:0}:{receipts:[]}});await a.api.openAdminRecovery();await a.document.querySelectorAll('[data-ra-review]')[0].onclick();
+ const search=a.nodes.get('ra-search');search.value='unsent search';search.focus();fail=true;await a.api.refresh();assert.ok(a.nodes.get('ra-search')===search);assert.equal(search.value,'unsent search');assert.ok(a.document.activeElement===search);assert.match(a.nodes.get('ra-error').textContent,/admin temporary failure/);
+ fail=false;await a.api.refresh();assert.equal(a.nodes.get('ra-error').textContent,'');assert.ok(a.document.activeElement===search);assert.equal(search.value,'unsent search');
+});
+test('successful latest preview retry clears its failed read while retaining the selected scope',async()=>{
+ let fail=true;const a=app({handler:call=>call.url.endsWith('/preview')?(fail?{error:true,detail:'temporary preview failure'}:{items:[{request_id:1}],digest:'latest-digest',blockers:[]}):call.url.includes('/candidates')?{groups:[{rootUid:'root'}],total:1}:call.url.endsWith('/request-recoveries')?{recoveries:[recovery()]}:{receipts:[]}});await a.api.openAdminRecovery();await a.document.querySelectorAll('[data-ra-review]')[0].onclick();
+ const checkbox=a.document.querySelectorAll('[data-ra-group]')[0];checkbox.checked=true;await checkbox.onchange();await a.api.preview();assert.match(a.nodes.get('ra-error').textContent,/temporary preview failure/);assert.equal(checkbox.checked,true);
+ fail=false;await a.api.preview();assert.equal(a.nodes.get('ra-error').textContent,'');assert.match(a.nodes.get('ra-preview').innerHTML,/권한 연결 승인/);assert.equal(checkbox.checked,true);
+});
+test('an earlier preview failure cannot overwrite a newer successful preview',async()=>{
+ let resolveOld,calls=0;const a=app({handler:call=>call.url.endsWith('/preview')?(++calls===1?new Promise(resolve=>{resolveOld=resolve;}):{items:[],digest:'new-digest',blockers:[]}):call.url.includes('/candidates')?{groups:[{rootUid:'root'}],total:1}:call.url.endsWith('/request-recoveries')?{recoveries:[recovery()]}:{receipts:[]}});await a.api.openAdminRecovery();await a.document.querySelectorAll('[data-ra-review]')[0].onclick();const checkbox=a.document.querySelectorAll('[data-ra-group]')[0];checkbox.checked=true;await checkbox.onchange();
+ const old=a.api.preview();await a.flush();await a.api.preview();resolveOld({error:true,detail:'obsolete preview failure'});await old;assert.equal(a.nodes.get('ra-error').textContent,'');
+});
+test('a delayed employee response cannot render or claim after the selected name changes',async()=>{
+ let resolveRead;const a=app({handler:call=>call.url.endsWith('/recoveries')?new Promise(resolve=>{resolveRead=resolve;}):{receipts:[]}});await a.api.bootstrap();const pending=a.api.openRecovery();await a.flush();a.nodes.get('myreq-name').value='B';resolveRead({recoveries:[recovery('APPROVED','A'),recovery('PENDING','B')]});await pending;
+ assert.equal(a.nodes.get('ra-content').innerHTML,'');assert.equal(a.sent.filter(call=>call.url.endsWith('/claim')).length,0);
+});
+test('a delayed admin candidate response cannot replace the list after navigating back',async()=>{
+ let resolveRead;const a=app({handler:call=>call.url.includes('/candidates')?new Promise(resolve=>{resolveRead=resolve;}):call.url.endsWith('/request-recoveries')?{recoveries:[recovery()]}:{receipts:[]}});await a.api.openAdminRecovery();const pending=a.document.querySelectorAll('[data-ra-review]')[0].onclick();await a.flush();await a.api.adminList();const list=a.nodes.get('ra-content').innerHTML;resolveRead({groups:[{rootUid:'old-root'}],total:1});await pending;
+ assert.equal(a.nodes.get('ra-content').innerHTML,list);assert.equal(a.document.querySelectorAll('[data-ra-group]').length,0);assert.equal(a.nodes.get('ra-error').textContent,'');
+});
+test('closing invalidates pending recovery reads and their errors across reopening',async()=>{
+ let resolveRead,defer=false;const a=app({handler:call=>call.url.endsWith('/recoveries')?(defer?new Promise(resolve=>{resolveRead=resolve;}):{recoveries:[]}):{receipts:[]}});await a.api.openRecovery();defer=true;const pending=a.api.refresh();await a.flush();a.api.close();defer=false;await a.api.openRecovery();const fresh=a.nodes.get('ra-content').innerHTML,focus=a.document.activeElement,reads=a.sent.length;await a.api.refresh();assert.equal(a.sent.length,reads+1,'an old dialog request must not block a fresh manual read');resolveRead({error:true,detail:'stale failure'});await pending;
+ assert.equal(a.nodes.get('ra-error').textContent,'');assert.equal(a.nodes.get('ra-content').innerHTML,fresh);assert.ok(a.document.activeElement===focus);
+});
 test('admin recovery arrivals survive reload, detect equal-count replacements, and clear only on successful reads',()=>{
  const storage=new Map();let notices=[],counts=[];
  function setup(){const a=app({ticket:null});Object.assign(a.context,{SYSTEM_MODE:'ADMIN',localStorage:{getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v)},updateRecoveryPendingBadge:n=>counts.push(n),addNotif:(text,meta)=>notices.push({text,meta}),showToast:()=>{}});return a;}

@@ -1,0 +1,25 @@
+{
+  "checks": [
+    {
+      "name": "1366: hidden menu opener returns to visible menu toggle",
+      "passed": false,
+      "detail": {
+        "focus": "BODY",
+        "modal": null,
+        "open": [],
+        "top": null
+      }
+    },
+    {
+      "name": "1920: hidden menu opener returns to visible menu toggle",
+      "passed": false,
+      "detail": {
+        "focus": "BODY",
+        "modal": null,
+        "open": [],
+        "top": null
+      }
+    }
+  ],
+  "errors": []
+}

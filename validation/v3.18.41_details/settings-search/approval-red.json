@@ -1,0 +1,1260 @@
+{
+  "phase": "red",
+  "checks": [
+    {
+      "name": "1920 dialog has no horizontal overflow",
+      "passed": true,
+      "detail": {
+        "width": 1160,
+        "scrollWidth": 1160
+      }
+    },
+    {
+      "name": "1920 new-start fixture appears with weekday",
+      "passed": true,
+      "detail": "+\n신규 신청\n김도윤\n2026-11-17 20:27:26\n7ee3d468bb84 · agent\n\t\n교육\n신청 일정\n2027-01-05(화) ~ 2027-01-08(금)\n사유\n합성 교육 신청\n교육명\n업무 안전 연수\n안내사항\n회의 자료 준비\n\t\n승인\n반려"
+    },
+    {
+      "name": "1920 new-start search 2027-01-05",
+      "passed": true,
+      "detail": [
+        1
+      ]
+    },
+    {
+      "name": "1920 new-start search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1920 new-start search 2027-01-05(화)",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1920 new-start search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1920 new-end fixture appears with weekday",
+      "passed": true,
+      "detail": "+\n신규 신청\n김도윤\n2026-11-17 20:27:26\n7ee3d468bb84 · agent\n\t\n교육\n신청 일정\n2027-01-05(화) ~ 2027-01-08(금)\n사유\n합성 교육 신청\n교육명\n업무 안전 연수\n안내사항\n회의 자료 준비\n\t\n승인\n반려"
+    },
+    {
+      "name": "1920 new-end search 2027-01-08",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1920 new-end search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1920 new-end search 2027-01-08(금)",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1920 new-end search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1920 old-start fixture appears with weekday",
+      "passed": true,
+      "detail": "↔\n일정 변경\n이서연\n2026-11-17 20:27:26\n7ee3d468bb84 · agent\n\t\n교육\n승인된 일정 변경\n기존 승인\n2027-02-01(월) ~ 2027-02-02(화)\n변경 요청\n2027-02-03(수) ~ 2027-02-06(토)\n기존 교육 안내\n변경 요청 교육 안내\n변경 사유\n합성 교육 신청\n\n승인 전까지 기존 일정 유지 · 종전에 해제된 당직은 자동 복원되지 않습니다.\n\n\t\n변경 승인\n반려"
+    },
+    {
+      "name": "1920 old-start search 2027-02-01",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1920 old-start search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1920 old-start search 2027-02-01(월)",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1920 old-start search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1920 old-end fixture appears with weekday",
+      "passed": true,
+      "detail": "↔\n일정 변경\n이서연\n2026-11-17 20:27:26\n7ee3d468bb84 · agent\n\t\n교육\n승인된 일정 변경\n기존 승인\n2027-02-01(월) ~ 2027-02-02(화)\n변경 요청\n2027-02-03(수) ~ 2027-02-06(토)\n기존 교육 안내\n변경 요청 교육 안내\n변경 사유\n합성 교육 신청\n\n승인 전까지 기존 일정 유지 · 종전에 해제된 당직은 자동 복원되지 않습니다.\n\n\t\n변경 승인\n반려"
+    },
+    {
+      "name": "1920 old-end search 2027-02-02",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1920 old-end search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1920 old-end search 2027-02-02(화)",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1920 old-end search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1920 changed-start fixture appears with weekday",
+      "passed": true,
+      "detail": "↔\n일정 변경\n이서연\n2026-11-17 20:27:26\n7ee3d468bb84 · agent\n\t\n교육\n승인된 일정 변경\n기존 승인\n2027-02-01(월) ~ 2027-02-02(화)\n변경 요청\n2027-02-03(수) ~ 2027-02-06(토)\n기존 교육 안내\n변경 요청 교육 안내\n변경 사유\n합성 교육 신청\n\n승인 전까지 기존 일정 유지 · 종전에 해제된 당직은 자동 복원되지 않습니다.\n\n\t\n변경 승인\n반려"
+    },
+    {
+      "name": "1920 changed-start search 2027-02-03",
+      "passed": true,
+      "detail": [
+        3
+      ]
+    },
+    {
+      "name": "1920 changed-start search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1920 changed-start search 2027-02-03(수)",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1920 changed-start search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1920 changed-end fixture appears with weekday",
+      "passed": true,
+      "detail": "↔\n일정 변경\n이서연\n2026-11-17 20:27:26\n7ee3d468bb84 · agent\n\t\n교육\n승인된 일정 변경\n기존 승인\n2027-02-01(월) ~ 2027-02-02(화)\n변경 요청\n2027-02-03(수) ~ 2027-02-06(토)\n기존 교육 안내\n변경 요청 교육 안내\n변경 사유\n합성 교육 신청\n\n승인 전까지 기존 일정 유지 · 종전에 해제된 당직은 자동 복원되지 않습니다.\n\n\t\n변경 승인\n반려"
+    },
+    {
+      "name": "1920 changed-end search 2027-02-06",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1920 changed-end search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1920 changed-end search 2027-02-06(토)",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1920 changed-end search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1920 cancel-start fixture appears with weekday",
+      "passed": true,
+      "detail": "−\n취소 요청\n이준호\n2026-11-17 20:27:26\n7ee3d468bb84 · agent\n\t\n교육\n취소할 승인 일정\n2027-03-01(월) ~ 2027-03-04(목)\n실제 4일\n취소 사유\n교육 일정 취소\n\n승인하면 기존 일정 전체가 취소됩니다. 종전에 해제된 당직은 자동 복원되지 않습니다.\n\n\t\n취소 승인\n반려"
+    },
+    {
+      "name": "1920 cancel-start search 2027-03-01",
+      "passed": true,
+      "detail": [
+        5
+      ]
+    },
+    {
+      "name": "1920 cancel-start search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1920 cancel-start search 2027-03-01(월)",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1920 cancel-start search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1920 cancel-end fixture appears with weekday",
+      "passed": true,
+      "detail": "−\n취소 요청\n이준호\n2026-11-17 20:27:26\n7ee3d468bb84 · agent\n\t\n교육\n취소할 승인 일정\n2027-03-01(월) ~ 2027-03-04(목)\n실제 4일\n취소 사유\n교육 일정 취소\n\n승인하면 기존 일정 전체가 취소됩니다. 종전에 해제된 당직은 자동 복원되지 않습니다.\n\n\t\n취소 승인\n반려"
+    },
+    {
+      "name": "1920 cancel-end search 2027-03-04",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1920 cancel-end search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1920 cancel-end search 2027-03-04(목)",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1920 cancel-end search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1920 education value stays searchable",
+      "passed": true,
+      "detail": {
+        "actual": [
+          1,
+          3,
+          5
+        ],
+        "expected": [
+          1,
+          3,
+          5
+        ]
+      }
+    },
+    {
+      "name": "1920 JSON field names do not create matches",
+      "passed": false,
+      "detail": null
+    },
+    {
+      "name": "1920 keyboard toggles substitute draft",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1920 search and refresh retain substitute draft",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1920 keyboard decision cancellation retains pending list",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1366 dialog has no horizontal overflow",
+      "passed": true,
+      "detail": {
+        "width": 1160,
+        "scrollWidth": 1160
+      }
+    },
+    {
+      "name": "1366 new-start fixture appears with weekday",
+      "passed": true,
+      "detail": "+\n신규 신청\n김도윤\n2026-11-17 20:27:26\n7ee3d468bb84 · agent\n\t\n교육\n신청 일정\n2027-01-05(화) ~ 2027-01-08(금)\n사유\n합성 교육 신청\n교육명\n업무 안전 연수\n안내사항\n회의 자료 준비\n\t\n승인\n반려"
+    },
+    {
+      "name": "1366 new-start search 2027-01-05",
+      "passed": true,
+      "detail": [
+        1
+      ]
+    },
+    {
+      "name": "1366 new-start search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1366 new-start search 2027-01-05(화)",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1366 new-start search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1366 new-end fixture appears with weekday",
+      "passed": true,
+      "detail": "+\n신규 신청\n김도윤\n2026-11-17 20:27:26\n7ee3d468bb84 · agent\n\t\n교육\n신청 일정\n2027-01-05(화) ~ 2027-01-08(금)\n사유\n합성 교육 신청\n교육명\n업무 안전 연수\n안내사항\n회의 자료 준비\n\t\n승인\n반려"
+    },
+    {
+      "name": "1366 new-end search 2027-01-08",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1366 new-end search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1366 new-end search 2027-01-08(금)",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1366 new-end search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1366 old-start fixture appears with weekday",
+      "passed": true,
+      "detail": "↔\n일정 변경\n이서연\n2026-11-17 20:27:26\n7ee3d468bb84 · agent\n\t\n교육\n승인된 일정 변경\n기존 승인\n2027-02-01(월) ~ 2027-02-02(화)\n변경 요청\n2027-02-03(수) ~ 2027-02-06(토)\n기존 교육 안내\n변경 요청 교육 안내\n변경 사유\n합성 교육 신청\n\n승인 전까지 기존 일정 유지 · 종전에 해제된 당직은 자동 복원되지 않습니다.\n\n\t\n변경 승인\n반려"
+    },
+    {
+      "name": "1366 old-start search 2027-02-01",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1366 old-start search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1366 old-start search 2027-02-01(월)",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1366 old-start search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1366 old-end fixture appears with weekday",
+      "passed": true,
+      "detail": "↔\n일정 변경\n이서연\n2026-11-17 20:27:26\n7ee3d468bb84 · agent\n\t\n교육\n승인된 일정 변경\n기존 승인\n2027-02-01(월) ~ 2027-02-02(화)\n변경 요청\n2027-02-03(수) ~ 2027-02-06(토)\n기존 교육 안내\n변경 요청 교육 안내\n변경 사유\n합성 교육 신청\n\n승인 전까지 기존 일정 유지 · 종전에 해제된 당직은 자동 복원되지 않습니다.\n\n\t\n변경 승인\n반려"
+    },
+    {
+      "name": "1366 old-end search 2027-02-02",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1366 old-end search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1366 old-end search 2027-02-02(화)",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1366 old-end search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1366 changed-start fixture appears with weekday",
+      "passed": true,
+      "detail": "↔\n일정 변경\n이서연\n2026-11-17 20:27:26\n7ee3d468bb84 · agent\n\t\n교육\n승인된 일정 변경\n기존 승인\n2027-02-01(월) ~ 2027-02-02(화)\n변경 요청\n2027-02-03(수) ~ 2027-02-06(토)\n기존 교육 안내\n변경 요청 교육 안내\n변경 사유\n합성 교육 신청\n\n승인 전까지 기존 일정 유지 · 종전에 해제된 당직은 자동 복원되지 않습니다.\n\n\t\n변경 승인\n반려"
+    },
+    {
+      "name": "1366 changed-start search 2027-02-03",
+      "passed": true,
+      "detail": [
+        3
+      ]
+    },
+    {
+      "name": "1366 changed-start search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1366 changed-start search 2027-02-03(수)",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1366 changed-start search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1366 changed-end fixture appears with weekday",
+      "passed": true,
+      "detail": "↔\n일정 변경\n이서연\n2026-11-17 20:27:26\n7ee3d468bb84 · agent\n\t\n교육\n승인된 일정 변경\n기존 승인\n2027-02-01(월) ~ 2027-02-02(화)\n변경 요청\n2027-02-03(수) ~ 2027-02-06(토)\n기존 교육 안내\n변경 요청 교육 안내\n변경 사유\n합성 교육 신청\n\n승인 전까지 기존 일정 유지 · 종전에 해제된 당직은 자동 복원되지 않습니다.\n\n\t\n변경 승인\n반려"
+    },
+    {
+      "name": "1366 changed-end search 2027-02-06",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1366 changed-end search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1366 changed-end search 2027-02-06(토)",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1366 changed-end search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1366 cancel-start fixture appears with weekday",
+      "passed": true,
+      "detail": "−\n취소 요청\n이준호\n2026-11-17 20:27:26\n7ee3d468bb84 · agent\n\t\n교육\n취소할 승인 일정\n2027-03-01(월) ~ 2027-03-04(목)\n실제 4일\n취소 사유\n교육 일정 취소\n\n승인하면 기존 일정 전체가 취소됩니다. 종전에 해제된 당직은 자동 복원되지 않습니다.\n\n\t\n취소 승인\n반려"
+    },
+    {
+      "name": "1366 cancel-start search 2027-03-01",
+      "passed": true,
+      "detail": [
+        5
+      ]
+    },
+    {
+      "name": "1366 cancel-start search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1366 cancel-start search 2027-03-01(월)",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1366 cancel-start search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1366 cancel-end fixture appears with weekday",
+      "passed": true,
+      "detail": "−\n취소 요청\n이준호\n2026-11-17 20:27:26\n7ee3d468bb84 · agent\n\t\n교육\n취소할 승인 일정\n2027-03-01(월) ~ 2027-03-04(목)\n실제 4일\n취소 사유\n교육 일정 취소\n\n승인하면 기존 일정 전체가 취소됩니다. 종전에 해제된 당직은 자동 복원되지 않습니다.\n\n\t\n취소 승인\n반려"
+    },
+    {
+      "name": "1366 cancel-end search 2027-03-04",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1366 cancel-end search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1366 cancel-end search 2027-03-04(목)",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1366 cancel-end search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1366 education value stays searchable",
+      "passed": true,
+      "detail": {
+        "actual": [
+          1,
+          3,
+          5
+        ],
+        "expected": [
+          1,
+          3,
+          5
+        ]
+      }
+    },
+    {
+      "name": "1366 JSON field names do not create matches",
+      "passed": false,
+      "detail": null
+    },
+    {
+      "name": "1366 keyboard toggles substitute draft",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1366 search and refresh retain substitute draft",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1366 keyboard decision cancellation retains pending list",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1024 dialog has no horizontal overflow",
+      "passed": true,
+      "detail": {
+        "width": 984,
+        "scrollWidth": 984
+      }
+    },
+    {
+      "name": "1024 new-start fixture appears with weekday",
+      "passed": true,
+      "detail": "+\n신규 신청\n김도윤\n2026-11-17 20:27:26\n7ee3d468bb84 · agent\n\t\n교육\n신청 일정\n2027-01-05(화) ~ 2027-01-08(금)\n사유\n합성 교육 신청\n교육명\n업무 안전 연수\n안내사항\n회의 자료 준비\n\t\n승인\n반려"
+    },
+    {
+      "name": "1024 new-start search 2027-01-05",
+      "passed": true,
+      "detail": [
+        1
+      ]
+    },
+    {
+      "name": "1024 new-start search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1024 new-start search 2027-01-05(화)",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1024 new-start search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1024 new-end fixture appears with weekday",
+      "passed": true,
+      "detail": "+\n신규 신청\n김도윤\n2026-11-17 20:27:26\n7ee3d468bb84 · agent\n\t\n교육\n신청 일정\n2027-01-05(화) ~ 2027-01-08(금)\n사유\n합성 교육 신청\n교육명\n업무 안전 연수\n안내사항\n회의 자료 준비\n\t\n승인\n반려"
+    },
+    {
+      "name": "1024 new-end search 2027-01-08",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1024 new-end search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1024 new-end search 2027-01-08(금)",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1024 new-end search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1024 old-start fixture appears with weekday",
+      "passed": true,
+      "detail": "↔\n일정 변경\n이서연\n2026-11-17 20:27:26\n7ee3d468bb84 · agent\n\t\n교육\n승인된 일정 변경\n기존 승인\n2027-02-01(월) ~ 2027-02-02(화)\n변경 요청\n2027-02-03(수) ~ 2027-02-06(토)\n기존 교육 안내\n변경 요청 교육 안내\n변경 사유\n합성 교육 신청\n\n승인 전까지 기존 일정 유지 · 종전에 해제된 당직은 자동 복원되지 않습니다.\n\n\t\n변경 승인\n반려"
+    },
+    {
+      "name": "1024 old-start search 2027-02-01",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1024 old-start search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1024 old-start search 2027-02-01(월)",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1024 old-start search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1024 old-end fixture appears with weekday",
+      "passed": true,
+      "detail": "↔\n일정 변경\n이서연\n2026-11-17 20:27:26\n7ee3d468bb84 · agent\n\t\n교육\n승인된 일정 변경\n기존 승인\n2027-02-01(월) ~ 2027-02-02(화)\n변경 요청\n2027-02-03(수) ~ 2027-02-06(토)\n기존 교육 안내\n변경 요청 교육 안내\n변경 사유\n합성 교육 신청\n\n승인 전까지 기존 일정 유지 · 종전에 해제된 당직은 자동 복원되지 않습니다.\n\n\t\n변경 승인\n반려"
+    },
+    {
+      "name": "1024 old-end search 2027-02-02",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1024 old-end search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1024 old-end search 2027-02-02(화)",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1024 old-end search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1024 changed-start fixture appears with weekday",
+      "passed": true,
+      "detail": "↔\n일정 변경\n이서연\n2026-11-17 20:27:26\n7ee3d468bb84 · agent\n\t\n교육\n승인된 일정 변경\n기존 승인\n2027-02-01(월) ~ 2027-02-02(화)\n변경 요청\n2027-02-03(수) ~ 2027-02-06(토)\n기존 교육 안내\n변경 요청 교육 안내\n변경 사유\n합성 교육 신청\n\n승인 전까지 기존 일정 유지 · 종전에 해제된 당직은 자동 복원되지 않습니다.\n\n\t\n변경 승인\n반려"
+    },
+    {
+      "name": "1024 changed-start search 2027-02-03",
+      "passed": true,
+      "detail": [
+        3
+      ]
+    },
+    {
+      "name": "1024 changed-start search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1024 changed-start search 2027-02-03(수)",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1024 changed-start search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1024 changed-end fixture appears with weekday",
+      "passed": true,
+      "detail": "↔\n일정 변경\n이서연\n2026-11-17 20:27:26\n7ee3d468bb84 · agent\n\t\n교육\n승인된 일정 변경\n기존 승인\n2027-02-01(월) ~ 2027-02-02(화)\n변경 요청\n2027-02-03(수) ~ 2027-02-06(토)\n기존 교육 안내\n변경 요청 교육 안내\n변경 사유\n합성 교육 신청\n\n승인 전까지 기존 일정 유지 · 종전에 해제된 당직은 자동 복원되지 않습니다.\n\n\t\n변경 승인\n반려"
+    },
+    {
+      "name": "1024 changed-end search 2027-02-06",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1024 changed-end search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1024 changed-end search 2027-02-06(토)",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1024 changed-end search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1024 cancel-start fixture appears with weekday",
+      "passed": true,
+      "detail": "−\n취소 요청\n이준호\n2026-11-17 20:27:26\n7ee3d468bb84 · agent\n\t\n교육\n취소할 승인 일정\n2027-03-01(월) ~ 2027-03-04(목)\n실제 4일\n취소 사유\n교육 일정 취소\n\n승인하면 기존 일정 전체가 취소됩니다. 종전에 해제된 당직은 자동 복원되지 않습니다.\n\n\t\n취소 승인\n반려"
+    },
+    {
+      "name": "1024 cancel-start search 2027-03-01",
+      "passed": true,
+      "detail": [
+        5
+      ]
+    },
+    {
+      "name": "1024 cancel-start search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1024 cancel-start search 2027-03-01(월)",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1024 cancel-start search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1024 cancel-end fixture appears with weekday",
+      "passed": true,
+      "detail": "−\n취소 요청\n이준호\n2026-11-17 20:27:26\n7ee3d468bb84 · agent\n\t\n교육\n취소할 승인 일정\n2027-03-01(월) ~ 2027-03-04(목)\n실제 4일\n취소 사유\n교육 일정 취소\n\n승인하면 기존 일정 전체가 취소됩니다. 종전에 해제된 당직은 자동 복원되지 않습니다.\n\n\t\n취소 승인\n반려"
+    },
+    {
+      "name": "1024 cancel-end search 2027-03-04",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1024 cancel-end search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1024 cancel-end search 2027-03-04(목)",
+      "passed": false,
+      "detail": []
+    },
+    {
+      "name": "1024 cancel-end search keeps keyboard focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1024 education value stays searchable",
+      "passed": true,
+      "detail": {
+        "actual": [
+          1,
+          3,
+          5
+        ],
+        "expected": [
+          1,
+          3,
+          5
+        ]
+      }
+    },
+    {
+      "name": "1024 JSON field names do not create matches",
+      "passed": false,
+      "detail": null
+    },
+    {
+      "name": "1024 keyboard toggles substitute draft",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1024 search and refresh retain substitute draft",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1024 keyboard decision cancellation retains pending list",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "filtering and cancelling approval confirmation keep server requests unchanged",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "searches": [
+    {
+      "width": 1920,
+      "kind": "new-start",
+      "query": "2027-01-05",
+      "visible": [
+        1
+      ],
+      "expected": [
+        1
+      ]
+    },
+    {
+      "width": 1920,
+      "kind": "new-start",
+      "query": "2027-01-05(화)",
+      "visible": [],
+      "expected": [
+        1
+      ]
+    },
+    {
+      "width": 1920,
+      "kind": "new-end",
+      "query": "2027-01-08",
+      "visible": [],
+      "expected": [
+        1
+      ]
+    },
+    {
+      "width": 1920,
+      "kind": "new-end",
+      "query": "2027-01-08(금)",
+      "visible": [],
+      "expected": [
+        1
+      ]
+    },
+    {
+      "width": 1920,
+      "kind": "old-start",
+      "query": "2027-02-01",
+      "visible": [],
+      "expected": [
+        3
+      ]
+    },
+    {
+      "width": 1920,
+      "kind": "old-start",
+      "query": "2027-02-01(월)",
+      "visible": [],
+      "expected": [
+        3
+      ]
+    },
+    {
+      "width": 1920,
+      "kind": "old-end",
+      "query": "2027-02-02",
+      "visible": [],
+      "expected": [
+        3
+      ]
+    },
+    {
+      "width": 1920,
+      "kind": "old-end",
+      "query": "2027-02-02(화)",
+      "visible": [],
+      "expected": [
+        3
+      ]
+    },
+    {
+      "width": 1920,
+      "kind": "changed-start",
+      "query": "2027-02-03",
+      "visible": [
+        3
+      ],
+      "expected": [
+        3
+      ]
+    },
+    {
+      "width": 1920,
+      "kind": "changed-start",
+      "query": "2027-02-03(수)",
+      "visible": [],
+      "expected": [
+        3
+      ]
+    },
+    {
+      "width": 1920,
+      "kind": "changed-end",
+      "query": "2027-02-06",
+      "visible": [],
+      "expected": [
+        3
+      ]
+    },
+    {
+      "width": 1920,
+      "kind": "changed-end",
+      "query": "2027-02-06(토)",
+      "visible": [],
+      "expected": [
+        3
+      ]
+    },
+    {
+      "width": 1920,
+      "kind": "cancel-start",
+      "query": "2027-03-01",
+      "visible": [
+        5
+      ],
+      "expected": [
+        5
+      ]
+    },
+    {
+      "width": 1920,
+      "kind": "cancel-start",
+      "query": "2027-03-01(월)",
+      "visible": [],
+      "expected": [
+        5
+      ]
+    },
+    {
+      "width": 1920,
+      "kind": "cancel-end",
+      "query": "2027-03-04",
+      "visible": [],
+      "expected": [
+        5
+      ]
+    },
+    {
+      "width": 1920,
+      "kind": "cancel-end",
+      "query": "2027-03-04(목)",
+      "visible": [],
+      "expected": [
+        5
+      ]
+    },
+    {
+      "width": 1366,
+      "kind": "new-start",
+      "query": "2027-01-05",
+      "visible": [
+        1
+      ],
+      "expected": [
+        1
+      ]
+    },
+    {
+      "width": 1366,
+      "kind": "new-start",
+      "query": "2027-01-05(화)",
+      "visible": [],
+      "expected": [
+        1
+      ]
+    },
+    {
+      "width": 1366,
+      "kind": "new-end",
+      "query": "2027-01-08",
+      "visible": [],
+      "expected": [
+        1
+      ]
+    },
+    {
+      "width": 1366,
+      "kind": "new-end",
+      "query": "2027-01-08(금)",
+      "visible": [],
+      "expected": [
+        1
+      ]
+    },
+    {
+      "width": 1366,
+      "kind": "old-start",
+      "query": "2027-02-01",
+      "visible": [],
+      "expected": [
+        3
+      ]
+    },
+    {
+      "width": 1366,
+      "kind": "old-start",
+      "query": "2027-02-01(월)",
+      "visible": [],
+      "expected": [
+        3
+      ]
+    },
+    {
+      "width": 1366,
+      "kind": "old-end",
+      "query": "2027-02-02",
+      "visible": [],
+      "expected": [
+        3
+      ]
+    },
+    {
+      "width": 1366,
+      "kind": "old-end",
+      "query": "2027-02-02(화)",
+      "visible": [],
+      "expected": [
+        3
+      ]
+    },
+    {
+      "width": 1366,
+      "kind": "changed-start",
+      "query": "2027-02-03",
+      "visible": [
+        3
+      ],
+      "expected": [
+        3
+      ]
+    },
+    {
+      "width": 1366,
+      "kind": "changed-start",
+      "query": "2027-02-03(수)",
+      "visible": [],
+      "expected": [
+        3
+      ]
+    },
+    {
+      "width": 1366,
+      "kind": "changed-end",
+      "query": "2027-02-06",
+      "visible": [],
+      "expected": [
+        3
+      ]
+    },
+    {
+      "width": 1366,
+      "kind": "changed-end",
+      "query": "2027-02-06(토)",
+      "visible": [],
+      "expected": [
+        3
+      ]
+    },
+    {
+      "width": 1366,
+      "kind": "cancel-start",
+      "query": "2027-03-01",
+      "visible": [
+        5
+      ],
+      "expected": [
+        5
+      ]
+    },
+    {
+      "width": 1366,
+      "kind": "cancel-start",
+      "query": "2027-03-01(월)",
+      "visible": [],
+      "expected": [
+        5
+      ]
+    },
+    {
+      "width": 1366,
+      "kind": "cancel-end",
+      "query": "2027-03-04",
+      "visible": [],
+      "expected": [
+        5
+      ]
+    },
+    {
+      "width": 1366,
+      "kind": "cancel-end",
+      "query": "2027-03-04(목)",
+      "visible": [],
+      "expected": [
+        5
+      ]
+    },
+    {
+      "width": 1024,
+      "kind": "new-start",
+      "query": "2027-01-05",
+      "visible": [
+        1
+      ],
+      "expected": [
+        1
+      ]
+    },
+    {
+      "width": 1024,
+      "kind": "new-start",
+      "query": "2027-01-05(화)",
+      "visible": [],
+      "expected": [
+        1
+      ]
+    },
+    {
+      "width": 1024,
+      "kind": "new-end",
+      "query": "2027-01-08",
+      "visible": [],
+      "expected": [
+        1
+      ]
+    },
+    {
+      "width": 1024,
+      "kind": "new-end",
+      "query": "2027-01-08(금)",
+      "visible": [],
+      "expected": [
+        1
+      ]
+    },
+    {
+      "width": 1024,
+      "kind": "old-start",
+      "query": "2027-02-01",
+      "visible": [],
+      "expected": [
+        3
+      ]
+    },
+    {
+      "width": 1024,
+      "kind": "old-start",
+      "query": "2027-02-01(월)",
+      "visible": [],
+      "expected": [
+        3
+      ]
+    },
+    {
+      "width": 1024,
+      "kind": "old-end",
+      "query": "2027-02-02",
+      "visible": [],
+      "expected": [
+        3
+      ]
+    },
+    {
+      "width": 1024,
+      "kind": "old-end",
+      "query": "2027-02-02(화)",
+      "visible": [],
+      "expected": [
+        3
+      ]
+    },
+    {
+      "width": 1024,
+      "kind": "changed-start",
+      "query": "2027-02-03",
+      "visible": [
+        3
+      ],
+      "expected": [
+        3
+      ]
+    },
+    {
+      "width": 1024,
+      "kind": "changed-start",
+      "query": "2027-02-03(수)",
+      "visible": [],
+      "expected": [
+        3
+      ]
+    },
+    {
+      "width": 1024,
+      "kind": "changed-end",
+      "query": "2027-02-06",
+      "visible": [],
+      "expected": [
+        3
+      ]
+    },
+    {
+      "width": 1024,
+      "kind": "changed-end",
+      "query": "2027-02-06(토)",
+      "visible": [],
+      "expected": [
+        3
+      ]
+    },
+    {
+      "width": 1024,
+      "kind": "cancel-start",
+      "query": "2027-03-01",
+      "visible": [
+        5
+      ],
+      "expected": [
+        5
+      ]
+    },
+    {
+      "width": 1024,
+      "kind": "cancel-start",
+      "query": "2027-03-01(월)",
+      "visible": [],
+      "expected": [
+        5
+      ]
+    },
+    {
+      "width": 1024,
+      "kind": "cancel-end",
+      "query": "2027-03-04",
+      "visible": [],
+      "expected": [
+        5
+      ]
+    },
+    {
+      "width": 1024,
+      "kind": "cancel-end",
+      "query": "2027-03-04(목)",
+      "visible": [],
+      "expected": [
+        5
+      ]
+    }
+  ],
+  "errors": [],
+  "fixture": [
+    {
+      "id": 6,
+      "kind": "SUBSTITUTE",
+      "status": "PENDING",
+      "education": null
+    },
+    {
+      "id": 5,
+      "kind": "ABSENCE_CANCEL",
+      "status": "PENDING",
+      "education": {
+        "title": "업무 안전 연수",
+        "location": "",
+        "provider": "",
+        "preparation": "",
+        "content": "",
+        "notes": "회의 자료 준비"
+      }
+    },
+    {
+      "id": 3,
+      "kind": "ABSENCE",
+      "status": "PENDING",
+      "education": {
+        "title": "업무 안전 연수",
+        "location": "",
+        "provider": "",
+        "preparation": "",
+        "content": "",
+        "notes": "회의 자료 준비"
+      }
+    },
+    {
+      "id": 1,
+      "kind": "ABSENCE",
+      "status": "PENDING",
+      "education": {
+        "title": "업무 안전 연수",
+        "location": "",
+        "provider": "",
+        "preparation": "",
+        "content": "",
+        "notes": "회의 자료 준비"
+      }
+    }
+  ]
+}

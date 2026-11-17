@@ -1,0 +1,50 @@
+{
+  "checks": [
+    {
+      "name": "새 사원 입력 최대4자 안내",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "name": "암호 취소 시 이름과 원래 입력창 유지",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "name": "취소 후 입력란 초점 복귀",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "name": "취소 시 DB 등록 없음",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "name": "4자 이름 실제 등록 및 입력 초기화",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "name": "5자 우회 입력을 저장 전에 거절",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "name": "한글 조합 중 Enter로 조기 등록하지 않음",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "name": "닫은 뒤 본화면 사용 가능",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "name": "브라우저 오류 없음",
+      "passed": true,
+      "evidence": []
+    }
+  ],
+  "errors": []
+}

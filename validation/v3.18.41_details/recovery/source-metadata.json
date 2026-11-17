@@ -1,0 +1,13 @@
+{
+  "recordedAtUtc": "2026-11-17T20:30:11.003490+00:00",
+  "gitHead": "dc51d7e593a9b54aeed8f6085bd9d5ba9e4e7992",
+  "sourceSha256": {
+    "frontend/dist/request_access.js": "91d39b99223748585009a23d4d1526102d760e338af4b42fc22721080fdbaa29",
+    "frontend/dist/usability_common.js": "dc13b4f5f817b1c61f0d4d092d3f05078937c783fff3ec3a4ce258ad73aaa079",
+    "frontend/dist/index.html": "990c16d0c1937a40798bd1b655b968c493f3ba347f1f946fdd852d975d7aae78"
+  },
+  "browserCommand": "python3 validation/v3.18.41_details/recovery/browser_proof.py green",
+  "nodeCommand": "node --test --test-isolation=none tests/frontend/request_access_recovery.test.cjs tests/frontend/request_access_session.test.cjs tests/frontend/request_access_lookup.test.cjs",
+  "pythonExecutable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+  "chromium": "/usr/bin/chromium"
+}

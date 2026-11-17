@@ -1,0 +1,182 @@
+TAP version 13
+# Subtest: new absence searches every visible period endpoint using ISO dates and displayed weekdays
+not ok 1 - new absence searches every visible period endpoint using ISO dates and displayed weekdays
+  ---
+  duration_ms: 16.37687
+  type: 'test'
+  location: '/workspace/onair-github-build/tests/frontend/approval_search_dates.test.cjs:8:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    2027-01-04
+    + actual - expected
+    
+    + []
+    - [
+    -   1
+    - ]
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0: 1
+  actual:
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (/workspace/onair-github-build/tests/frontend/approval_search_dates.test.cjs:10:88)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.start (node:internal/test_runner/test:1242:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17)
+  ...
+# Subtest: amendment searches original dates, actual original segments, and requested dates
+not ok 2 - amendment searches original dates, actual original segments, and requested dates
+  ---
+  duration_ms: 2.230518
+  type: 'test'
+  location: '/workspace/onair-github-build/tests/frontend/approval_search_dates.test.cjs:13:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    2026-11-02
+    + actual - expected
+    
+    + []
+    - [
+    -   2
+    - ]
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0: 2
+  actual:
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (/workspace/onair-github-build/tests/frontend/approval_search_dates.test.cjs:15:120)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+  ...
+# Subtest: cancellation searches the ranges actually shown and falls back to request endpoints
+not ok 3 - cancellation searches the ranges actually shown and falls back to request endpoints
+  ---
+  duration_ms: 2.92816
+  type: 'test'
+  location: '/workspace/onair-github-build/tests/frontend/approval_search_dates.test.cjs:18:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    2026-11-02(월)
+    + actual - expected
+    
+    + []
+    - [
+    -   3
+    - ]
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0: 3
+  actual:
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (/workspace/onair-github-build/tests/frontend/approval_search_dates.test.cjs:20:94)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: search includes education text without exposing JSON keys or mutating filtered rows
+not ok 4 - search includes education text without exposing JSON keys or mutating filtered rows
+  ---
+  duration_ms: 2.454269
+  type: 'test'
+  location: '/workspace/onair-github-build/tests/frontend/approval_search_dates.test.cjs:24:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+    + [
+    +   5
+    + ]
+    - []
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+    0: 5
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (/workspace/onair-github-build/tests/frontend/approval_search_dates.test.cjs:26:99)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: same dialog saves A to B and back to A against the last successful submission
+not ok 5 - same dialog saves A to B and back to A against the last successful submission
+  ---
+  duration_ms: 2.758118
+  type: 'test'
+  location: '/workspace/onair-github-build/tests/frontend/settings_save.test.cjs:20:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    returning to the initial value must send another save
+    
+    1 !== 2
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 2
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/workspace/onair-github-build/tests/frontend/settings_save.test.cjs:23:9)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: save locks concurrent submissions and preserves edits made while awaiting success
+not ok 6 - save locks concurrent submissions and preserves edits made while awaiting success
+  ---
+  duration_ms: 1.177872
+  type: 'test'
+  location: '/workspace/onair-github-build/tests/frontend/settings_save.test.cjs:28:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    false !== true
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/workspace/onair-github-build/tests/frontend/settings_save.test.cjs:30:9)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: failed save keeps the draft and comparison baseline available for retry
+ok 7 - failed save keeps the draft and comparison baseline available for retry
+  ---
+  duration_ms: 1.738391
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 1
+# fail 6
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 60.970111

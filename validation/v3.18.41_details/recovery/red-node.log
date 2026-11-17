@@ -1,0 +1,180 @@
+✖ recovery registers one common close callback and restores its opener (18.051419ms)
+✖ employee manual and polling refresh preserve the corresponding focused control and panel scroll (4.811024ms)
+✖ successful latest employee refresh clears a previous read failure without clearing it on failure (1.808725ms)
+✖ candidate checkbox selection keeps its DOM focus and list scroll while invalidating approval (2.499326ms)
+✖ admin refresh preserves an edited search and clears its previous read error on success (1.483263ms)
+✖ a delayed employee response cannot render or claim after the selected name changes (3.914458ms)
+✖ a delayed admin candidate response cannot replace the list after navigating back (1.71771ms)
+✖ closing invalidates pending recovery reads and their errors across reopening (1.172443ms)
+✔ admin recovery arrivals survive reload, detect equal-count replacements, and clear only on successful reads (1.612414ms)
+✔ admin searches historical pages, explicitly selects roots, previews digest and approves only selected scope (3.102417ms)
+✔ claimed recovery stays storing until verified completion and retries same claim operation (1.522892ms)
+✔ polling pauses hidden documents and refreshes immediately when visible (1.945717ms)
+✔ changing employee never claims or renders another employee recovery (1.098053ms)
+✔ durable retry survives reload with only digest and operation id in metadata (3.761912ms)
+✔ blocked admin preview cannot be approved even by direct handler call (1.149289ms)
+✔ changing selection during preview invalidates its approval digest (1.462843ms)
+✔ approved claim failures remain retryable without false completion (0.938127ms)
+✔ transient bootstrap receipt failure can retry with the valid session and write contract (0.705172ms)
+✔ disabled recovery permits a safe legacy amendment without a pending durable operation (0.897297ms)
+✔ disabled feature never falls back for an unresolved durable operation after reload (2.413499ms)
+✔ feature disabled after bootstrap safely falls back only for a fresh durable operation (0.833161ms)
+✔ candidate metadata and exclusions are readable and guarded GET requests carry the write contract (1.242647ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 14
+ℹ fail 8
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 79.112569
+
+✖ failing tests:
+
+test at tests/frontend/request_access_recovery.test.cjs:28:1
+✖ recovery registers one common close callback and restores its opener (18.051419ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'undefined'
+  - 'function'
+  
+      at TestContext.<anonymous> (/workspace/onair-github-build/tests/frontend/request_access_recovery.test.cjs:30:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'undefined',
+    expected: 'function',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/frontend/request_access_recovery.test.cjs:35:1
+✖ employee manual and polling refresh preserve the corresponding focused control and panel scroll (4.811024ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(a.document.activeElement===action(a,'refresh'))
+  
+      at TestContext.<anonymous> (/workspace/onair-github-build/tests/frontend/request_access_recovery.test.cjs:37:31)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/frontend/request_access_recovery.test.cjs:40:1
+✖ successful latest employee refresh clears a previous read failure without clearing it on failure (1.808725ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'temporary recovery failure'
+  - ''
+  
+      at TestContext.<anonymous> (/workspace/onair-github-build/tests/frontend/request_access_recovery.test.cjs:43:42)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'temporary recovery failure',
+    expected: '',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/frontend/request_access_recovery.test.cjs:45:1
+✖ candidate checkbox selection keeps its DOM focus and list scroll while invalidating approval (2.499326ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(a.document.activeElement===checkbox)
+  
+      at TestContext.<anonymous> (/workspace/onair-github-build/tests/frontend/request_access_recovery.test.cjs:48:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/frontend/request_access_recovery.test.cjs:51:1
+✖ admin refresh preserves an edited search and clears its previous read error on success (1.483263ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'admin temporary failure'
+  - ''
+  
+      at TestContext.<anonymous> (/workspace/onair-github-build/tests/frontend/request_access_recovery.test.cjs:54:42)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'admin temporary failure',
+    expected: '',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/frontend/request_access_recovery.test.cjs:56:1
+✖ a delayed employee response cannot render or claim after the selected name changes (3.914458ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '<p>선택한 이름: <b>B</b></p><p>이 PC에서 요청합니다. 관리자가 직원과 대상 신청을 확인한 뒤 권한 연결을 승인합니다.</p><strong>관리자 확인 대기</strong><p>복구 확인 번호 recovery-one</p><p>요청 1970. 1. 1. 오전 12:02:03 · 유효기간 1970. 1. 1. 오전 12:07:36</p><div class="ra-actions"><button type="button" onclick="OnAirRequestAccess.refresh()">다시 확인</button><button type="button" onclick="OnAirRequestAccess.cancel()">복구 요청 철회</button></div>'
+  - ''
+  
+      at TestContext.<anonymous> (/workspace/onair-github-build/tests/frontend/request_access_recovery.test.cjs:58:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '<p>선택한 이름: <b>B</b></p><p>이 PC에서 요청합니다. 관리자가 직원과 대상 신청을 확인한 뒤 권한 연결을 승인합니다.</p><strong>관리자 확인 대기</strong><p>복구 확인 번호 recovery-one</p><p>요청 1970. 1. 1. 오전 12:02:03 · 유효기간 1970. 1. 1. 오전 12:07:36</p><div class="ra-actions"><button type="button" onclick="OnAirRequestAccess.refresh()">다시 확인</button><button type="button" onclick="OnAirRequestAccess.cancel()">복구 요청 철회</button></div>',
+    expected: '',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/frontend/request_access_recovery.test.cjs:60:1
+✖ a delayed admin candidate response cannot replace the list after navigating back (1.71771ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + "Cannot read properties of null (reading 'state')"
+  - ''
+  
+      at TestContext.<anonymous> (/workspace/onair-github-build/tests/frontend/request_access_recovery.test.cjs:62:134)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: "Cannot read properties of null (reading 'state')",
+    expected: '',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/frontend/request_access_recovery.test.cjs:64:1
+✖ closing invalidates pending recovery reads and their errors across reopening (1.172443ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'stale failure'
+  - ''
+  
+      at TestContext.<anonymous> (/workspace/onair-github-build/tests/frontend/request_access_recovery.test.cjs:66:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'stale failure',
+    expected: '',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

@@ -423,7 +423,7 @@ test('request inputs carry the shared maxlength limits',()=>{
  a.run(`window.OnAirUI.open=(id,title,body)=>{globalThis.changeBody=body;document.getElementById(id).classList.add('active');return document.getElementById(id)};window.OnAirRequests.openChange({requester_name:'A',request_type:'SWAP',target_date:'2026-10-14'})`);
  assert.match(a.ctx.changeBody,/<textarea id="ur-change-reason"[^>]*maxlength="500"/);
  const tag=id=>html.match(new RegExp(`<(?:input|textarea)[^>]*id="${id}"[^>]*>`))?.[0]||'';
- for(const [id,len] of [['absence-req-reason',500],['req-reason-input',500],['new-member-name',50],['new-abs-type-input',50],['hol-name',50],['modal-date-comment',1000]])assert.match(tag(id),new RegExp(`maxlength="${len}"`),id);
+ for(const [id,len] of [['absence-req-reason',500],['req-reason-input',500],['new-member-name',4],['new-abs-type-input',50],['hol-name',50],['modal-date-comment',1000]])assert.match(tag(id),new RegExp(`maxlength="${len}"`),id);
 });
 
 // ── v3.18.0 조회용 신청 흐름 ───────────────────────────────────────

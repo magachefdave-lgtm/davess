@@ -1,0 +1,4325 @@
+{
+  "phase": "green",
+  "checks": [
+    {
+      "name": "1920 normal-three period stays inside row",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "김민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 204,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 32.9375,
+            "height": 18,
+            "top": 665.1875,
+            "right": 407.9375,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 33,
+          "scrollWidth": 33,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 461.359375,
+            "y": 665.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 461.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1920 normal-three row has no horizontal clipping",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "김민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 204,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 32.9375,
+            "height": 18,
+            "top": 665.1875,
+            "right": 407.9375,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 33,
+          "scrollWidth": 33,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 461.359375,
+            "y": 665.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 461.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1920 normal-three one line retained",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "김민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 204,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 32.9375,
+            "height": 18,
+            "top": 665.1875,
+            "right": 407.9375,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 33,
+          "scrollWidth": 33,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 461.359375,
+            "y": 665.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 461.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1920 normal-three final weekday readable",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "김민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 204,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 32.9375,
+            "height": 18,
+            "top": 665.1875,
+            "right": 407.9375,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 33,
+          "scrollWidth": 33,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 461.359375,
+            "y": 665.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 461.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1920 normal-three full accessible name and period retained",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "김민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 204,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 32.9375,
+            "height": 18,
+            "top": 665.1875,
+            "right": 407.9375,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 33,
+          "scrollWidth": 33,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 461.359375,
+            "y": 665.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 461.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1920 normal-three normal name fully visible",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "김민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 204,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 32.9375,
+            "height": 18,
+            "top": 665.1875,
+            "right": 407.9375,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 33,
+          "scrollWidth": 33,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 461.359375,
+            "y": 665.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 461.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1920 normal-three keyboard previews full record",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1920 normal-three keyboard focus stays on preview",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1920 normal-four period stays inside row",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "남궁민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 204,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "남궁민수",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 43.921875,
+            "height": 18,
+            "top": 665.1875,
+            "right": 418.921875,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 44,
+          "scrollWidth": 44,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 461.359375,
+            "y": 665.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 461.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "남궁민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1920 normal-four row has no horizontal clipping",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "남궁민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 204,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "남궁민수",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 43.921875,
+            "height": 18,
+            "top": 665.1875,
+            "right": 418.921875,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 44,
+          "scrollWidth": 44,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 461.359375,
+            "y": 665.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 461.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "남궁민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1920 normal-four one line retained",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "남궁민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 204,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "남궁민수",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 43.921875,
+            "height": 18,
+            "top": 665.1875,
+            "right": 418.921875,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 44,
+          "scrollWidth": 44,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 461.359375,
+            "y": 665.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 461.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "남궁민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1920 normal-four final weekday readable",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "남궁민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 204,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "남궁민수",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 43.921875,
+            "height": 18,
+            "top": 665.1875,
+            "right": 418.921875,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 44,
+          "scrollWidth": 44,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 461.359375,
+            "y": 665.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 461.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "남궁민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1920 normal-four full accessible name and period retained",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "남궁민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 204,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "남궁민수",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 43.921875,
+            "height": 18,
+            "top": 665.1875,
+            "right": 418.921875,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 44,
+          "scrollWidth": 44,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 461.359375,
+            "y": 665.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 461.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "남궁민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1920 normal-four normal name fully visible",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "남궁민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 204,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "남궁민수",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 43.921875,
+            "height": 18,
+            "top": 665.1875,
+            "right": 418.921875,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 44,
+          "scrollWidth": 44,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 461.359375,
+            "y": 665.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 461.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "남궁민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1920 normal-four keyboard previews full record",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1920 normal-four keyboard focus stays on preview",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1920 legacy-long period stays inside row",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "김민수테스트긴이름26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 204,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수테스트긴이름",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 82.359375,
+            "height": 18,
+            "top": 665.1875,
+            "right": 457.359375,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 82,
+          "scrollWidth": 99,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 461.359375,
+            "y": 665.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 461.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수테스트긴이름 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1920 legacy-long row has no horizontal clipping",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "김민수테스트긴이름26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 204,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수테스트긴이름",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 82.359375,
+            "height": 18,
+            "top": 665.1875,
+            "right": 457.359375,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 82,
+          "scrollWidth": 99,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 461.359375,
+            "y": 665.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 461.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수테스트긴이름 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1920 legacy-long one line retained",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "김민수테스트긴이름26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 204,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수테스트긴이름",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 82.359375,
+            "height": 18,
+            "top": 665.1875,
+            "right": 457.359375,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 82,
+          "scrollWidth": 99,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 461.359375,
+            "y": 665.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 461.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수테스트긴이름 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1920 legacy-long final weekday readable",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "김민수테스트긴이름26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 204,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수테스트긴이름",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 82.359375,
+            "height": 18,
+            "top": 665.1875,
+            "right": 457.359375,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 82,
+          "scrollWidth": 99,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 461.359375,
+            "y": 665.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 461.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수테스트긴이름 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1920 legacy-long full accessible name and period retained",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "김민수테스트긴이름26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 204,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수테스트긴이름",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 82.359375,
+            "height": 18,
+            "top": 665.1875,
+            "right": 457.359375,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 82,
+          "scrollWidth": 99,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 461.359375,
+            "y": 665.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 461.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수테스트긴이름 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1920 legacy-long legacy name has ellipsis",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "김민수테스트긴이름26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 204,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수테스트긴이름",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 82.359375,
+            "height": 18,
+            "top": 665.1875,
+            "right": 457.359375,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 82,
+          "scrollWidth": 99,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 461.359375,
+            "y": 665.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 461.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수테스트긴이름 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1920 legacy-long keyboard previews full record",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1920 legacy-long keyboard focus stays on preview",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1366 normal-three period stays inside row",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "김민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 204,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 32.953125,
+            "height": 18,
+            "top": 549.6875,
+            "right": 126.953125,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 33,
+          "scrollWidth": 33,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 180.359375,
+            "y": 549.6875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 180.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1366 normal-three row has no horizontal clipping",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "김민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 204,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 32.953125,
+            "height": 18,
+            "top": 549.6875,
+            "right": 126.953125,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 33,
+          "scrollWidth": 33,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 180.359375,
+            "y": 549.6875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 180.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1366 normal-three one line retained",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "김민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 204,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 32.953125,
+            "height": 18,
+            "top": 549.6875,
+            "right": 126.953125,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 33,
+          "scrollWidth": 33,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 180.359375,
+            "y": 549.6875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 180.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1366 normal-three final weekday readable",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "김민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 204,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 32.953125,
+            "height": 18,
+            "top": 549.6875,
+            "right": 126.953125,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 33,
+          "scrollWidth": 33,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 180.359375,
+            "y": 549.6875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 180.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1366 normal-three full accessible name and period retained",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "김민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 204,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 32.953125,
+            "height": 18,
+            "top": 549.6875,
+            "right": 126.953125,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 33,
+          "scrollWidth": 33,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 180.359375,
+            "y": 549.6875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 180.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1366 normal-three normal name fully visible",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "김민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 204,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 32.953125,
+            "height": 18,
+            "top": 549.6875,
+            "right": 126.953125,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 33,
+          "scrollWidth": 33,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 180.359375,
+            "y": 549.6875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 180.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1366 normal-three keyboard previews full record",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1366 normal-three keyboard focus stays on preview",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1366 normal-four period stays inside row",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "남궁민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 204,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "남궁민수",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 43.9375,
+            "height": 18,
+            "top": 549.6875,
+            "right": 137.9375,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 44,
+          "scrollWidth": 44,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 180.359375,
+            "y": 549.6875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 180.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "남궁민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1366 normal-four row has no horizontal clipping",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "남궁민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 204,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "남궁민수",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 43.9375,
+            "height": 18,
+            "top": 549.6875,
+            "right": 137.9375,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 44,
+          "scrollWidth": 44,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 180.359375,
+            "y": 549.6875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 180.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "남궁민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1366 normal-four one line retained",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "남궁민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 204,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "남궁민수",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 43.9375,
+            "height": 18,
+            "top": 549.6875,
+            "right": 137.9375,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 44,
+          "scrollWidth": 44,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 180.359375,
+            "y": 549.6875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 180.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "남궁민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1366 normal-four final weekday readable",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "남궁민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 204,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "남궁민수",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 43.9375,
+            "height": 18,
+            "top": 549.6875,
+            "right": 137.9375,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 44,
+          "scrollWidth": 44,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 180.359375,
+            "y": 549.6875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 180.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "남궁민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1366 normal-four full accessible name and period retained",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "남궁민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 204,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "남궁민수",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 43.9375,
+            "height": 18,
+            "top": 549.6875,
+            "right": 137.9375,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 44,
+          "scrollWidth": 44,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 180.359375,
+            "y": 549.6875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 180.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "남궁민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1366 normal-four normal name fully visible",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "남궁민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 204,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "남궁민수",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 43.9375,
+            "height": 18,
+            "top": 549.6875,
+            "right": 137.9375,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 44,
+          "scrollWidth": 44,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 180.359375,
+            "y": 549.6875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 180.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "남궁민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1366 normal-four keyboard previews full record",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1366 normal-four keyboard focus stays on preview",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1366 legacy-long period stays inside row",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "김민수테스트긴이름26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 204,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수테스트긴이름",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 82.359375,
+            "height": 18,
+            "top": 549.6875,
+            "right": 176.359375,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 82,
+          "scrollWidth": 99,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 180.359375,
+            "y": 549.6875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 180.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수테스트긴이름 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1366 legacy-long row has no horizontal clipping",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "김민수테스트긴이름26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 204,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수테스트긴이름",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 82.359375,
+            "height": 18,
+            "top": 549.6875,
+            "right": 176.359375,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 82,
+          "scrollWidth": 99,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 180.359375,
+            "y": 549.6875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 180.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수테스트긴이름 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1366 legacy-long one line retained",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "김민수테스트긴이름26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 204,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수테스트긴이름",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 82.359375,
+            "height": 18,
+            "top": 549.6875,
+            "right": 176.359375,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 82,
+          "scrollWidth": 99,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 180.359375,
+            "y": 549.6875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 180.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수테스트긴이름 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1366 legacy-long final weekday readable",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "김민수테스트긴이름26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 204,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수테스트긴이름",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 82.359375,
+            "height": 18,
+            "top": 549.6875,
+            "right": 176.359375,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 82,
+          "scrollWidth": 99,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 180.359375,
+            "y": 549.6875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 180.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수테스트긴이름 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1366 legacy-long full accessible name and period retained",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "김민수테스트긴이름26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 204,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수테스트긴이름",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 82.359375,
+            "height": 18,
+            "top": 549.6875,
+            "right": 176.359375,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 82,
+          "scrollWidth": 99,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 180.359375,
+            "y": 549.6875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 180.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수테스트긴이름 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1366 legacy-long legacy name has ellipsis",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "김민수테스트긴이름26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 204,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수테스트긴이름",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 82.359375,
+            "height": 18,
+            "top": 549.6875,
+            "right": 176.359375,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 82,
+          "scrollWidth": 99,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 180.359375,
+            "y": 549.6875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 180.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수테스트긴이름 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1366 legacy-long keyboard previews full record",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1366 legacy-long keyboard focus stays on preview",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1024 normal-three period stays inside row",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "김민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 300,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 300,
+          "scrollWidth": 300,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 32.953125,
+            "height": 18,
+            "top": 515.1875,
+            "right": 394.953125,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 33,
+          "scrollWidth": 33,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 544.359375,
+            "y": 515.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 544.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1024 normal-three row has no horizontal clipping",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "김민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 300,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 300,
+          "scrollWidth": 300,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 32.953125,
+            "height": 18,
+            "top": 515.1875,
+            "right": 394.953125,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 33,
+          "scrollWidth": 33,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 544.359375,
+            "y": 515.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 544.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1024 normal-three one line retained",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "김민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 300,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 300,
+          "scrollWidth": 300,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 32.953125,
+            "height": 18,
+            "top": 515.1875,
+            "right": 394.953125,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 33,
+          "scrollWidth": 33,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 544.359375,
+            "y": 515.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 544.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1024 normal-three final weekday readable",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "김민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 300,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 300,
+          "scrollWidth": 300,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 32.953125,
+            "height": 18,
+            "top": 515.1875,
+            "right": 394.953125,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 33,
+          "scrollWidth": 33,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 544.359375,
+            "y": 515.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 544.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1024 normal-three full accessible name and period retained",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "김민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 300,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 300,
+          "scrollWidth": 300,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 32.953125,
+            "height": 18,
+            "top": 515.1875,
+            "right": 394.953125,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 33,
+          "scrollWidth": 33,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 544.359375,
+            "y": 515.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 544.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1024 normal-three normal name fully visible",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "김민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 300,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 300,
+          "scrollWidth": 300,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 32.953125,
+            "height": 18,
+            "top": 515.1875,
+            "right": 394.953125,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 33,
+          "scrollWidth": 33,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 544.359375,
+            "y": 515.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 544.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1024 normal-three keyboard previews full record",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1024 normal-three keyboard focus stays on preview",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1024 normal-four period stays inside row",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "남궁민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 300,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 300,
+          "scrollWidth": 300,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "남궁민수",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 43.9375,
+            "height": 18,
+            "top": 515.1875,
+            "right": 405.9375,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 44,
+          "scrollWidth": 44,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 544.359375,
+            "y": 515.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 544.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "남궁민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1024 normal-four row has no horizontal clipping",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "남궁민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 300,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 300,
+          "scrollWidth": 300,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "남궁민수",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 43.9375,
+            "height": 18,
+            "top": 515.1875,
+            "right": 405.9375,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 44,
+          "scrollWidth": 44,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 544.359375,
+            "y": 515.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 544.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "남궁민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1024 normal-four one line retained",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "남궁민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 300,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 300,
+          "scrollWidth": 300,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "남궁민수",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 43.9375,
+            "height": 18,
+            "top": 515.1875,
+            "right": 405.9375,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 44,
+          "scrollWidth": 44,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 544.359375,
+            "y": 515.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 544.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "남궁민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1024 normal-four final weekday readable",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "남궁민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 300,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 300,
+          "scrollWidth": 300,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "남궁민수",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 43.9375,
+            "height": 18,
+            "top": 515.1875,
+            "right": 405.9375,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 44,
+          "scrollWidth": 44,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 544.359375,
+            "y": 515.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 544.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "남궁민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1024 normal-four full accessible name and period retained",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "남궁민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 300,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 300,
+          "scrollWidth": 300,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "남궁민수",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 43.9375,
+            "height": 18,
+            "top": 515.1875,
+            "right": 405.9375,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 44,
+          "scrollWidth": 44,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 544.359375,
+            "y": 515.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 544.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "남궁민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1024 normal-four normal name fully visible",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "남궁민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 300,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 300,
+          "scrollWidth": 300,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "남궁민수",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 43.9375,
+            "height": 18,
+            "top": 515.1875,
+            "right": 405.9375,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 44,
+          "scrollWidth": 44,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 544.359375,
+            "y": 515.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 544.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "남궁민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1024 normal-four keyboard previews full record",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1024 normal-four keyboard focus stays on preview",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1024 legacy-long period stays inside row",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "김민수테스트긴이름26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 300,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 300,
+          "scrollWidth": 300,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수테스트긴이름",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 98.828125,
+            "height": 18,
+            "top": 515.1875,
+            "right": 460.828125,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 99,
+          "scrollWidth": 99,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 544.359375,
+            "y": 515.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 544.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수테스트긴이름 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1024 legacy-long row has no horizontal clipping",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "김민수테스트긴이름26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 300,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 300,
+          "scrollWidth": 300,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수테스트긴이름",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 98.828125,
+            "height": 18,
+            "top": 515.1875,
+            "right": 460.828125,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 99,
+          "scrollWidth": 99,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 544.359375,
+            "y": 515.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 544.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수테스트긴이름 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1024 legacy-long one line retained",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "김민수테스트긴이름26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 300,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 300,
+          "scrollWidth": 300,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수테스트긴이름",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 98.828125,
+            "height": 18,
+            "top": 515.1875,
+            "right": 460.828125,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 99,
+          "scrollWidth": 99,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 544.359375,
+            "y": 515.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 544.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수테스트긴이름 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1024 legacy-long final weekday readable",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "김민수테스트긴이름26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 300,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 300,
+          "scrollWidth": 300,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수테스트긴이름",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 98.828125,
+            "height": 18,
+            "top": 515.1875,
+            "right": 460.828125,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 99,
+          "scrollWidth": 99,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 544.359375,
+            "y": 515.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 544.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수테스트긴이름 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1024 legacy-long full accessible name and period retained",
+      "passed": true,
+      "detail": {
+        "line": {
+          "text": "김민수테스트긴이름26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 300,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 300,
+          "scrollWidth": 300,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수테스트긴이름",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 98.828125,
+            "height": 18,
+            "top": 515.1875,
+            "right": 460.828125,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 99,
+          "scrollWidth": 99,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 544.359375,
+            "y": 515.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 544.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수테스트긴이름 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "name": "1024 legacy-long keyboard previews full record",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1024 legacy-long keyboard focus stays on preview",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "cases": [
+    {
+      "width": 1920,
+      "height": 1080,
+      "case": "normal-three",
+      "geometry": {
+        "line": {
+          "text": "김민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 204,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 32.9375,
+            "height": 18,
+            "top": 665.1875,
+            "right": 407.9375,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 33,
+          "scrollWidth": 33,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 461.359375,
+            "y": 665.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 461.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "case": "normal-four",
+      "geometry": {
+        "line": {
+          "text": "남궁민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 204,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "남궁민수",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 43.921875,
+            "height": 18,
+            "top": 665.1875,
+            "right": 418.921875,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 44,
+          "scrollWidth": 44,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 461.359375,
+            "y": 665.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 461.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "남궁민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "case": "legacy-long",
+      "geometry": {
+        "line": {
+          "text": "김민수테스트긴이름26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 204,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수테스트긴이름",
+          "rect": {
+            "x": 375,
+            "y": 665.1875,
+            "width": 82.359375,
+            "height": 18,
+            "top": 665.1875,
+            "right": 457.359375,
+            "bottom": 683.1875,
+            "left": 375
+          },
+          "width": 82,
+          "scrollWidth": 99,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 461.359375,
+            "y": 665.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 665.1875,
+            "right": 579,
+            "bottom": 683.1875,
+            "left": 461.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수테스트긴이름 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "width": 1366,
+      "height": 768,
+      "case": "normal-three",
+      "geometry": {
+        "line": {
+          "text": "김민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 204,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 32.953125,
+            "height": 18,
+            "top": 549.6875,
+            "right": 126.953125,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 33,
+          "scrollWidth": 33,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 180.359375,
+            "y": 549.6875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 180.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "width": 1366,
+      "height": 768,
+      "case": "normal-four",
+      "geometry": {
+        "line": {
+          "text": "남궁민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 204,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "남궁민수",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 43.9375,
+            "height": 18,
+            "top": 549.6875,
+            "right": 137.9375,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 44,
+          "scrollWidth": 44,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 180.359375,
+            "y": 549.6875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 180.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "남궁민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "width": 1366,
+      "height": 768,
+      "case": "legacy-long",
+      "geometry": {
+        "line": {
+          "text": "김민수테스트긴이름26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 204,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 204,
+          "scrollWidth": 204,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수테스트긴이름",
+          "rect": {
+            "x": 94,
+            "y": 549.6875,
+            "width": 82.359375,
+            "height": 18,
+            "top": 549.6875,
+            "right": 176.359375,
+            "bottom": 567.6875,
+            "left": 94
+          },
+          "width": 82,
+          "scrollWidth": 99,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 180.359375,
+            "y": 549.6875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 549.6875,
+            "right": 298,
+            "bottom": 567.6875,
+            "left": 180.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수테스트긴이름 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "width": 1024,
+      "height": 768,
+      "case": "normal-three",
+      "geometry": {
+        "line": {
+          "text": "김민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 300,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 300,
+          "scrollWidth": 300,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 32.953125,
+            "height": 18,
+            "top": 515.1875,
+            "right": 394.953125,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 33,
+          "scrollWidth": 33,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 544.359375,
+            "y": 515.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 544.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "width": 1024,
+      "height": 768,
+      "case": "normal-four",
+      "geometry": {
+        "line": {
+          "text": "남궁민수26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 300,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 300,
+          "scrollWidth": 300,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "남궁민수",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 43.9375,
+            "height": 18,
+            "top": 515.1875,
+            "right": 405.9375,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 44,
+          "scrollWidth": 44,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 544.359375,
+            "y": 515.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 544.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "남궁민수 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    },
+    {
+      "width": 1024,
+      "height": 768,
+      "case": "legacy-long",
+      "geometry": {
+        "line": {
+          "text": "김민수테스트긴이름26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 300,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 300,
+          "scrollWidth": 300,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "person": {
+          "text": "김민수테스트긴이름",
+          "rect": {
+            "x": 362,
+            "y": 515.1875,
+            "width": 98.828125,
+            "height": 18,
+            "top": 515.1875,
+            "right": 460.828125,
+            "bottom": 533.1875,
+            "left": 362
+          },
+          "width": 99,
+          "scrollWidth": 99,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "ellipsis",
+          "overflow": "hidden"
+        },
+        "period": {
+          "text": "26.10.01(목)~27.03.31(수)",
+          "rect": {
+            "x": 544.359375,
+            "y": 515.1875,
+            "width": 117.640625,
+            "height": 18,
+            "top": 515.1875,
+            "right": 662,
+            "bottom": 533.1875,
+            "left": 544.359375
+          },
+          "width": 118,
+          "scrollWidth": 118,
+          "height": 18,
+          "scrollHeight": 18,
+          "whiteSpace": "nowrap",
+          "textOverflow": "clip",
+          "overflow": "visible"
+        },
+        "label": "김민수테스트긴이름 파견 2026.10.01(목) ~ 2027.03.31(수) 달력에서 보기",
+        "periodTitle": "2026.10.01(목) ~ 2027.03.31(수)"
+      }
+    }
+  ],
+  "errors": [],
+  "passed": 71,
+  "failed": 0
+}

@@ -1,0 +1,69 @@
+✖ cancelled member authentication retains the typed name (4.423139ms)
+✖ a programmatic five-character name is rejected before a write (0.803698ms)
+✖ successful registration clears its input after the save completes (0.821504ms)
+✔ save completion preserves a different next name typed while waiting (0.644533ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 1
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 21.315763
+
+✖ failing tests:
+
+test at tests/frontend/member_registration.test.cjs:10:1
+✖ cancelled member authentication retains the typed name (4.423139ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  '' !== '남궁민수'
+  
+      at TestContext.<anonymous> (/workspace/onair-github-build/tests/frontend/member_registration.test.cjs:10:124)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: '남궁민수',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/frontend/member_registration.test.cjs:11:1
+✖ a programmatic five-character name is rejected before a write (0.803698ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (/workspace/onair-github-build/tests/frontend/member_registration.test.cjs:11:132)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/frontend/member_registration.test.cjs:12:1
+✖ successful registration clears its input after the save completes (0.821504ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  '' !== '남궁민수'
+  
+      at TestContext.<anonymous> (/workspace/onair-github-build/tests/frontend/member_registration.test.cjs:12:182)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: '남궁민수',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

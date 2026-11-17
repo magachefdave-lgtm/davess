@@ -364,7 +364,9 @@
     }
     var save = box.querySelector("#set-save");
     if (save) {
+      var settingsSaving = false;
       save.onclick = async function () {
+        if (settingsSaving) return;
         var settings = {};
         var passBox = box.querySelector("#set-pass");
         var pass = passBox ? passBox.value : "";
@@ -381,8 +383,18 @@
         if (!Object.keys(settings).length) { out.textContent = "바뀐 값이 없습니다."; return; }
         out.style.color = "";
         out.textContent = "저장 중…";
-        try { out.textContent = await act("save_settings", { settings: settings }); }
+        settingsSaving = true;
+        save.disabled = true;
+        try {
+          out.textContent = await act("save_settings", { settings: settings });
+          // Compare the next save with what reached the file, not edits made while awaiting it.
+          Object.keys(fields).forEach(function (k) {
+            if (Object.prototype.hasOwnProperty.call(settings, k)) d.settings[k] = settings[k];
+          });
+          if (Object.prototype.hasOwnProperty.call(settings, "admin_password")) d.settings.admin_password_set = !!settings.admin_password;
+        }
         catch (e) { out.style.color = "var(--holiday-text)"; out.textContent = friendly(e, null, "설정 저장"); }
+        finally { settingsSaving = false; save.disabled = false; }
       };
     }
   }

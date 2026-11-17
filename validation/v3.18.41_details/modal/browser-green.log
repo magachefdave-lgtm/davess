@@ -1,0 +1,115 @@
+PASS 1366: Rule Tab stays inside
+PASS 1366: Rule Enter cannot activate background auto assignment
+PASS 1366: rule last Tab remains in modal
+PASS 1366: rule first Shift+Tab remains in modal
+PASS 1366: rule lost focus Tab recovers into modal
+PASS 1366: close returns to rule opener
+PASS 1366: member-modal initial focus
+PASS 1366: member-modal last Tab remains in modal
+PASS 1366: member-modal first Shift+Tab remains in modal
+PASS 1366: member-modal lost focus Tab recovers into modal
+PASS 1366: member-modal clean Escape closes
+PASS 1366: member-modal close returns to visible opener
+PASS 1366: stats-modal initial focus
+PASS 1366: stats-modal last Tab remains in modal
+PASS 1366: stats-modal first Shift+Tab remains in modal
+PASS 1366: stats-modal lost focus Tab recovers into modal
+PASS 1366: stats-modal clean Escape closes
+PASS 1366: stats-modal close returns to visible opener
+PASS 1366: history-modal initial focus
+PASS 1366: history-modal last Tab remains in modal
+PASS 1366: history-modal first Shift+Tab remains in modal
+PASS 1366: history-modal lost focus Tab recovers into modal
+PASS 1366: history-modal clean Escape closes
+PASS 1366: history-modal close returns to visible opener
+PASS 1366: festival-modal initial focus
+PASS 1366: festival-modal last Tab remains in modal
+PASS 1366: festival-modal first Shift+Tab remains in modal
+PASS 1366: festival-modal lost focus Tab recovers into modal
+PASS 1366: festival-modal clean Escape closes
+PASS 1366: festival-modal close returns to visible opener
+PASS 1366: holiday-modal initial focus
+PASS 1366: holiday-modal last Tab remains in modal
+PASS 1366: holiday-modal first Shift+Tab remains in modal
+PASS 1366: holiday-modal lost focus Tab recovers into modal
+PASS 1366: holiday-modal clean Escape closes
+PASS 1366: holiday-modal close returns to visible opener
+PASS 1366: discard last Tab remains in modal
+PASS 1366: discard first Shift+Tab remains in modal
+PASS 1366: discard lost focus Tab recovers into modal
+PASS 1366: discard visually top
+PASS 1366: child Escape preserves dirty rule and focus
+PASS 1366: password last Tab remains in modal
+PASS 1366: password first Shift+Tab remains in modal
+PASS 1366: password lost focus Tab recovers into modal
+PASS 1366: password visually top
+PASS 1366: password Escape preserves dirty parent and focus
+PASS 1366: dynamic content refresh does not steal focus
+PASS 1366: parent refresh preserves child focus and top layer
+PASS 1366: refreshed parent remains visually below child
+PASS 1366: child Escape after parent refresh preserves parent
+PASS 1366: dynamic last Tab remains in modal
+PASS 1366: dynamic first Shift+Tab remains in modal
+PASS 1366: dynamic lost focus Tab recovers into modal
+PASS 1366: dynamic Escape leaves original parent
+PASS 1920: Rule Tab stays inside
+PASS 1920: Rule Enter cannot activate background auto assignment
+PASS 1920: rule last Tab remains in modal
+PASS 1920: rule first Shift+Tab remains in modal
+PASS 1920: rule lost focus Tab recovers into modal
+PASS 1920: close returns to rule opener
+PASS 1920: member-modal initial focus
+PASS 1920: member-modal last Tab remains in modal
+PASS 1920: member-modal first Shift+Tab remains in modal
+PASS 1920: member-modal lost focus Tab recovers into modal
+PASS 1920: member-modal clean Escape closes
+PASS 1920: member-modal close returns to visible opener
+PASS 1920: stats-modal initial focus
+PASS 1920: stats-modal last Tab remains in modal
+PASS 1920: stats-modal first Shift+Tab remains in modal
+PASS 1920: stats-modal lost focus Tab recovers into modal
+PASS 1920: stats-modal clean Escape closes
+PASS 1920: stats-modal close returns to visible opener
+PASS 1920: history-modal initial focus
+PASS 1920: history-modal last Tab remains in modal
+PASS 1920: history-modal first Shift+Tab remains in modal
+PASS 1920: history-modal lost focus Tab recovers into modal
+PASS 1920: history-modal clean Escape closes
+PASS 1920: history-modal close returns to visible opener
+PASS 1920: festival-modal initial focus
+PASS 1920: festival-modal last Tab remains in modal
+PASS 1920: festival-modal first Shift+Tab remains in modal
+PASS 1920: festival-modal lost focus Tab recovers into modal
+PASS 1920: festival-modal clean Escape closes
+PASS 1920: festival-modal close returns to visible opener
+PASS 1920: holiday-modal initial focus
+PASS 1920: holiday-modal last Tab remains in modal
+PASS 1920: holiday-modal first Shift+Tab remains in modal
+PASS 1920: holiday-modal lost focus Tab recovers into modal
+PASS 1920: holiday-modal clean Escape closes
+PASS 1920: holiday-modal close returns to visible opener
+PASS 1920: discard last Tab remains in modal
+PASS 1920: discard first Shift+Tab remains in modal
+PASS 1920: discard lost focus Tab recovers into modal
+PASS 1920: discard visually top
+PASS 1920: child Escape preserves dirty rule and focus
+PASS 1920: password last Tab remains in modal
+PASS 1920: password first Shift+Tab remains in modal
+PASS 1920: password lost focus Tab recovers into modal
+PASS 1920: password visually top
+PASS 1920: password Escape preserves dirty parent and focus
+PASS 1920: dynamic content refresh does not steal focus
+PASS 1920: parent refresh preserves child focus and top layer
+PASS 1920: refreshed parent remains visually below child
+PASS 1920: child Escape after parent refresh preserves parent
+PASS 1920: dynamic last Tab remains in modal
+PASS 1920: dynamic first Shift+Tab remains in modal
+PASS 1920: dynamic lost focus Tab recovers into modal
+PASS 1920: dynamic Escape leaves original parent
+PASS Connection password cancellation leaves parent and focus
+PASS Second Escape closes connection parent
+PASS 1366: calendar Escape cancels anchor before closing editor
+PASS 1366: next Escape closes editor after selection cancel
+PASS 1920: calendar Escape cancels anchor before closing editor
+PASS 1920: next Escape closes editor after selection cancel
+{"checks": 114, "failed": 0, "errors": []}

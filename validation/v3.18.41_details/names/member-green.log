@@ -1,0 +1,12 @@
+✔ cancelled member authentication retains the typed name (4.184405ms)
+✔ a programmatic five-character name is rejected before a write (1.043312ms)
+✔ successful registration clears its input after the save completes (0.67004ms)
+✔ save completion preserves a different next name typed while waiting (0.684522ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 27.305776

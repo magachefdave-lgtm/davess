@@ -1,0 +1,55 @@
+{
+  "checks": [
+    {
+      "name": "1366: Rule Tab stays inside",
+      "passed": false,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": null,
+        "open": [
+          "rule-modal"
+        ],
+        "top": null
+      }
+    },
+    {
+      "name": "1366: Rule Enter cannot activate background auto assignment",
+      "passed": false,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": null,
+        "open": [
+          "rule-modal",
+          "scope-modal"
+        ],
+        "top": null
+      }
+    },
+    {
+      "name": "1920: Rule Tab stays inside",
+      "passed": false,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": null,
+        "open": [
+          "rule-modal"
+        ],
+        "top": null
+      }
+    },
+    {
+      "name": "1920: Rule Enter cannot activate background auto assignment",
+      "passed": false,
+      "detail": {
+        "focus": "BUTTON",
+        "modal": null,
+        "open": [
+          "rule-modal",
+          "scope-modal"
+        ],
+        "top": null
+      }
+    }
+  ],
+  "errors": []
+}

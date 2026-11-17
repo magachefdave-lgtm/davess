@@ -1,0 +1,5 @@
+FAIL 1366: calendar Escape cancels anchor before closing editor
+PASS 1366: next Escape closes editor after selection cancel
+FAIL 1920: calendar Escape cancels anchor before closing editor
+PASS 1920: next Escape closes editor after selection cancel
+{"checks": 4, "failed": 2, "errors": []}

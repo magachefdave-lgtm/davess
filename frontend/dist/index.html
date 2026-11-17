@@ -3442,7 +3442,7 @@
     <div class="modal-body">
       <div class="modal-head"><div class="modal-title">사원 명단 관리</div><button onclick="closeMemberModal()">✕</button></div>
       <div style="display:flex; gap:6px; background:var(--surface); padding:10px; border-radius:8px; flex-wrap:wrap; align-items:center;">
-        <input type="text" id="new-member-name" maxlength="50" style="flex:1; min-width:140px; padding:6px;" placeholder="사원 이름" onkeydown="if(event.key==='Enter') addMember()">
+        <input type="text" id="new-member-name" maxlength="4" style="flex:1; min-width:140px; padding:6px;" placeholder="사원 이름 (최대 4자)" onkeydown="if(event.key==='Enter' && !event.isComposing) addMember()">
         <label><input type="radio" name="new-gender" value="M" checked> 남</label>
         <label><input type="radio" name="new-gender" value="F"> 여</label>
         <button class="btn-main" onclick="addMember()">추가</button>
@@ -8057,13 +8057,19 @@
       const name = input.value.trim();
       const gender = document.querySelector('input[name="new-gender"]:checked').value;
       if (!name) return;
+      if (Array.from(name).length > 4) {
+        showToast("새 사원 이름은 4자 이내로 입력해 주세요.", true);
+        input.focus(); return;
+      }
       if (memberList.some(m => m.name === name)) return showToast(`⚠️ ${josa(name, '은/는')} 이미 사원 명단에 있습니다.`, true);
       memberList.push({ id: Date.now(), name, gender });
-      input.value = "";
       const h = makeHistory("사원 추가", todayStr, `'${name}' (${gender === 'M' ? '남' : '여'}) 등록`);
       const ok = await syncFullDataToBackend({ members: memberList, historyLog: h });
       renderMemberModalList();
-      if (ok) showToast(`👤 ${name} 님을 사원 명단에 추가했습니다.`);
+      if (ok) {
+        if (input.value.trim() === name) input.value = "";
+        showToast(`👤 ${name} 님을 사원 명단에 추가했습니다.`);
+      } else if (document.getElementById("member-modal").classList.contains("active")) input.focus();
     }
 
     async function removeMember(id) {
@@ -10192,10 +10198,13 @@
     }
 
     document.addEventListener("keydown", (e) => {
-      if (e.key !== "Escape") return;
-      // 펼침 메뉴가 열려 있으면 그것부터 닫는다 (화면에서 가장 위에 있다).
+      if (e.key !== "Escape" || e.defaultPrevented) return;
+      // 공통 생명주기는 실제 최상위 창의 원래 닫기 규칙을 한 번만 실행한다.
+      if (window.OnAirUI?.closeTop?.()) {
+        e.preventDefault(); e.stopImmediatePropagation(); return;
+      }
       if (anyMenuPopOpen()) { closeMenuPops(); return; }
-      // 가장 나중에 열린(위에 있는) 창부터 닫는다.
+      // 공통 스크립트를 읽지 못한 경우에도 기존 닫기 규칙은 유지한다.
       for (let i = MODAL_CLOSERS.length - 1; i >= 0; i--) {
         const [id, close] = MODAL_CLOSERS[i];
         if (isModalOpen(id)) {
@@ -10216,6 +10225,8 @@
       const box = e.target;
       if (box !== modalPressTarget) return;
       if (!box || !box.classList || !box.classList.contains("modal")) return;
+      const top = window.OnAirUI?.top?.();
+      if (top && top !== box) return;
       const entry = MODAL_CLOSERS.find(pair => pair[0] === box.id);
       if (!entry) return;
       try { entry[1](); } catch (err) { console.warn("바깥 클릭 닫기 실패:", box.id, err); }

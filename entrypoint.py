@@ -5,7 +5,7 @@ import runpy
 import sys
 
 BUILD_ROLE = 'ADMIN'
-APP_VERSION = '3.18.40'
+APP_VERSION = '3.18.41'
 
 
 def main():

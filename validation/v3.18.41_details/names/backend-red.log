@@ -1,0 +1,48 @@
+..F..                                                                    [100%]
+=================================== FAILURES ===================================
+_______________ test_five_character_new_name_rejects_entire_save _______________
+
+seeded = <test_backend_regression.App object at 0x7f6a30d5bfe0>
+
+    def test_five_character_new_name_rejects_entire_save(seeded):
+        before=seeded.data()
+        response=seeded.post('/api/duty/save-all',dict(baseVersion=before['dataVersion'],
+            members=before['members']+[dict(id=7,name='홍길동사원',gender='M')],comments={DAY_A:'must not commit'}))
+>       assert response.status_code==400,response.text
+E       AssertionError: {"status":"success","dataVersion":2,"holidaySupplements":{"schema":1,"requiredContract":0,"events":[],"bases":[]}}
+E       assert 200 == 400
+E        +  where 200 = <Response [200 OK]>.status_code
+
+tests/test_member_name_limit.py:21: AssertionError
+------------------------------ Captured log setup ------------------------------
+INFO     smartduty:main.py:128 설정 파일에 없는 항목은 기본값을 사용합니다: shared_folder_path, server_port
+INFO     smartduty:main.py:128 === WLR OnAir 3.18.40 시작 | 모드=ADMIN | 포트=8000 | 바인딩=127.0.0.1 | 암호보호=ON | DB=/tmp/pytest-of-agent/pytest-48/test_five_character_new_name_r0/c4769d944469423a96fbd0fe488ca205/backend/smart_duty.db ===
+INFO     smartduty:main.py:128 change_requests.reject_reason 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.requester_host 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.requester_account 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.absence_details 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.revision 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.approved_history_id 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.amends_request_id 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_requests.amendment_original 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 absences.education_json 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_history.actor 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_history.host 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_history.before_json 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 change_history.after_json 컬럼을 추가했습니다.
+INFO     smartduty:main.py:128 DB 초기화 완료.
+INFO     smartduty:main.py:128 DB 초기화 완료.
+INFO     smartduty:main.py:128 자동 백업 저장: /tmp/pytest-of-agent/pytest-48/test_five_character_new_name_r0/c4769d944469423a96fbd0fe488ca205/backend/backups/smart_duty_2026-11-17.db
+=============================== warnings summary ===============================
+../audit-31712/backend/venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /workspace/audit-31712/backend/venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+../audit-31712/backend/venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /workspace/audit-31712/backend/venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_member_name_limit.py::test_five_character_new_name_rejects_entire_save
+1 failed, 4 passed, 2 warnings in 1.05s
