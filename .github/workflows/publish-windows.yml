@@ -79,10 +79,11 @@ jobs:
         env:
           SOURCE_COMMIT: ${{ steps.build.outputs.commit }}
         run: |
-          if gh release view "v$RELEASE_VERSION" >/dev/null 2>&1; then
-            echo 'An existing release is immutable; use a new version.' >&2
-            exit 1
+          if gh release view "v$RELEASE_VERSION" --json isDraft,assets > release-state.json 2>/dev/null; then
+            python -c 'import json; r=json.load(open("release-state.json")); assert r["isDraft"] and not r["assets"], "Published or populated releases are immutable"'
+            test "$(gh api "repos/$GH_REPO/git/ref/tags/v$RELEASE_VERSION" --jq .object.sha)" = "$SOURCE_COMMIT"
+          else
+            gh release create "v$RELEASE_VERSION" --draft --target "$SOURCE_COMMIT" --title "WLR OnAir v$RELEASE_VERSION Windows Admin and Viewer" --notes-file release-notes.md
           fi
-          gh release create "v$RELEASE_VERSION" --draft --target "$SOURCE_COMMIT" --title "WLR OnAir v$RELEASE_VERSION Windows Admin and Viewer" --notes-file release-notes.md
           gh release upload "v$RELEASE_VERSION" "WLR_OnAir_v${RELEASE_VERSION}_Windows.zip" WINDOWS_SHA256SUMS.txt
           gh release edit "v$RELEASE_VERSION" --draft=false --notes-file release-notes.md
