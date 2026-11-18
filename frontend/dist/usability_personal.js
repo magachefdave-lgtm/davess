@@ -171,8 +171,9 @@
         if (people.every(({name}) => context.measureText(name).width <= tile - 2)) break;
         font--;
       }
-      return {lines:[[tile], [tile]], font, rowHeight:Math.min(36, height / 2),
-        rowGap:0, columnGap:0, tracking:-0.25};
+      const rowGap = Math.min(3, height / 3);
+      return {lines:[[tile], [tile]], font, rowHeight:Math.min(36, (height - rowGap) / 2),
+        rowGap, columnGap:0, tracking:-0.25};
     }
     if (!context) return null;
     let best = null;
@@ -381,10 +382,10 @@
         font-size:var(--vac-label-size)!important; font-weight:700; letter-spacing:var(--vac-name-spacing); line-height:1.06;
       }
       #today-vacation-container[data-layout="pair"] .today-vacation-name { font:inherit; text-align:center; }
-      #today-vacation-container[data-layout="pair"] .today-absence-row:first-child button { border-radius:7px 7px 0 0; }
-      #today-vacation-container[data-layout="pair"] .today-absence-row:last-child button {
-        border-radius:0 0 7px 7px; box-shadow:inset 0 1px var(--border);
+      #today-vacation-container[data-layout="pair"] .today-vacation-person {
+        border-radius:7px; border:1px solid var(--vacation-border);
       }
+      #today-vacation-container[data-layout="pair"] .kind-short { border-color:var(--short-absence-border); }
       #today-vacation-container .today-absence-row button:focus-visible { outline:2px solid var(--primary); outline-offset:-2px; }
       #week-vacation-container .abs-row,#week-dispatch-container .abs-row{display:flex;flex-direction:column;justify-content:center;min-width:0;min-height:0;gap:0;font-family:inherit;font-size:inherit;line-height:normal;text-align:center;letter-spacing:inherit;transform:none}
       #week-vacation-container .abs-row-top,#week-dispatch-container .abs-row-top{display:flex;flex-wrap:nowrap;align-items:center;justify-content:center;gap:5px;width:100%;min-width:0}

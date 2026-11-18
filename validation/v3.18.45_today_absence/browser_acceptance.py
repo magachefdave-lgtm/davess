@@ -50,7 +50,13 @@ def check_names(page, count):
     assert all(b['fits'] for b in geometry), geometry
     if count == 2:
         first, second = geometry
-        assert abs(first['bottom'] - second['y']) < .05, geometry
+        assert abs(second['y'] - first['bottom'] - 3) < .05, geometry
+        assert names.evaluate_all('''bs => bs.every(b => {
+          const css = getComputedStyle(b);
+          return css.borderTopStyle === 'solid' && css.borderTopWidth === '1px' &&
+            ['TopLeft','TopRight','BottomLeft','BottomRight'].every(corner =>
+              parseFloat(css['border' + corner + 'Radius']) > 0);
+        })''')
         assert all(abs(first[k] - second[k]) < .05 for k in ('x','w','h')), geometry
         assert 20 <= first['h'] <= 36, geometry
     if count in (3, 4):
@@ -106,11 +112,12 @@ def run(captures):
                 if count in (2, 6, 10):
                     for name in (STAFF[:2] if count == 2 else STAFF[count - 1:count]):
                         verify_click(page, name)
-                if captures and role == 'viewer' and idx <= 10 and count in (2,4,8):
+                if captures and role == 'viewer' and count in (2,4,8):
+                    label = f'{width}-{count}' + ('-same' if idx > 10 else '')
                     page.mouse.move(0,0)
                     page.evaluate('document.activeElement?.blur()')
-                    page.locator('.today-summary-card').screenshot(path=captures/f'{width}-{count}-card.png')
-                    page.locator('.today-current-split').screenshot(path=captures/f'{width}-{count}-detail.png')
+                    page.locator('.today-summary-card').screenshot(path=captures/f'{label}-card.png')
+                    page.locator('.today-current-split').screenshot(path=captures/f'{label}-detail.png')
         # Reflow the panel while the underlying list and browser session stay live.
         save_data(admin, data, 10)
         page = pages['viewer',1920]
@@ -130,7 +137,7 @@ def run(captures):
         more.click()
         expect(page.locator('[role=dialog]:visible').last).to_contain_text('사원32')
         assert not errors, errors
-        print('PASS: 56 population/render checks, zero-gap pairs (mixed and matching types), detail/focus, resize and overflow.')
+        print('PASS: 56 population/render checks, separate, rounded 3px-gap pairs (mixed and matching types), detail/focus, resize and overflow.')
 
 
 if __name__ == '__main__':
