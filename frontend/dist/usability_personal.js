@@ -155,15 +155,106 @@
     const visible=count>slots?Math.max(0,slots-1):count;
     return {cols,rows:Math.max(1,Math.min(rows,Math.ceil(Math.min(count,slots)/cols)||1)),slots,visible,hidden:count-visible,font:12};
   }
+  // Try a single column first. Add columns when that would make the rows
+  // too short. A long name can occupy consecutive slots in the same row.
+  function todayNameLayout(list, people) {
+    const width = list.clientWidth - 2;
+    const height = list.clientHeight;
+    if (width <= 0 || height <= 0 || (people.length > 2 && people.length > 3 * Math.ceil(height / 12))) return null;
+    const context = document.createElement('canvas').getContext?.('2d');
+    const family = context ? getComputedStyle(list).fontFamily : '';
+    if (people.length === 2) {
+      const tile = Math.min(108, width);
+      let font = 16;
+      while (context && font > 12) {
+        context.font = '700 ' + font + 'px ' + family;
+        if (people.every(({name}) => context.measureText(name).width <= tile - 2)) break;
+        font--;
+      }
+      return {lines:[[tile], [tile]], font, rowHeight:Math.min(36, height / 2),
+        rowGap:0, columnGap:0, tracking:-0.25};
+    }
+    if (!context) return null;
+    let best = null;
+    for (const font of [15, 14, 13, 12]) {
+      const tracking = font === 12 ? -0.55 : -0.25;
+      const columnGap = font === 12 ? 1.5 : font === 13 ? 2.5 : 4;
+      const rowGap = font === 12 ? 1 : font === 13 ? 2 : 4;
+      context.font = '700 ' + font + 'px ' + family;
+      const widths = people.map(({name}) =>
+        context.measureText(name).width + Array.from(name).length * tracking + 2);
+      for (let cols = 1; cols <= Math.min(3, people.length); cols++) {
+        const cellWidth = (width - (cols - 1) * columnGap) / cols;
+        const lines = [[]];
+        let used = 0, wideNames = 0;
+        for (const labelWidth of widths) {
+          const span = Math.max(1, Math.ceil((labelWidth + columnGap) / (cellWidth + columnGap)));
+          if (span > cols) break;
+          if (used + span > cols) {
+            lines.push([]);
+            used = 0;
+          }
+          lines[lines.length - 1].push(span * cellWidth + (span - 1) * columnGap);
+          used += span;
+          if (span > 1) wideNames++;
+        }
+        if (lines.reduce((n, line) => n + line.length, 0) !== people.length) continue;
+        const rowHeight = Math.min(cols === 1 ? 36 : 33,
+          (height - (lines.length - 1) * rowGap) / lines.length);
+        if (rowHeight < font * 1.06) continue;
+        const comfort = rowHeight >= 22 && font >= 13 ? 3 : rowHeight >= 17 ? 2 : 1;
+        if (!best || comfort > best.comfort || (comfort === best.comfort &&
+            (cols < best.cols || (cols === best.cols && wideNames < best.wideNames)))) {
+          best = {lines, font, rowHeight, rowGap, columnGap, tracking, cols, wideNames, comfort};
+        }
+      }
+    }
+    return best;
+  }
+
+  function todayAbsenceButton(row, fittedName, width) {
+    const kind = row.kind === 'short' ? 'short' : 'vacation';
+    const label = row.name + ' · ' + (kind === 'short' ? '부재' : '휴가') + ' · ' + row.types.join(' · ');
+    const size = width == null ? '' : ' style="width:' + width + 'px"';
+    const name = fittedName ? '<span class="today-vacation-name">' + escape(row.name) + '</span>' : escape(row.name);
+    return '<button type="button" class="today-vacation-person kind-' + kind + '" data-oa-action="absence" ' +
+      attrs({name:row.name, date:todayStr}) + ' title="' + escape(label) + '" aria-label="' +
+      escape(label + ' · 개인 일정') + '"' + size + '>' + name + '</button>';
+  }
+
   function fitTodayVacations() {
-    const list=get('today-vacation-container');if(!list)return;
-    const restoreFocus=todayVacationReturnFocus();
-    const rows=todayVacationRows(),layout=vacationLayout(list.clientWidth,list.clientHeight,rows.length);
-    list.dataset.single=String(rows.length===1);
-    list.style.setProperty('--vac-cols',String(layout.cols));list.style.setProperty('--vac-rows',String(layout.rows));list.style.setProperty('--vac-font','12px');list.style.setProperty('--vac-gap','3px');list.dataset.compact='true';
-    // v3.18.0 '금일 휴가·부재' — 단기 부재(kind 'short')는 주황, 휴가는 보라. 말풍선에 휴가·부재 꼬리표.
-    list.innerHTML=rows.length?rows.slice(0,layout.visible).map(row=>`<button type="button" class="today-vacation-person kind-${row.kind==='short'?'short':'vacation'}" data-oa-action="absence" ${attrs({name:row.name,date:todayStr})} title="${escape(row.name+' · '+(row.kind==='short'?'부재':'휴가')+' · '+row.types.join(' · '))}">${rows.length===1?`<span class="today-vacation-name">${escape(row.name)}</span>`:escape(row.name)}</button>`).join('')+(layout.hidden?button('all-vacation',`외 ${layout.hidden}명`,'','today-vacation-person op-more'):''):'<div class="today-vacation-empty">금일 휴가·부재자가 없습니다.</div>';
-    const count=get('today-vacation-count');if(count)count.textContent=`${rows.length}명`;
+    const list = get('today-vacation-container');
+    if (!list) return;
+    const restoreFocus = todayVacationReturnFocus();
+    const people = todayVacationRows();
+    const count = get('today-vacation-count');
+    if (count) count.textContent = people.length + '명';
+    list.dataset.single = String(people.length === 1);
+    list.dataset.compact = 'true';
+    list.parentElement?.classList.toggle('has-multiple-absences', people.length >= 2);
+    const layout = people.length >= 2 ? todayNameLayout(list, people) : null;
+    list.dataset.layout = layout ? (people.length === 2 ? 'pair' : 'stack') : 'grid';
+    if (layout) {
+      list.style.setProperty('--vac-label-size', layout.font + 'px');
+      list.style.setProperty('--vac-name-spacing', layout.tracking + 'px');
+      list.style.setProperty('--vac-row-height', layout.rowHeight + 'px');
+      list.style.setProperty('--vac-row-gap', layout.rowGap + 'px');
+      list.style.setProperty('--vac-col-gap', layout.columnGap + 'px');
+      let index = 0;
+      list.innerHTML = layout.lines.map(line => '<div class="today-absence-row">' + line.map(width =>
+        todayAbsenceButton(people[index++], people.length === 2, width)
+      ).join('') + '</div>').join('');
+    } else {
+      // Keep the existing list dialog reachable when the available area cannot fit every full name.
+      const grid = vacationLayout(list.clientWidth, list.clientHeight, people.length);
+      list.style.setProperty('--vac-cols', String(grid.cols));
+      list.style.setProperty('--vac-rows', String(grid.rows));
+      list.style.setProperty('--vac-gap', '3px');
+      list.innerHTML = people.length ? people.slice(0, grid.visible)
+        .map(p => todayAbsenceButton(p, people.length === 1)).join('') +
+        (grid.hidden ? button('all-vacation','외 ' + grid.hidden + '명','','today-vacation-person op-more') : '')
+        : '<div class="today-vacation-empty">금일 휴가·부재자가 없습니다.</div>';
+    }
     restoreFocus?.();
   }
   function openAllVacations() {
@@ -276,6 +367,25 @@
       #today-vacation-container .today-vacation-person{font-family:inherit;font-size:12px!important;font-weight:800;line-height:1.25;display:flex;align-items:center;justify-content:center;width:100%;height:100%;margin:0;min-height:0;padding:1px 2px;border:0;text-align:center;cursor:pointer;white-space:nowrap}#today-vacation-container[data-single="true"] .today-vacation-person{grid-column:1/-1;justify-self:center;align-self:center;width:calc(100% - 8px);min-width:0;max-width:132px;height:48px;max-height:calc(100% - 8px);box-sizing:border-box;padding:6px;border-radius:8px;font-size:18px!important;font-weight:700}#today-vacation-container .op-more{background:var(--surface);color:var(--primary)}
       #today-vacation-container[data-single="true"] .today-vacation-name{display:block;min-width:0;max-width:100%;font:inherit;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left}
       @media(max-width:1439px){#today-vacation-container[data-single="true"] .today-vacation-person{height:44px;font-size:16px!important}}
+      .today-vacation-panel.has-multiple-absences { gap:1px; }
+      .has-multiple-absences .today-vacation-heading { flex-wrap:nowrap; line-height:1.05; gap:2px; }
+      .has-multiple-absences #today-vacation-count { font-size:10px; line-height:1; white-space:nowrap; }
+      #today-vacation-container:is([data-layout="pair"],[data-layout="stack"]) {
+        display:flex; flex-direction:column; justify-content:center; gap:var(--vac-row-gap);
+      }
+      .today-absence-row {
+        flex:none; display:flex; justify-content:center; gap:var(--vac-col-gap); height:var(--vac-row-height);
+      }
+      #today-vacation-container .today-absence-row .today-vacation-person {
+        flex:none; height:100%; box-sizing:border-box; padding:1px 0 0; border:0; border-radius:5px;
+        font-size:var(--vac-label-size)!important; font-weight:700; letter-spacing:var(--vac-name-spacing); line-height:1.06;
+      }
+      #today-vacation-container[data-layout="pair"] .today-vacation-name { font:inherit; text-align:center; }
+      #today-vacation-container[data-layout="pair"] .today-absence-row:first-child button { border-radius:7px 7px 0 0; }
+      #today-vacation-container[data-layout="pair"] .today-absence-row:last-child button {
+        border-radius:0 0 7px 7px; box-shadow:inset 0 1px var(--border);
+      }
+      #today-vacation-container .today-absence-row button:focus-visible { outline:2px solid var(--primary); outline-offset:-2px; }
       #week-vacation-container .abs-row,#week-dispatch-container .abs-row{display:flex;flex-direction:column;justify-content:center;min-width:0;min-height:0;gap:0;font-family:inherit;font-size:inherit;line-height:normal;text-align:center;letter-spacing:inherit;transform:none}
       #week-vacation-container .abs-row-top,#week-dispatch-container .abs-row-top{display:flex;flex-wrap:nowrap;align-items:center;justify-content:center;gap:5px;width:100%;min-width:0}
       #week-vacation-container .abs-row-name,#week-dispatch-container .abs-row-name{display:block;flex:0 1 auto;min-width:0;width:auto;text-align:center;cursor:pointer;white-space:nowrap;overflow:hidden}
@@ -363,8 +473,26 @@
     document.addEventListener('click',event=>{const action=event.target.closest?.('[data-oa-action]');if(action){event.preventDefault();event.stopPropagation();handleAction(action);return;}const node=event.target.closest?.('.v-mini-chip[data-person],.worker-tag[data-worker-name],.today-person[data-oa-person],.abs-row[data-oa-person]');if(node){event.preventDefault();event.stopPropagation();handleName(node);}},true);
     document.addEventListener('input',event=>{if(event.target.id==='oa-personal-name-search')updatePickerList(event.target.value);});
     document.addEventListener('keydown',event=>{if(event.key!=='Enter'&&event.key!==' ')return;const node=event.target.closest?.('.worker-tag[data-worker-name],.today-person[data-oa-person],.abs-row[data-oa-person]');if(node){event.preventDefault();event.stopPropagation();handleName(node);}else if(event.target.id==='my-next-duty'){event.preventDefault();openAgenda(myName);}else if(event.target.id==='oa-personal-name-search'&&event.key==='Enter'){const names=searchNames(event.target.value);if(names.length===1){pickerName=names[0].name;updatePickerList(event.target.value);}}},true);
-    const ready=()=>{injectStyle();enhanceNames();fitTodayVacations();const search=get('member-search-input');if(search){search.placeholder='이름 검색 · Enter로 결과';search.title='이름이 한 명으로 좁혀지면 달력의 근무일을 강조합니다. 여러 명 또는 일치하는 이름이 없으면 Enter로 검색 결과를 확인하세요.';}};if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',ready);else ready();
-    window.addEventListener('resize',()=>requestAnimationFrame(()=>{fitTodayVacations();enhanceNames();}));
+    const ready = () => {
+      injectStyle();
+      enhanceNames();
+      fitTodayVacations();
+      const list = get('today-vacation-container');
+      if (list && typeof ResizeObserver === 'function') {
+        new ResizeObserver(fitTodayVacations).observe(list);
+      }
+      const search = get('member-search-input');
+      if (search) {
+        search.placeholder = '이름 검색 · Enter로 결과';
+        search.title = '이름이 한 명으로 좁혀지면 달력의 근무일을 강조합니다. 여러 명 또는 일치하는 이름이 없으면 Enter로 검색 결과를 확인하세요.';
+      }
+    };
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ready);
+    else ready();
+    window.addEventListener('resize', () => requestAnimationFrame(() => {
+      if (typeof ResizeObserver !== 'function') fitTodayVacations();
+      enhanceNames();
+    }));
   }
   window.OnAirPersonal={openAgenda,openAbsence,openEducation,openPicker,searchNames,agendaRows,absenceSections,educationFields,vacationLayout,fitNameLabel,fitTodayVacations,openAllVacations,swapEligibility,swapCandidates,postSwapIntervals,openSwap,selectSwapCandidate,buildICS,downloadICS,enhanceNames,install};
   install();
