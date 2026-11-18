@@ -1845,20 +1845,6 @@
                   inset 0 0 0 1px color-mix(in srgb, var(--pick-key) 55%, transparent) !important;
       font-weight: 800; }
 
-    /* 사원 칸도 같은 유리로 — 달력과 눈이 이어진다.
-       ⚠ 여기서도 전부 inset 이다. 바깥 링으로 그리면 격자 가장자리에서 잘린다. */
-    .member-duty-btn.active {
-      background:
-        linear-gradient(135deg, var(--glass-sheen) 0%, var(--glass-sheen-2) 40%, transparent 64%),
-        linear-gradient(158deg,
-          color-mix(in srgb, var(--pick-key) 34%, transparent) 0%,
-          color-mix(in srgb, var(--pick-key) 14%, transparent) 100%),
-        var(--card) !important;
-      box-shadow:
-        inset 0 1px 1px var(--glass-top),
-        inset 0 0 0 1px color-mix(in srgb, var(--pick-key) 48%, transparent),
-        inset 0 -12px 18px -13px color-mix(in srgb, var(--pick-key) 50%, transparent) !important;
-      transition: background 420ms var(--ease-mass), box-shadow 420ms var(--ease-mass) !important; }
     .member-duty-btn.male.active   { --pick-key: var(--pick-male-key); }
     .member-duty-btn.female.active { --pick-key: var(--pick-female-key); }
     .member-duty-btn.active .member-duty-name {
@@ -2168,20 +2154,31 @@
     .today-person, .today-person.single-card, .today-person.noduty-card { grid-column: 1;
       padding: 7px 9px; gap: 0; align-items: center; justify-content: center;
       border-radius: var(--radius-sm); box-shadow: none; }
-    .today-person.male-card { --person-tint: var(--male-bg); --person-glow: rgba(37,99,235,.65); border-color: var(--male-border); }
-    .today-person.female-card { --person-tint: var(--female-bg); --person-glow: rgba(219,39,119,.6); border-color: var(--female-border); }
+    .today-person.male-card, .member-duty-btn.male { --person-tint: var(--male-bg); --person-glow: rgba(37,99,235,.65); border-color: var(--male-border); }
+    .today-person.female-card, .member-duty-btn.female { --person-tint: var(--female-bg); --person-glow: rgba(219,39,119,.6); border-color: var(--female-border); }
     .today-vacation-person.kind-vacation { --person-tint: var(--vacation-bg); --person-ink: var(--vacation-text); }
     .today-vacation-person.kind-short { --person-tint: var(--short-absence-bg); --person-ink: var(--short-absence-text); }
     .today-summary-card .today-vacation-person:is(.kind-vacation,.kind-short) {
       --person-glow: color-mix(in srgb, var(--person-ink) 60%, transparent); color: var(--person-ink);
     }
-    .today-person:is(.male-card,.female-card), .today-summary-card .today-vacation-person:is(.kind-vacation,.kind-short) {
+    .today-person:is(.male-card,.female-card), .today-summary-card .today-vacation-person:is(.kind-vacation,.kind-short),
+    .member-duty-buttons .member-duty-btn:is(.male,.female) {
       background: linear-gradient(165deg, var(--person-tint), transparent 92%);
-      border-radius: var(--radius-sm); box-shadow: inset 0 1px 0 #fff, 0 12px 26px -16px var(--person-glow);
+      --person-shadow: inset 0 1px 0 #fff, 0 12px 26px -16px var(--person-glow);
+      border-radius: var(--radius-sm); box-shadow: var(--person-shadow);
     }
     .today-person.single-card:is(.male-card,.female-card) { box-shadow: none; }
-    .today-summary-card :is(.person-name,.today-vacation-person[data-oa-action="absence"]) {
+    .today-summary-card :is(.person-name,.today-vacation-person[data-oa-action="absence"]), .member-duty-buttons .member-duty-name {
       font-weight: 720; letter-spacing: -.055em; text-align: center;
+    }
+    .member-duty-buttons .member-duty-btn:hover {
+      transform: none; outline: 1px solid var(--border-strong); outline-offset: -1px;
+    }
+    .member-duty-buttons .member-duty-btn.active {
+      box-shadow: inset 0 0 0 2px var(--pick-key), var(--person-shadow);
+    }
+    .member-duty-buttons .member-duty-btn:focus-visible {
+      outline: 2px dashed var(--primary); outline-offset: -3px;
     }
     .person-name { width: 100%; font-size: 1.12rem; line-height: 1.08; text-align: left;
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }

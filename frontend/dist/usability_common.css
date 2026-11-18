@@ -58,7 +58,8 @@
 /* [11] 사원별 월 근무일 — 남는 높이만큼 날짜를 여러 줄로 (줄 수는 fitMemberDutyDates 가 정한다) */
 .member-duty-dates { display: block !important; white-space: normal; -webkit-line-clamp: unset;
   line-height: 1.2; overflow: hidden; overflow-wrap: normal; word-break: keep-all; }
-.member-duty-btn { line-height: 1.15; padding: 1px 4px; gap: 0; }
+.member-duty-btn { line-height: 1.15; padding: 1px 4px; gap: 0; justify-content: center; align-items: center; }
+.member-duty-buttons:has(> :nth-child(13)) { row-gap: 2px; }
 .member-duty-name { font-size: 11px; line-height: 1.1; }
 .member-duty-dates { line-height: 1.1; }
 .member-duty-dates { letter-spacing: -.04em; }
