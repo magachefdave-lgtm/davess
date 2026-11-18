@@ -144,6 +144,26 @@ class DinnerService:
             fail('관리자 또는 임기 중인 CA의 승인된 PC에서만 관리할 수 있습니다.', 403, 'FORBIDDEN')
         return permitted
 
+    def _handoff(self):
+        today = self.now.date()
+        if not self.key_hash or today.month not in (12, 1):
+            return None
+        year = today.year if today.month == 12 else today.year - 1
+        december_end, january_start = f'{year:04d}-12-31', f'{year + 1:04d}-01-01'
+        roles = self._roles()
+        outgoing = next((r for r in roles if r['startDate'] <= december_end <= r['endDate']), None)
+        incoming = next((r for r in roles if r['startDate'] <= january_start <= r['endDate']), None)
+        if not outgoing or not incoming or outgoing['memberName'] == incoming['memberName']:
+            return None
+        active, reader = (outgoing, incoming) if today.month == 12 else (incoming, outgoing)
+        if not active['active']:
+            return None
+        connection = self._connection(reader['roleId'])
+        if self._connection_valid(connection, reader) and connection['status'] == 'APPROVED':
+            return dict(memberName=reader['memberName'], startDate=f'{year:04d}-12-01',
+                        endDate=f'{year + 1:04d}-01-31')
+        return None
+
     def _admin(self):
         if not self.admin:
             fail('관리자만 처리할 수 있습니다.', 403, 'FORBIDDEN')
@@ -199,6 +219,15 @@ class DinnerService:
         # publishing establish visibility; ambiguous cancellations stay private.
         return bool(poll.get('publishedAt')) or ('publishedAt' not in poll and
                                                 poll['status'] in ('OPEN', 'CLOSED', 'CONFIRMED'))
+
+    def _handoff_poll_visible(self, poll, handoff):
+        if not self._published(poll):
+            return False
+        dates = [candidate['date'] for candidate in poll['candidates']]
+        if poll['status'] in ('OPEN', 'CLOSED') and any(d >= self.now.date().isoformat() for d in dates):
+            return True
+        dates.extend(timestamp[:10] for timestamp in (poll.get('publishedAt'), poll['deadline']) if timestamp)
+        return any(handoff['startDate'] <= d <= handoff['endDate'] for d in dates)
 
     def _save(self, poll):
         self.cur.execute('UPDATE dinner_polls SET data_json=? WHERE id=?', (pack(poll), poll['id']))
@@ -263,7 +292,7 @@ class DinnerService:
     def summary(self, name):
         name = text(name, '이름', 100, empty=True)
         empty = dict(datasetKey=self.identity.dataset_id, role=None, roles=[], assignedRole=None,
-                     connection=None, ownConnections={}, polls=[], events=[], pendingConnections=[])
+                     connection=None, ownConnections={}, handoff=None, polls=[], events=[], pendingConnections=[])
         if not self._exists():
             return empty
         role, assigned = self._role(), self._role(member_name=name)
@@ -288,16 +317,27 @@ class DinnerService:
             pending = [self._public_connection(dict(r)) for r in self.cur.execute("SELECT * FROM dinner_connections WHERE status='PENDING' ORDER BY rowid DESC").fetchall()
                        if self._connection_valid(dict(r), self._role(dict(r).get('role_id', 1)))
                        and self._role(dict(r).get('role_id', 1))['endDate'] >= self.now.date().isoformat()]
+        handoff = self._handoff() if name and not self.admin else None
+        if handoff and handoff['memberName'] != name:
+            handoff = None
         return dict(datasetKey=self.identity.dataset_id, role=role, roles=self._roles(), assignedRole=assigned,
                     connection=self._public_connection(connection) if connection else None,
-                    ownConnections=own_connections, polls=polls, events=events, pendingConnections=pending)
+                    ownConnections=own_connections, handoff=handoff,
+                    polls=polls, events=events, pendingConnections=pending)
 
     def manage(self):
-        self._manager()
+        manager = self._manager(required=False)
+        handoff = None if manager else self._handoff()
+        if not manager and not handoff:
+            fail('관리자 또는 조회 권한이 있는 CA의 승인된 PC에서만 볼 수 있습니다.', 403, 'FORBIDDEN')
         connections = [self._public_connection(dict(r)) for r in self.cur.execute('SELECT * FROM dinner_connections ORDER BY rowid DESC').fetchall()] if self.admin else []
-        polls = [self._project(json.loads(r[0]), results=True)
-                 for r in self.cur.execute('SELECT data_json FROM dinner_polls ORDER BY rowid DESC').fetchall()]
-        return dict(role=self._role(), roles=self._roles(), connections=connections, polls=polls, members=self._members())
+        polls = []
+        for row in self.cur.execute('SELECT data_json FROM dinner_polls ORDER BY rowid DESC').fetchall():
+            poll = json.loads(row[0])
+            if manager or self._handoff_poll_visible(poll, handoff):
+                polls.append(self._project(poll, results=True))
+        return dict(role=self._role(), roles=self._roles(), connections=connections, handoff=handoff,
+                    polls=polls, members=self._members() if manager else [])
 
     def detail(self, poll_id, name=''):
         name = text(name, '이름', 100, empty=True)

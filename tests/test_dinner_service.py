@@ -421,10 +421,111 @@ def test_current_and_next_appointments_persist_and_switch_at_kst_midnight(db):
         actor(db, KEY_B).manage()
     before = datetime(2030, 12, 31, 14, 59, 59, tzinfo=timezone.utc)
     boundary = datetime(2030, 12, 31, 15, tzinfo=timezone.utc)
-    assert actor(db, KEY_CA, now=before).manage()['role']['roleId'] == 2030
-    with pytest.raises(AccessError):
-        actor(db, KEY_CA, now=boundary).manage()
-    assert actor(db, KEY_B, now=boundary).manage()['role']['roleId'] == 2031
+    december = actor(db, KEY_CA, now=before).manage()
+    assert december['handoff'] is None and december['role']['roleId'] == 2030
+    assert actor(db, KEY_B, now=before).manage()['handoff']['memberName'] == 'B'
+    assert actor(db, KEY_CA, now=boundary).manage()['handoff']['memberName'] == 'C'
+    january = actor(db, KEY_B, now=boundary).manage()
+    assert january['handoff'] is None and january['role']['roleId'] == 2031
+
+
+def test_handoff_starts_and_ends_at_kst_midnight_on_approved_pcs(db):
+    from backend.request_access_schema import AccessError
+    annual_role(db, 2030)
+    annual_role(db, 2031, 'B')
+    approve_term(db, 2030, 'C', KEY_CA)
+    pending = actor(db, KEY_B).request_connection(operation(roleId=2031, memberName='B'))['connection']
+    december = datetime(2030, 11, 30, 15, tzinfo=timezone.utc)
+    february = datetime(2031, 1, 31, 15, tzinfo=timezone.utc)
+    assert actor(db, KEY_B, now=december).summary('B').get('handoff') is None
+    with pytest.raises(AccessError) as error:
+        actor(db, KEY_B, now=december).manage()
+    assert error.value.status == 403
+    actor(db, admin=True).decide_connection(pending['id'], operation(decision='APPROVE'))
+    expected = {'memberName': 'B', 'startDate': '2030-12-01', 'endDate': '2031-01-31'}
+    incoming = actor(db, KEY_B, now=december)
+    assert incoming.summary('B')['handoff'] == incoming.manage()['handoff'] == expected
+    assert incoming.summary('A')['handoff'] is None
+    assert actor(db, KEY_A, now=december).summary('B')['handoff'] is None
+    outgoing = actor(db, KEY_CA, now=february - timedelta(seconds=1))
+    assert outgoing.summary('C')['handoff'] == (expected | {'memberName': 'C'})
+    assert actor(db, KEY_B, now=february).manage()['handoff'] is None
+    for key, now in [(KEY_B, december - timedelta(seconds=1)), (KEY_CA, february), (KEY_A, december)]:
+        with pytest.raises(AccessError) as error:
+            actor(db, key, now=now).manage()
+        assert error.value.status == 403
+
+
+def test_handoff_lists_published_work_in_scope_and_keeps_writes_with_active_ca(db):
+    from backend.request_access_schema import AccessError
+    annual_role(db, 2030)
+    annual_role(db, 2031, 'B')
+    approve_term(db, 2030, 'C', KEY_CA)
+    approve_term(db, 2031, 'B', KEY_B)
+    year_end = dict(deadline='2031-01-09T18:00', candidates=[
+        dict(id='one', date='2031-01-14', time='18:30'),
+        dict(id='two', date='2031-01-15', time='19:00')], targets=['A', 'C'])
+    unpublished = draft(db, title='게시 전 초안', **year_end)
+    private_cancel = act(db, draft(db, title='게시 전 취소', **year_end), 'CANCEL')
+    old_closed = act(db, opened(db), 'CLOSE')
+    poll = act(db, draft(db, title='연초 취합', **year_end), 'PUBLISH')
+    answer(db, poll)
+    current = actor(db, KEY_CA, now=datetime(2030, 12, 15, tzinfo=KST))
+    incoming = actor(db, KEY_B, now=current.now)
+    incoming_polls = {p['id']: p for p in incoming.manage()['polls']}
+    assert set(incoming_polls) == {poll['id']}
+    current_polls = {p['id']: p for p in current.manage()['polls']}
+    assert {unpublished['id'], private_cancel['id'], old_closed['id']} <= set(current_polls)
+    assert incoming_polls[poll['id']]['results'] == current_polls[poll['id']]['results']
+    assert incoming_polls[poll['id']]['results']['responders'][0]['name'] == 'A'
+    assert incoming.manage()['connections'] == incoming.manage()['members'] == []
+    with pytest.raises(AccessError) as error:
+        incoming.detail(poll['id'], 'B')
+    assert error.value.status == 403
+    assert 'results' not in incoming.detail(old_closed['id'], 'B')['poll']
+    with pytest.raises(AccessError) as error:
+        incoming.create_poll(operation(**year_end))
+    assert error.value.status == 403
+    with pytest.raises(AccessError) as error:
+        incoming.patch_poll(poll['id'], operation(expectedRevision=poll['revision'], title='변경'))
+    assert error.value.status == 403
+    for action, subject in [('PUBLISH', unpublished), ('CLOSE', poll), ('CONFIRM', poll),
+                            ('CANCEL', poll), ('REMIND', poll)]:
+        with pytest.raises(AccessError) as error:
+            incoming.action(subject['id'], operation(expectedRevision=subject['revision'], action=action))
+        assert error.value.status == 403
+    assert current.detail(poll['id'])['poll']['status'] == 'OPEN'
+    assert current.action(poll['id'], operation(action='CLOSE', expectedRevision=poll['revision']))['poll']['status'] == 'CLOSED'
+    confirmed = actor(db, KEY_B, now=datetime(2031, 1, 2, tzinfo=KST)).action(
+        poll['id'], operation(action='CONFIRM', expectedRevision=poll['revision']+1, selectedCandidateId='one'))['poll']
+    outgoing = actor(db, KEY_CA, now=datetime(2031, 1, 2, tzinfo=KST))
+    assert [p['id'] for p in outgoing.manage()['polls']] == [confirmed['id']]
+    with pytest.raises(AccessError) as error:
+        outgoing.action(poll['id'], operation(action='CANCEL', expectedRevision=confirmed['revision']))
+    assert error.value.status == 403
+
+
+def test_handoff_uses_actual_adjacent_terms_and_revokes_replaced_pc(db):
+    from backend.request_access_schema import AccessError
+    admin = actor(db, admin=True)
+    admin.set_role(operation(memberName='C', startDate='2029-01-01', endDate='2030-12-31', expectedRevision=0))
+    future = annual_role(db, 2031, 'B')
+    approve_term(db, 1, 'C', KEY_CA)
+    approve_term(db, 2031, 'B', KEY_B)
+    december = datetime(2030, 12, 15, tzinfo=KST)
+    assert actor(db, KEY_B, now=december).manage()['handoff']['memberName'] == 'B'
+    future = annual_role(db, 2031, 'A', revision=future['revision'])
+    with pytest.raises(AccessError) as error:
+        actor(db, KEY_B, now=december).manage()
+    assert error.value.status == 403
+    approve_term(db, 2031, 'A', KEY_A)
+    assert actor(db, KEY_A, now=december).manage()['handoff']['memberName'] == 'A'
+    admin.set_role(operation(roleId=future['roleId'], memberName='A',
+        startDate='2031-01-02', endDate='2031-12-31', expectedRevision=future['revision']))
+    approve_term(db, 2031, 'A', KEY_A)
+    with pytest.raises(AccessError) as error:
+        actor(db, KEY_A, now=december).manage()
+    assert error.value.status == 403
 
 
 def test_same_person_and_key_can_hold_two_terms_without_future_superseding_current(db):

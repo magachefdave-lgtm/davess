@@ -5,6 +5,7 @@ import secrets
 import sqlite3
 import uuid
 from datetime import datetime, timedelta, timezone
+from functools import partial
 
 import pytest
 from fastapi.testclient import TestClient
@@ -74,9 +75,13 @@ def assign_year(site, year, name='A', revision=0):
     return response.json()['role']
 
 
-def test_annual_roles_and_future_connection_use_separate_http_bindings(dinner_site):
+def test_annual_roles_and_future_connection_use_separate_http_bindings(dinner_site, monkeypatch):
+    from backend import dinner_service
+
     site = dinner_site
     year = datetime.now(KST).year
+    monkeypatch.setattr(dinner_service, 'DinnerService',
+                        partial(dinner_service.DinnerService, now=datetime(year, 11, 18, tzinfo=KST)))
     assign_year(site, year)
     assign_year(site, year + 1, 'B')
     key = secrets.token_urlsafe(32)

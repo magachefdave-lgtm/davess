@@ -118,6 +118,7 @@
   }
   function managerActions(){
     if(isAdmin())return btn('회식 관리','manage','btn-main')+btn('CA 지정·연결 승인','role');
+    if(summary?.handoff?.memberName===getName())return btn('인수인계 현황','manage','btn-main');
     const role=summary?.assignedRole||summary?.role;
     if(role?.memberName===getName()){
       const manages=role.active&&summary.connection?.status==='APPROVED';
