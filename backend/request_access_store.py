@@ -130,6 +130,13 @@ class ReceiptVault:
                 if not isinstance(record,ReceiptRecord) or not record.receipt_token or not record.request_uid or not record.dataset_id:raise _error()
                 d['receipts'].setdefault(record.dataset_id,{})[record.request_uid]=asdict(record)
     def list_receipts(self,dataset_id):return [ReceiptRecord(**r) for r in self.read()['receipts'].get(dataset_id,{}).values()]
+    def existing_dinner_key(self, dataset_id, name):
+        with self._locked():
+            key = self._read().get('dinner_keys', {}).get(dataset_id, {}).get(name)
+            if key is not None and (not isinstance(key, str) or len(key) < 43):
+                raise _error()
+            return key
+
     def dinner_key(self, dataset_id, name):
         """Return a capability only after its first atomic durable write succeeds.
 

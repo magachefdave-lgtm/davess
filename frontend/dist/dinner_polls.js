@@ -54,7 +54,13 @@
     if(typeof path!=='string'||!path.startsWith('/')||path.startsWith('//'))throw Error('요청 경로를 확인해 주세요.');
     const method=String(options.method||'GET').toUpperCase(),headers={'Content-Type':'application/json','X-OnAir-Data-Contract':'1'};
     const needsKey=!isAdmin()||path.includes('/response')||(/^\/(summary|polls\/[^/]+)(?:\?|$)/.test(path)&&getName());
-    if(needsKey&&getName())headers['X-OnAir-Dinner-Key']=(await credentials()).key;
+    if(needsKey&&getName()){
+      const local=await credentials();
+      headers['X-OnAir-Dinner-Key']=local.key;
+      if(local.localSession && (path.startsWith('/summary?') || path.includes('/response') || (method==='GET' && path.startsWith('/polls/')))){
+        headers['X-OnAir-Local-Session']=local.localSession;
+      }
+    }
     else if(needsKey&&method!=='GET')throw Error('먼저 내 이름을 선택해 주세요.');
     const init={method,headers,cache:'no-store',referrerPolicy:'no-referrer'};
     if(options.body!==undefined)init.body=JSON.stringify(options.body);
@@ -109,8 +115,25 @@
     const task=(async()=>{
       const data=await api('/summary?name='+encodeURIComponent(name));
       if(generation!==refreshGeneration||name!==getName())return null;
+      const previous=summary;
       summary=data;summaryName=name;announce(data,name);renderHeader();
-      // Keep a form and its focus untouched when another PC responds or changes a poll.
+      const modal=document.getElementById(modalId);
+      if(modal?.classList.contains('active') && viewName===name){
+        if(view==='list' && JSON.stringify(previous)!==JSON.stringify(data)){
+          const focus=modal.contains(document.activeElement)?document.activeElement.dataset:null;
+          renderList();
+          if(focus?.dinnerAction){
+            const buttons=modal.querySelectorAll('[data-dinner-action]');
+            Array.from(buttons).find(b=>b.dataset.dinnerAction===focus.dinnerAction && b.dataset.pollId===focus.pollId)?.focus({preventScroll:true});
+          }
+        }else if(activePoll && !busy && (view==='detail' || (view==='vote' && !drafts.get(draftKey(activePoll))?.dirty))){
+          const latest=data.polls.find(p=>p.id===activePoll.id);
+          const prior=previous?.polls?.find(p=>p.id===activePoll.id);
+          if(latest && JSON.stringify(latest)!==JSON.stringify(prior)){
+            drafts.delete(draftKey(activePoll));activePoll=latest;renderPoll();
+          }
+        }
+      }
       return data;
     })();
     refreshing=task;
@@ -134,7 +157,7 @@
   function errorText(error){return error?.message||'연결을 확인한 후 다시 시도해 주세요.';}
   function showError(error){const node=document.getElementById('dp-error');if(node){node.textContent=errorText(error);node.hidden=false;}else if(typeof showToast==='function')showToast(errorText(error),true);}
   async function open(id,listOnly=false){
-    const generation=++requestGeneration;viewName=getName();
+    const generation=++requestGeneration;viewName=getName();view='loading';
     shell('회식 일정','<p class="dp-empty" role="status">회식 일정을 불러오고 있습니다.</p>');
     try{
       await refresh();if(generation!==requestGeneration)return;
@@ -150,7 +173,7 @@
   }
   function getDraft(poll){
     const key=draftKey(poll);let draft=drafts.get(key);
-    if(!draft){draft={answers:{...(poll.ownResponse?.answers||{})},suggestion:poll.ownResponse?.suggestion||'',revision:poll.revision,candidateRevisions:Object.fromEntries(poll.candidates.map(candidate=>[candidate.id,candidate.revision])),operationId:null};drafts.set(key,draft);}
+    if(!draft || (!draft.dirty && draft.responseVersion!==(poll.ownResponse?.version??null))){draft={responseVersion:poll.ownResponse?.version??null,answers:{...(poll.ownResponse?.answers||{})},suggestion:poll.ownResponse?.suggestion||'',revision:poll.revision,candidateRevisions:Object.fromEntries(poll.candidates.map(candidate=>[candidate.id,candidate.revision])),operationId:null};drafts.set(key,draft);}
     if(draft.revision!==poll.revision){
       const answers={};for(const candidate of poll.candidates){if(draft.candidateRevisions[candidate.id]===candidate.revision&&answerLabels[draft.answers[candidate.id]])answers[candidate.id]=draft.answers[candidate.id];else if(poll.ownResponse?.answers?.[candidate.id])answers[candidate.id]=poll.ownResponse.answers[candidate.id];}
       draft.answers=answers;draft.revision=poll.revision;draft.operationId=null;draft.candidateRevisions=Object.fromEntries(poll.candidates.map(candidate=>[candidate.id,candidate.revision]));
@@ -216,8 +239,8 @@
     const target=event.target;if(target?.hasAttribute?.('data-dinner-month')){calendarMonth=target.value;renderCalendarOnly();document.querySelector('[data-dinner-month]')?.focus({preventScroll:true});return;}
     if(!activePoll||view!=='vote'||busy)return;
     const draft=getDraft(activePoll),candidate=target?.dataset?.answerCandidate;
-    if(candidate&&activePoll.candidates.some(value=>value.id===candidate)&&answerLabels[target.value]){if(draft.answers[candidate]!==target.value){draft.answers[candidate]=target.value;draft.operationId=null;}}
-    else if(target?.id==='dp-suggestion'&&draft.suggestion!==target.value){draft.suggestion=target.value;draft.operationId=null;}
+    if(candidate&&activePoll.candidates.some(value=>value.id===candidate)&&answerLabels[target.value]){if(draft.answers[candidate]!==target.value){draft.answers[candidate]=target.value;draft.operationId=null;draft.dirty=true;}}
+    else if(target?.id==='dp-suggestion'&&draft.suggestion!==target.value){draft.suggestion=target.value;draft.operationId=null;draft.dirty=true;}
     const progress=document.getElementById('dp-progress');if(progress)progress.textContent=progressText();
   }
   async function submit(event){
@@ -229,14 +252,14 @@
     if(!draft.operationId)draft.operationId=operationId();busy=true;
     const node=document.getElementById(modalId),controls=[...(node?.querySelectorAll('input,textarea,button[type="submit"]')||[])];controls.forEach(control=>control.disabled=true);
     try{
-      const data=await api('/polls/'+encodeURIComponent(poll.id)+'/response',{method:'POST',body:{memberName:name,answers:{...draft.answers},suggestion:draft.suggestion,expectedRevision:poll.revision,operationId:draft.operationId}});
+      const data=await api('/polls/'+encodeURIComponent(poll.id)+'/response',{method:'POST',body:{memberName:name,answers:{...draft.answers},suggestion:draft.suggestion,expectedRevision:poll.revision,expectedResponseVersion:draft.responseVersion,operationId:draft.operationId}});
       drafts.delete(draftKey(poll));
       if(generation===requestGeneration&&name===getName()){activePoll=data.poll;renderPoll();}
       await refresh().catch(()=>{});
     }catch(error){
       if(generation!==requestGeneration||name!==getName())return;
       if([409,410,423].includes(error.status)){
-        try{const latest=await api('/polls/'+encodeURIComponent(poll.id)+'?name='+encodeURIComponent(name));if(generation===requestGeneration){activePoll=latest.poll;renderPoll(true);}}catch{}
+        try{const latest=await api('/polls/'+encodeURIComponent(poll.id)+'?name='+encodeURIComponent(name));if(generation===requestGeneration){if(error.code==='RESPONSE_CHANGED')drafts.delete(draftKey(poll));activePoll=latest.poll;renderPoll(error.code!=='RESPONSE_CHANGED');}}catch{}
       }
       showError(error);
     }finally{busy=false;controls.forEach(control=>control.disabled=false);}
@@ -268,6 +291,7 @@
   if(typeof fetchSystemInfo==='function'){
     const previous=fetchSystemInfo;fetchSystemInfo=async function(...args){const result=await previous.apply(this,args);refresh().catch(()=>{});return result;};
   }
+  window.addEventListener?.('focus',()=>{if(!document.hidden)refresh().catch(()=>{});});
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh().catch(()=>{});});
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
   window.OnAirDinner={api,refresh,open,getName,esc,credentials};

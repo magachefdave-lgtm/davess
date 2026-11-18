@@ -106,6 +106,23 @@ class RequestAccessAPI:
         with self.db(write=True) as cur:
             return schema.read_dataset_identity(cur)
 
+    def peer_dinner_response_hash(self, request, dataset_id, name, key):
+        """Allow a local role to recognize a personal response from its installed sibling."""
+        from updater.profiles import profile_dir
+        self.authorize(request)
+        role = self.h.APP_MODE
+        vault = self.vault()
+        if role not in ('ADMIN', 'VIEWER') or vault.profile_dir != profile_dir(role):
+            return ''
+        peer = profile_dir('VIEWER' if role == 'ADMIN' else 'ADMIN')
+        if not (peer / 'request_access.v1.dat').is_file():
+            return ''
+        own = vault.existing_dinner_key(dataset_id, name)
+        if not own or not hmac.compare_digest(own.encode(), key.encode()):
+            return ''
+        other = ReceiptVault(peer).existing_dinner_key(dataset_id, name)
+        return hashlib.sha256(other.encode()).hexdigest() if other else ''
+
     def dinner_credentials(self, body):
         name = body.get('name')
         if not isinstance(name, str) or not 1 <= len(name.strip()) <= 100:

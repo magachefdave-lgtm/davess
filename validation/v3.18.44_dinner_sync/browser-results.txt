@@ -1,0 +1,4 @@
+open viewer list shows published poll: True
+viewer recognizes response submitted by admin: True
+pending input preserved, stale save rejected, sibling proof requires local session
+reverse edit, isolation of other PC, and open detail refresh passed

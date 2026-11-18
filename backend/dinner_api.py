@@ -1,5 +1,6 @@
 """HTTP boundary for dinner polls; capabilities never enter public state or URLs."""
 from contextlib import contextmanager
+from functools import lru_cache
 import hmac
 import sqlite3
 
@@ -73,9 +74,15 @@ class DinnerAPI:
                 result = self.h.confirm_dinner_duty(cursor, poll, candidate, body)
                 duty_changed = True
                 return result
-            domain = service.DinnerService(cur,
-                key=request.headers.get('x-onair-dinner-key', ''), admin=admin,
-                confirm_duty=confirm_duty)
+            key = request.headers.get('x-onair-dinner-key', '')
+            peer_response_hash = None
+            if method in ('summary', 'detail', 'respond') and request.headers.get('x-onair-local-session'):
+                @lru_cache(maxsize=4)
+                def peer_response_hash(dataset_id, name):
+                    return self.h.REQUEST_ACCESS.peer_dinner_response_hash(
+                        request, dataset_id, name, key)
+            domain = service.DinnerService(cur, key=key, admin=admin, confirm_duty=confirm_duty,
+                                          peer_response_hash=peer_response_hash)
             result = getattr(domain, method)(*args)
             if method in ('manage', 'detail'):
                 result['dutyDataVersion'] = self.h.read_data_version(cur)

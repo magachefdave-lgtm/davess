@@ -14,7 +14,8 @@ async function dinnerCredentials(name){
   if(profile.managed===false)return null;
   if(profile.managed!==true)throw Error('이 PC의 회식 응답 보관 설정을 확인하지 못했습니다. 다시 확인해 주세요.');
   if(!await bootstrap())throw Error('OnAir 트레이에서 화면을 다시 열어 주세요. 회식 응답 권한을 안전하게 연결해야 합니다.');
-  return local('/dinner-credentials',{name});
+  const credentials=await local('/dinner-credentials',{name});
+  return {...credentials,localSession:session.sessionToken};
 }
 async function adminCall(path,data){return body(await fetchWithAdminToken(admin+path,{method:data?'POST':'GET',headers:{'Content-Type':'application/json','X-OnAir-Data-Contract':'1'},...(data?{body:JSON.stringify(data)}:{}),cache:'no-store'}));}
 async function refreshReceipts(){if(!session)return;const tokens=typeof readMyRequestStatuses==='function'?Object.keys(readMyRequestStatuses()):[];if(tokens.length)await local('/receipts/import',{receipts:tokens});const data=await local('/receipts/read',{});for(const record of data.receipts||[])if(record.receipt_token&&typeof trackMyRequest==='function'&&!Object.hasOwn(readMyRequestStatuses(),record.receipt_token))trackMyRequest(record.receipt_token);return data;}

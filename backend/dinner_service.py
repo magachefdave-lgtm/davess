@@ -54,7 +54,7 @@ def moment(value):
 
 
 class DinnerService:
-    def __init__(self, cur, key='', admin=False, now=None, confirm_duty=None):
+    def __init__(self, cur, key='', admin=False, now=None, confirm_duty=None, peer_response_hash=None):
         self.cur = cur
         self.admin = bool(admin)
         self.key = key if isinstance(key, str) else ''
@@ -65,6 +65,7 @@ class DinnerService:
         self.now = self.now.astimezone(KST)
         self.identity = read_dataset_identity(cur)
         self.confirm_duty = confirm_duty
+        self.peer_response_hash = peer_response_hash
 
     def _exists(self):
         return bool(self.cur.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='dinner_polls'").fetchone())
@@ -259,6 +260,19 @@ class DinnerService:
         return dict(candidates=list(totals.values()), responders=responders,
                     nonresponders=nonresponders, confirmationRequired=reconfirm)
 
+    def _owns_response(self, row):
+        if not self.key_hash:
+            return False
+        if hmac.compare_digest(row['key_hash'], self.key_hash):
+            return True
+        return bool(self.peer_response_hash and hmac.compare_digest(
+            row['key_hash'], self.peer_response_hash(self.identity.dataset_id, row['member_name'])))
+
+    def _response_version(self, row):
+        if not row:
+            return None
+        return hashlib.sha256(pack([row['answers_json'], row['suggestion']]).encode()).hexdigest()
+
     def _project(self, poll, name='', results=False):
         public_fields = ('id', 'title', 'description', 'deadline', 'status', 'revision',
                          'candidates', 'targets', 'selectedCandidateId', 'venue', 'notice', 'createdAt')
@@ -269,8 +283,8 @@ class DinnerService:
         needed = [c['id'] for c in poll['candidates'] if c['id'] not in valid] if row else []
         out.update(responded=bool(row), ownResponse=None, needsConfirmation=bool(needed),
                    confirmationCandidateIds=needed)
-        if row and self.key_hash and hmac.compare_digest(row['key_hash'], self.key_hash):
-            out['ownResponse'] = dict(answers=valid, suggestion=row['suggestion'])
+        if row and self._owns_response(row):
+            out['ownResponse'] = dict(answers=valid, suggestion=row['suggestion'], version=self._response_version(row))
         if results:
             out['results'] = self._results(poll)
         if isinstance(poll.get('_dutyEffect'), dict):
@@ -560,7 +574,7 @@ class DinnerService:
         if name not in poll['targets']:
             fail('이 투표의 응답 대상이 아닙니다.', 403, 'FORBIDDEN')
         row = self._rows(poll_id).get(name)
-        if row and not hmac.compare_digest(row['key_hash'], self.key_hash):
+        if row and not self._owns_response(row):
             fail('다른 PC에서 제출한 응답입니다. 처음 응답한 PC에서 수정해 주세요.', 403, 'OWNER_MISMATCH')
         op = self._operation('response:' + poll_id, body)
         if op[3] is not None:
@@ -568,6 +582,8 @@ class DinnerService:
         self._expected(body, poll['revision'])
         if self._status(poll) != 'OPEN':
             fail('응답 기간이 마감되었거나 아직 게시되지 않았습니다.', 409, 'POLL_CLOSED')
+        if 'expectedResponseVersion' in body and body['expectedResponseVersion'] != self._response_version(row):
+            fail('다른 창에서 응답을 저장했습니다. 최신 응답을 확인한 뒤 다시 수정해 주세요.', 409, 'RESPONSE_CHANGED')
         answers = body.get('answers')
         if not isinstance(answers, dict) or set(answers) != {c['id'] for c in poll['candidates']} or not all(v in ANSWERS if isinstance(v,str) else False for v in answers.values()):
             fail('모든 후보에 가능·미정·어려움 중 하나를 선택해 주세요.')
