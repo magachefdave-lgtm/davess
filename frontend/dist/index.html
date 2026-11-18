@@ -5468,7 +5468,7 @@
         return {kind, list, rows, visible: rows.length};
       });
       const fitsHeight = () => board.scrollHeight <= board.clientHeight + 1;
-      for (const density of ['normal', 'compact', 'wrap']) {
+      for (const density of ['normal', 'compact', 'tight', 'wrap']) {
         board.dataset.density = density;
         for (const {kind, list, rows} of groups) {
           const maxColumns = Math.max(1, Math.min(rows.length, kind === 'dispatch' && rows.length <= 3 ? 3 : 5));
