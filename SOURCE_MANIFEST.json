@@ -10,7 +10,7 @@
   "operational_database_accessed": false,
   "python_requirement": "CPython 3.11-3.14 final, Windows AMD64, 64-bit, normal GIL",
   "frontend_sha256": "bd9463545fcfebcab0baaee8f529e98975586bd5daab444ed08668824f3e38ce",
-  "source_fingerprint": "f9f9b9de1c3e209fae47881eceb099dcac5f44d1bc43426bc037acb9efadec94",
+  "source_fingerprint": "8af908549dc077f3dc86c4e65e74fee4f3319869e75b89b620336d1f832e07f4",
   "files": {
     "VERSION": "8309efceb5a967a0caef884d2796a830b4d96414be92dff05155e89dc28de60b",
     "backend/__init__.py": "5818b1b0804230350b0c1e4f9904440bb8f5649b505178c256bc4314f2273fff",
@@ -59,7 +59,7 @@
     "frontend/dist/rule_settings.css": "712fa7b4a3b4098a2400838dfafaaeb88a6a60f600d2c8664a79ca167254f096",
     "frontend/dist/update_status.js": "09b2938a458903913076cba4b00551657cd9d773b7fe13cfe59bd5ea2f4b3937",
     "frontend/dist/usability_admin.js": "d02f784a037a33b86acbc024e3ffdb4f4e369201a30e077b5fba0bdbf91f860e",
-    "frontend/dist/usability_common.css": "b6f53468d1c05a0d1fd747efade73dacce6203547bf9b2fd447b3e3be55da084",
+    "frontend/dist/usability_common.css": "23b092e0f272d87c0aceb5b1e9946c462f789a383b78261ba3e38ff085effed4",
     "frontend/dist/usability_common.js": "dc13b4f5f817b1c61f0d4d092d3f05078937c783fff3ec3a4ce258ad73aaa079",
     "frontend/dist/usability_notifications.js": "51cc6daa1d6994d436d0bb10c2efbb8c4ac37761155f87792b5068339470b4ba",
     "frontend/dist/usability_personal.js": "c195ad98cacd4bb1aa4ebe96eb8a241839e24af3b4abfa449206ee19c490a772",

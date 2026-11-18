@@ -227,17 +227,17 @@
 .desk-absences .abs-range-date { white-space: pre; }
 .desk-absences .abs-range-compact { display: none; }
 
-.desk-absences[data-density]:not([data-density="normal"]) { --absence-gap: 2px; --absence-height: 24px; gap: 2px; }
-.desk-absences[data-density]:not([data-density="normal"]) .desk-absence-group + .desk-absence-group { padding-top: 2px; }
-.desk-absences[data-density]:not([data-density="normal"]) .card-head { min-height: 15px; margin-bottom: 2px; }
-.desk-absences[data-density]:not([data-density="normal"]) .abs-list { row-gap: 1px; }
-.desk-absences[data-density]:not([data-density="normal"]) .abs-row { padding: 0 2px; gap: 0; }
-.desk-absences[data-density]:not([data-density="normal"]) .abs-row-name { font-size: 12px; line-height: 1.05; }
-.desk-absences[data-density]:not([data-density="normal"]) .abs-row-type { line-height: 1.05; }
-.desk-absences[data-density]:not([data-density="normal"]) .abs-row-top { gap: 3px; }
-.desk-absences[data-density]:not([data-density="normal"]) .abs-row-range { font-size: 10px; line-height: 1.1; letter-spacing: -.045em; }
-.desk-absences[data-density]:not([data-density="normal"]) .abs-range-full { display: none; }
-.desk-absences[data-density]:not([data-density="normal"]) .abs-range-compact { display: inline; }
+.desk-absences[data-density]:not(:where([data-density="normal"])) { --absence-gap: 2px; --absence-height: 24px; gap: 2px; }
+.desk-absences[data-density]:not(:where([data-density="normal"])) .desk-absence-group + .desk-absence-group { padding-top: 2px; }
+.desk-absences[data-density]:not(:where([data-density="normal"])) .card-head { min-height: 15px; margin-bottom: 2px; }
+.desk-absences[data-density]:not(:where([data-density="normal"])) .abs-list { row-gap: 1px; }
+.desk-absences[data-density]:not(:where([data-density="normal"])) .abs-row { padding: 0 2px; gap: 0; }
+.desk-absences[data-density]:not(:where([data-density="normal"])) .abs-row-name { font-size: 12px; line-height: 1.05; }
+.desk-absences[data-density]:not(:where([data-density="normal"])) .abs-row-type { line-height: 1.05; }
+.desk-absences[data-density]:not(:where([data-density="normal"])) .abs-row-top { gap: 3px; }
+.desk-absences[data-density]:not(:where([data-density="normal"])) .abs-row-range { font-size: 10px; line-height: 1.1; letter-spacing: -.045em; }
+.desk-absences[data-density]:not(:where([data-density="normal"])) .abs-range-full { display: none; }
+.desk-absences[data-density]:not(:where([data-density="normal"])) .abs-range-compact { display: inline; }
 .desk-absences[data-density="compact"] { --absence-gap: 3px; --absence-height: 28px; }
 .desk-absences[data-density="compact"] .abs-list { row-gap: 3px; }
 .desk-absences[data-density="compact"] .abs-row { padding-block: 1px; }
