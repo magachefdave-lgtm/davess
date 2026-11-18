@@ -145,7 +145,8 @@ def test_disabled_managed_profile_never_reports_unmanaged_fallback(site, monkeyp
     assert 'key' not in denied.json()
 
 
-def test_installed_roles_share_only_own_ballots_through_local_sessions(load_app, tmp_path, monkeypatch):
+@pytest.mark.parametrize('origin_role', ['MASTER', 'VIEWER', 'ADMIN'])
+def test_installed_roles_share_only_own_ballots_through_local_sessions(load_app, tmp_path, monkeypatch, origin_role):
     from updater.profiles import profile_dir
 
     monkeypatch.setenv('WLR_PROFILE_ROOT', str(tmp_path / 'installed'))
@@ -177,11 +178,11 @@ def test_installed_roles_share_only_own_ballots_through_local_sessions(load_app,
     published = viewer.client.post(path+'/action', headers=headers['VIEWER'],
                                    json=op(action='PUBLISH', expectedRevision=draft['revision'])).json()['poll']
     previous = None
-    for role in ('MASTER', 'VIEWER', 'MASTER', 'ADMIN', 'MASTER'):
+    for role in (origin_role, *(other for other in apps if other != origin_role), origin_role):
         app, proof = apps[role], headers[role]
         own = app.client.get(path, params={'name':'A'}, headers=proof).json()['poll']['ownResponse']
         assert own == previous
-        if own:
+        if own and role != origin_role:
             key_only = key_headers(proof['X-OnAir-Dinner-Key'])
             assert app.client.get(path, params={'name':'A'}, headers=key_only).json()['poll']['ownResponse'] is None
         write = app.client.post(path+'/response', headers=proof, json=op(memberName='A',

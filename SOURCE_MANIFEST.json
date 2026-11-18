@@ -10,7 +10,7 @@
   "operational_database_accessed": false,
   "python_requirement": "CPython 3.11-3.14 final, Windows AMD64, 64-bit, normal GIL",
   "frontend_sha256": "e7d53ff23f2616a8c57505d13185fce9b1bc0bf1a472fd3a5e03b46c655f8c54",
-  "source_fingerprint": "dc08bd7fa65c2ed02bdb0edede30fd3807a15563f5596dc507dc8869a02672d0",
+  "source_fingerprint": "9944c7319343a5b34cbd7d45ae51ab93a4a6478cffe6e79511230f7be1451da0",
   "files": {
     "VERSION": "d483644a3f4595c1ae19eed6c5590a85253d153aafe3375a010d0d1eb1ee6f28",
     "backend/__init__.py": "5818b1b0804230350b0c1e4f9904440bb8f5649b505178c256bc4314f2273fff",
@@ -73,7 +73,7 @@
     "requirements-test.txt": "d8051f37f45da475d5b993671bf8c0e87d980a5bcd5ca9aa3e7e3ce99079e1d3",
     "requirements.txt": "72405d1b8a5b015cf888180b59175af93264368a9d2e40e7ae45610e248665c1",
     "updater/__init__.py": "755f9c2d5b57186dbbd77fd944bafcc37a0b4d2838cb9ead32a8ad296a68744f",
-    "updater/core.py": "41b14cc073e70da7571746d73badb84a2ec8985a2c64a5302b9bdcc9bddf7713",
+    "updater/core.py": "1861b0f2c996b4b579bd7ab0fbd996254ba0958119d99d660d31a91c993f32f9",
     "updater/launcher.py": "3e640524b192c45d610592caf3949435597b2ffe2b02a77f87782fc5e4ecce7a",
     "updater/manual_update.py": "f1a9689c52990e30d5e7fbe4b419952d0fe7d43d74172d5be82e0eab7416bdb4",
     "updater/process_identity.py": "e9f4b0bfd7b1fb6e9d6a251ead32934d3374d557d2fa46e1c0cfe7c1c0bcf1de",

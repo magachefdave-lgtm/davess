@@ -18,9 +18,6 @@ import stat
 import tempfile
 import zipfile
 
-from cryptography.exceptions import InvalidSignature
-from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
-
 PRODUCT = 'WLR_OnAir'
 LAUNCHER_VERSION = '1.1.0'
 MAX_PACKAGE_BYTES = 268435456
@@ -213,6 +210,10 @@ def validate_bootstrap(value: dict, role: str) -> dict:
 
 
 def verify_envelope(envelope: dict, public_key: str, role: str) -> dict:
+    # Folder selection also imports role labels before build dependencies are installed.
+    from cryptography.exceptions import InvalidSignature
+    from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
+
     validate_role(role)
     if type(envelope) is not dict or set(envelope) != {'payload', 'signature'}:
         raise UpdateError('서명된 업데이트 선언의 필드가 올바르지 않습니다.')
