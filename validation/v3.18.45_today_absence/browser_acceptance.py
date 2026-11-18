@@ -51,16 +51,45 @@ def check_names(page, count):
     if count == 2:
         first, second = geometry
         assert abs(second['y'] - first['bottom'] - 3) < .05, geometry
-        assert names.evaluate_all('''bs => bs.every(b => {
-          const css = getComputedStyle(b);
-          return css.borderTopStyle === 'solid' && css.borderTopWidth === '1px' &&
-            ['TopLeft','TopRight','BottomLeft','BottomRight'].every(corner =>
-              parseFloat(css['border' + corner + 'Radius']) > 0);
-        })''')
         assert all(abs(first[k] - second[k]) < .05 for k in ('x','w','h')), geometry
-        assert 20 <= first['h'] <= 36, geometry
+        assert 20 <= first['h'], geometry
     if count in (3, 4):
         assert len({b['x'] for b in geometry}) == 1, geometry
+
+
+def check_style(page):
+    # Use a detached-from-layout copy of the real duty tile with the absence palette.
+    # Comparing computed properties catches hover rules, theme overrides and radius drift.
+    differences = page.locator(LIST + ' [data-oa-action="absence"]').evaluate_all("""buttons => {
+      const source = document.querySelector('#today-person-container .today-person');
+      const dutyLabel = getComputedStyle(source.querySelector('.person-name'));
+      const probe = source.cloneNode(false);
+      probe.style.position = 'absolute';
+      probe.style.visibility = 'hidden';
+      source.after(probe);
+      try {
+        return buttons.flatMap(button => {
+          const css = getComputedStyle(button);
+          const label = getComputedStyle(button.querySelector('span') || button);
+          const prefix = button.classList.contains('kind-short') ? '--short-absence' : '--vacation';
+          probe.style.setProperty('--person-tint', 'var(' + prefix + '-bg)');
+          probe.style.setProperty('--person-glow', 'color-mix(in srgb, var(' + prefix + '-text) 60%, transparent)');
+          probe.style.color = 'var(' + prefix + '-text)';
+          const duty = getComputedStyle(probe);
+          const mismatch = ['backgroundImage','borderRadius','borderWidth','boxShadow','color']
+            .filter(k => css[k] !== duty[k]).map(k => [k, css[k], duty[k]]);
+          for (const k of ['fontWeight','textAlign']) {
+            if (label[k] !== dutyLabel[k]) mismatch.push([k, label[k], dutyLabel[k]]);
+          }
+          if (Math.abs(parseFloat(label.letterSpacing)/parseFloat(label.fontSize) -
+                       parseFloat(dutyLabel.letterSpacing)/parseFloat(dutyLabel.fontSize)) > 0.001)
+            mismatch.push(['letterSpacing', label.letterSpacing, dutyLabel.letterSpacing]);
+          if (!css.backgroundImage.includes('linear-gradient')) mismatch.push(['gradient', css.backgroundImage]);
+          return mismatch;
+        });
+      } finally { probe.remove(); }
+    }""")
+    assert not differences, differences
 
 
 def verify_click(page, name):
@@ -109,6 +138,8 @@ def run(captures):
             for (role,width),page in pages.items():
                 assert page.evaluate('fetchAllData()')
                 check_names(page, count)
+                if count in (1, 2, 4, 10):
+                    check_style(page)
                 if count in (2, 6, 10):
                     for name in (STAFF[:2] if count == 2 else STAFF[count - 1:count]):
                         verify_click(page, name)
@@ -118,6 +149,18 @@ def run(captures):
                     page.evaluate('document.activeElement?.blur()')
                     page.locator('.today-summary-card').screenshot(path=captures/f'{label}-card.png')
                     page.locator('.today-current-split').screenshot(path=captures/f'{label}-detail.png')
+        save_data(admin, data, 2)
+        for (role, width), page in pages.items():
+            assert page.evaluate('fetchAllData()')
+            page.evaluate("document.documentElement.dataset.theme='dark'")
+            page.locator(LIST + ' button').first.hover()
+            page.locator(LIST + ' button').evaluate_all("""buttons =>
+                Promise.all(buttons.flatMap(b => b.getAnimations()).map(a => a.finished))""")
+            check_style(page)
+            if captures and (role,width) == ('viewer',1920):
+                page.mouse.move(0,0)
+                page.locator('.today-current-split').screenshot(path=captures/'1920-2-dark-detail.png')
+            page.evaluate("document.documentElement.removeAttribute('data-theme')")
         # Reflow the panel while the underlying list and browser session stay live.
         save_data(admin, data, 10)
         page = pages['viewer',1920]
@@ -137,7 +180,7 @@ def run(captures):
         more.click()
         expect(page.locator('[role=dialog]:visible').last).to_contain_text('사원32')
         assert not errors, errors
-        print('PASS: 56 population/render checks, separate, rounded 3px-gap pairs (mixed and matching types), detail/focus, resize and overflow.')
+        print('PASS: 56 population/render checks, shared duty/absence styles and theme colors, separate 3px-gap pairs, detail/focus, resize and overflow.')
 
 
 if __name__ == '__main__':

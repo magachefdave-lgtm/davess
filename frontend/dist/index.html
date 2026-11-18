@@ -2168,10 +2168,21 @@
     .today-person, .today-person.single-card, .today-person.noduty-card { grid-column: 1;
       padding: 7px 9px; gap: 0; align-items: center; justify-content: center;
       border-radius: var(--radius-sm); box-shadow: none; }
-    .today-person.male-card { background: linear-gradient(165deg, var(--male-bg), transparent 92%);
-      border-color: var(--male-border); }
-    .today-person.female-card { background: linear-gradient(165deg, var(--female-bg), transparent 92%);
-      border-color: var(--female-border); }
+    .today-person.male-card { --person-tint: var(--male-bg); --person-glow: rgba(37,99,235,.65); border-color: var(--male-border); }
+    .today-person.female-card { --person-tint: var(--female-bg); --person-glow: rgba(219,39,119,.6); border-color: var(--female-border); }
+    .today-vacation-person.kind-vacation { --person-tint: var(--vacation-bg); --person-ink: var(--vacation-text); }
+    .today-vacation-person.kind-short { --person-tint: var(--short-absence-bg); --person-ink: var(--short-absence-text); }
+    .today-summary-card .today-vacation-person:is(.kind-vacation,.kind-short) {
+      --person-glow: color-mix(in srgb, var(--person-ink) 60%, transparent); color: var(--person-ink);
+    }
+    .today-person:is(.male-card,.female-card), .today-summary-card .today-vacation-person:is(.kind-vacation,.kind-short) {
+      background: linear-gradient(165deg, var(--person-tint), transparent 92%);
+      border-radius: var(--radius-sm); box-shadow: inset 0 1px 0 #fff, 0 12px 26px -16px var(--person-glow);
+    }
+    .today-person.single-card:is(.male-card,.female-card) { box-shadow: none; }
+    .today-summary-card :is(.person-name,.today-vacation-person[data-oa-action="absence"]) {
+      font-weight: 720; letter-spacing: -.055em; text-align: center;
+    }
     .person-name { width: 100%; font-size: 1.12rem; line-height: 1.08; text-align: left;
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .person-name small { font-size: .66em; font-weight: 700; }

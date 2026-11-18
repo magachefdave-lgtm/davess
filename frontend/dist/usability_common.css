@@ -141,7 +141,6 @@
 @media (max-width: 1439px) { .now-clock .cd-year { display: none; } .today-summary-card .now-clock { gap: 6px; } }
 
 /* 금일 휴가·부재 — 휴가(보라)·부재(주황) */
-.today-vacation-person.kind-short { background: var(--short-absence-bg); color: var(--short-absence-text); }
 .today-vacation-type .tv-tag { font-weight: 800; }
 
 /* [3] 달력 카드 안에서 스크롤될 때 월 이동줄·요일 머리줄을 붙여 둔다 */
