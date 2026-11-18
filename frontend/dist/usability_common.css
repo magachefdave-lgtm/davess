@@ -86,29 +86,36 @@
 .cal-legend i.lg-fill { color: var(--text-muted); background: var(--surface);
   font-family: 'JetBrains Mono', ui-monospace, monospace; font-weight: 700; }
 
-/* 달력 이름표에도 상단 인물 카드의 색과 둥근 그라데이션을 적용한다. */
+/* 달력 이름표와 메모에도 상단 카드의 둥근 그라데이션을 사용한다. */
 @media screen {
   .cal-table .worker-tag.male { --person-tint: var(--male-bg); --person-ink: var(--male-text); }
   .cal-table .worker-tag.female { --person-tint: var(--female-bg); --person-ink: var(--female-text); }
   .cal-table .v-mini-chip { --person-tint: var(--vacation-bg); --person-ink: var(--vacation-text); }
   .cal-table .v-mini-chip.short-absence { --person-tint: var(--short-absence-bg); --person-ink: var(--short-absence-text); }
-  .cal-table :is(.worker-tag, .v-mini-chip) {
+  :is(.cell-memo, .week-memo-item) { --person-tint: var(--memo-bg); --person-ink: var(--memo-text); }
+  .cal-table :is(.worker-tag, .v-mini-chip), .cell-memo, .week-memo-item {
     border-radius: var(--radius-sm);
     background: linear-gradient(165deg, var(--person-tint), transparent 92%);
-    color: var(--person-ink);
     box-shadow: inset 0 1px 0 var(--inner-line),
                 0 5px 12px -9px color-mix(in srgb, var(--person-ink) 60%, transparent);
+  }
+  .cal-table :is(.worker-tag, .v-mini-chip) {
+    color: var(--person-ink);
     font-weight: 720;
     letter-spacing: -.04em;
   }
+  .cell-memo { border-color: transparent; }
+  .cell-memo svg.ico { flex: none; color: var(--memo-text); }
+  .week-memo-date { color: var(--memo-text); }
   .cal-table .worker-tag { justify-content: center; }
   .cal-table .worker-tag[draggable="true"] { cursor: grab; }
   .cal-table .worker-tag[draggable="true"]:active { cursor: grabbing; }
-  .cal-table :is(.worker-tag, .v-mini-chip):hover:not(:focus-visible) {
+  .cal-table :is(.worker-tag, .v-mini-chip):hover:not(:focus-visible),
+  .week-memo-item:hover:not(:focus-visible) {
     outline: 1px solid var(--border-strong);
     outline-offset: -1px;
   }
-  .cal-table :is(.worker-tag, .v-mini-chip):focus-visible {
+  .cal-table :is(.worker-tag, .v-mini-chip):focus-visible, .week-memo-item:focus-visible {
     outline: 2px dashed var(--primary);
     outline-offset: -2px;
   }
