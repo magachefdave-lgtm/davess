@@ -1,4 +1,4 @@
-"""WLR OnAir 3.18.48 — readable source recovered from supplied 3.14.5 executables.
+"""WLR OnAir 3.18.49 — readable source recovered from supplied 3.14.5 executables.
 
 Backend behavior is restored from Python 3.13 bytecode. Original comments and
 repository history are not recoverable. See RECOVERY_REPORT.md and tests.
@@ -50,24 +50,30 @@ from pydantic import BaseModel
 import uvicorn
 from backend import request_access_schema
 from backend import request_access_api
-from backend import request_access_local
-from backend import dinner_schema, dinner_api
+from backend import dinner_schema, dinner_api, master_auth
 
-APP_VERSION = '3.18.48'
+APP_VERSION = '3.18.49'
 NL = chr(10)
 if getattr(sys, 'frozen', False):
     BASE_DIR = sys._MEIPASS
     APP_DIR = os.path.dirname(sys.executable)
-    EXE_NAME = os.path.basename(sys.executable).lower()
 else:
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     APP_DIR = os.path.dirname(os.path.abspath(__file__))
-    EXE_NAME = ''
 
 FRONTEND_DIST = os.path.join(BASE_DIR, 'frontend', 'dist')
-ENV_MODE = os.environ.get('SMART_DUTY_MODE', '').upper()
-APP_MODE = 'VIEWER' if 'viewer' in EXE_NAME or ENV_MODE == 'VIEWER' else 'ADMIN'
-CONFIG_NAME = 'config_admin.ini' if APP_MODE == 'ADMIN' else 'config_viewer.ini'
+# runpy injects the compiled launcher's BUILD_ROLE before loading this module.
+# An older/unknown frozen launcher can only open a viewer.
+if getattr(sys, 'frozen', False):
+    DISTRIBUTION_ROLE = globals().get('BUILD_ROLE', 'VIEWER')
+    if DISTRIBUTION_ROLE not in ('ADMIN', 'VIEWER', 'MASTER'):
+        DISTRIBUTION_ROLE = 'VIEWER'
+else:
+    DISTRIBUTION_ROLE = os.environ.get('SMART_DUTY_MODE', 'ADMIN').upper()
+    if DISTRIBUTION_ROLE not in ('ADMIN', 'VIEWER', 'MASTER'):
+        DISTRIBUTION_ROLE = 'ADMIN'
+APP_MODE = 'VIEWER' if DISTRIBUTION_ROLE == 'VIEWER' else 'ADMIN'
+CONFIG_NAME = f'config_{DISTRIBUTION_ROLE.lower()}.ini'
 # Executables change versions; configuration/data/logs remain in a stable profile.
 MANAGED_CONFIG = 'WLR_CONFIG_DIR' in os.environ
 CONFIG_DIR = os.environ.get('WLR_CONFIG_DIR', APP_DIR)
@@ -83,10 +89,10 @@ if bool(UPDATE_INSTANCE_ID) != bool(HEALTH_FILE):
     raise RuntimeError('업데이트 시작 확인에는 인스턴스 ID와 상태 파일이 함께 필요합니다.')
 if HEALTH_FILE and (not os.path.isabs(HEALTH_FILE) or not os.path.isdir(os.path.dirname(HEALTH_FILE)) or os.path.islink(HEALTH_FILE)):
     raise RuntimeError('WLR_HEALTH_FILE에는 접근 가능한 절대 파일 경로를 지정해야 합니다.')
-DEFAULT_PORT = '8000' if APP_MODE == 'ADMIN' else '8001'
+DEFAULT_PORT = {'ADMIN': '8000', 'VIEWER': '8001', 'MASTER': '8002'}[DISTRIBUTION_ROLE]
 # v3.16.0 관리자용·조회용을 같은 폴더에 두면 한 로그 파일을 두 프로세스가 열어 Windows 에서
 #   회전이 실패했다. 모드별로 파일을 나눈다.
-LOG_PATH = os.path.join(CONFIG_DIR, 'smart_duty_admin.log' if APP_MODE == 'ADMIN' else 'smart_duty_viewer.log')
+LOG_PATH = os.path.join(CONFIG_DIR, f'smart_duty_{DISTRIBUTION_ROLE.lower()}.log')
 logger = logging.getLogger('smartduty')
 logger.setLevel(logging.INFO)
 try:
@@ -150,7 +156,7 @@ def load_config():
     try:
         if existed:
             read_ini(CONFIG_PATH)
-        elif os.path.exists(LEGACY_CONFIG_PATH):
+        elif DISTRIBUTION_ROLE != 'MASTER' and os.path.exists(LEGACY_CONFIG_PATH):
             read_ini(LEGACY_CONFIG_PATH)
             log_info(f'기존 config.ini 설정을 {CONFIG_NAME} 로 이전합니다.')
     except Exception as e:
@@ -172,7 +178,7 @@ def load_config():
             with open(CONFIG_PATH, 'w', encoding='utf-8') as f:
                 config.write(f)
             log_info(f'설정 파일을 생성했습니다: {CONFIG_PATH}')
-            if os.path.exists(LEGACY_CONFIG_PATH):
+            if DISTRIBUTION_ROLE != 'MASTER' and os.path.exists(LEGACY_CONFIG_PATH):
                 try:
                     os.rename(LEGACY_CONFIG_PATH, LEGACY_CONFIG_PATH + '.migrated')
                     log_info('기존 config.ini 를 config.ini.migrated 로 변경했습니다. (더 이상 사용하지 않습니다)')
@@ -2590,7 +2596,7 @@ log_info(f"=== WLR OnAir {APP_VERSION} 시작 | 모드={APP_MODE} | 포트={SERV
 def startup_health_payload():
     host = '127.0.0.1' if BIND_HOST in ('0.0.0.0', 'localhost') else '::1' if BIND_HOST == '::' else BIND_HOST
     return {'pid': os.getpid(), 'instance_id': UPDATE_INSTANCE_ID,
-            'version': APP_VERSION, 'mode': APP_MODE,
+            'version': APP_VERSION, 'mode': DISTRIBUTION_ROLE,
             'port': globals().get('RUN_PORT', SERVER_PORT), 'host': host}
 
 
@@ -2687,7 +2693,10 @@ def record_client_heartbeat(force=False):
 async def application_lifespan(application):
     write_startup_health()
     record_client_heartbeat(force=True)
-    yield
+    try:
+        yield
+    finally:
+        MASTER.clear()
 
 
 app = FastAPI(title=f'WLR OnAir ({APP_MODE})', version=APP_VERSION,
@@ -2910,8 +2919,11 @@ def get_system_info(request: Request, x_admin_token: Optional[str] = Header(defa
         last_write = {**last_write, 'host': ''}
         detail = redact_paths(detail)
     return {
-        'mode': APP_MODE,
+        # Historical launcher supervisors check this field to find duplicate roles.
+        'mode': DISTRIBUTION_ROLE,
+        'effectiveMode': APP_MODE,
         'version': APP_VERSION,
+        'distributionRole': DISTRIBUTION_ROLE,
         'pendingCount': cnt,
         'requestRecovery': recovery_notifications,
         'dataVersion': ver,
@@ -3097,7 +3109,7 @@ def configure_manual_restart(server, port, stop_tray=None):
     if MANAGED_CONFIG and UPDATE_INSTANCE_ID and getattr(sys, 'frozen', False):
         _operator_profiles()
         from updater.manual_update import live_check
-        live_check.configure(profile=Path(CONFIG_DIR).parent, role=APP_MODE, version=APP_VERSION,
+        live_check.configure(profile=Path(CONFIG_DIR).parent, role=DISTRIBUTION_ROLE, version=APP_VERSION,
                              instance_id=UPDATE_INSTANCE_ID, port=port,
                              host=startup_health_payload()['host'], executable=sys.executable)
 
@@ -3119,7 +3131,7 @@ def system_version_status(request: Request):
         # Hold the existing reentrant lock across scheduling and the snapshot:
         # simultaneous browser polls share one worker and one cached offer.
         with live_check.lock:
-            live_check.start(Path(CONFIG_DIR).parent, APP_MODE, APP_VERSION, automatic=True)
+            live_check.start(Path(CONFIG_DIR).parent, DISTRIBUTION_ROLE, APP_VERSION, automatic=True)
             status = live_check.status()
         latest = status.get('available_version')
         try:
@@ -3161,7 +3173,7 @@ async def system_update_status(request: Request, x_admin_token: Optional[str] = 
                 raise HTTPException(status_code=400, detail='업데이트 실행기로 시작한 프로그램이 아닙니다.')
             _operator_profiles()
             from updater.manual_update import live_check
-            operation = live_check.start(Path(profile_dir), APP_MODE, APP_VERSION)
+            operation = live_check.start(Path(profile_dir), DISTRIBUTION_ROLE, APP_VERSION)
             return {'ok': True, 'operation': operation, 'message': '게시된 버전을 확인하고 있습니다.'}
         if dto.action == 'prepare_restart':
             if not profile_dir:
@@ -3226,7 +3238,7 @@ async def system_update_status(request: Request, x_admin_token: Optional[str] = 
             out['manual'] = live_check.status(Path(profile_dir), request.query_params.get('operation'))
         except Exception:
             raise HTTPException(status_code=400, detail='업데이트 작업 번호가 올바르지 않습니다.')
-    out['mode'] = APP_MODE
+    out['mode'] = DISTRIBUTION_ROLE
     if local:
         try:
             out['settings'] = _viewer_visible_settings(_operator_profiles().read_ini_settings(Path(CONFIG_PATH)))
@@ -3664,7 +3676,7 @@ def reconcile_holiday_supplements(cur, before, after, source):
 def confirm_dinner_duty(cur, poll, candidate, body):
     """Apply one approved dinner date inside DinnerAPI's existing write lock.
 
-    DinnerService checks CA/admin authority, poll revision and idempotency before
+    DinnerService checks approved CA or verified Master authority, poll revision and idempotency before
     calling this narrow adapter. It must not open another write transaction or
     regenerate assignments. A cancellation deliberately leaves this receipt and
     the duty day unchanged; later duty administration remains authoritative.
@@ -6048,7 +6060,7 @@ def already_running(port):
     try:
         with urllib.request.urlopen(f'http://{host}:{port}/api/system/info', timeout=1.5) as r:
             data = json.loads(r.read().decode())
-            return data.get('mode') in ('ADMIN', 'VIEWER')
+            return data.get('distributionRole', data.get('mode')) == DISTRIBUTION_ROLE
     except Exception:
         return False
 
@@ -6127,9 +6139,12 @@ class TrayIcon:
         self.hwnd = None
         self.hicon = None
         self._added = False
+        self._wts = None
         self.user32 = ctypes.WinDLL('user32', use_last_error=True)
         self.shell32 = ctypes.WinDLL('shell32', use_last_error=True)
         self.kernel32 = ctypes.WinDLL('kernel32', use_last_error=True)
+        self.kernel32.GetModuleHandleW.argtypes = [wintypes.LPCWSTR]
+        self.kernel32.GetModuleHandleW.restype = wintypes.HMODULE
 
         LRESULT = ctypes.c_ssize_t
         HWND = wintypes.HWND
@@ -6205,6 +6220,15 @@ class TrayIcon:
 
     def _on_message(self, hwnd, msg, wparam, lparam):
         try:
+            if msg == 0x02B1 and self._wts:  # WM_WTSSESSION_CHANGE
+                # Disconnect, logoff, lock; connect, logon and unlock all invalidate grants in RAM.
+                if wparam in (2, 4, 6, 7):
+                    MASTER.workstation_changed(True)
+                elif wparam in (1, 3, 5, 8):
+                    MASTER.workstation_changed(False)
+                return 0
+            if msg == 0x0016 and wparam and self._wts:  # WM_ENDSESSION
+                MASTER.workstation_changed(True)
             if msg == 32769:
                 low = lparam & 65535
                 if low == 515:
@@ -6267,6 +6291,17 @@ class TrayIcon:
             None, None, wc.hInstance, None)
         if not self.hwnd:
             raise OSError(f'트레이 창 생성 실패 ({self.ct.get_last_error()})')
+        if DISTRIBUTION_ROLE == 'MASTER':
+            from ctypes import wintypes
+            wts = self.ct.WinDLL('wtsapi32', use_last_error=True)
+            wts.WTSRegisterSessionNotification.argtypes = [wintypes.HWND, wintypes.DWORD]
+            wts.WTSUnRegisterSessionNotification.argtypes = [wintypes.HWND]
+            if not wts.WTSRegisterSessionNotification(self.hwnd, 0):  # NOTIFY_FOR_THIS_SESSION
+                raise OSError('Windows 잠금 알림을 등록하지 못했습니다.')
+            self._wts = wts
+            MASTER.monitor_ready(True)
+            if not TRAY_ENABLED:
+                return
         self.hicon = self._icon()
         nid = self._nid(7)
         nid.uCallbackMessage = 32769
@@ -6297,6 +6332,10 @@ class TrayIcon:
 
     def remove(self):
         try:
+            if self._wts:
+                MASTER.monitor_ready(False)
+                self._wts.WTSUnRegisterSessionNotification(self.hwnd)
+                self._wts = None
             if self._added:
                 self.shell32.Shell_NotifyIconW(2, self.ct.byref(self._nid(0)))
                 self._added = False
@@ -6309,10 +6348,10 @@ class TrayIcon:
 
 def run_with_tray(run_port):
     """트레이 아이콘을 띄우고 uvicorn 은 뒤에서 돌린다. 실패하면 False."""
-    if sys.platform != 'win32' or not TRAY_ENABLED:
+    if sys.platform != 'win32' or (not TRAY_ENABLED and DISTRIBUTION_ROLE != 'MASTER'):
         return False
     server = uvicorn.Server(uvicorn.Config(app, host=BIND_HOST, port=run_port, log_config=None))
-    label = '관리자용' if APP_MODE == 'ADMIN' else '조회용'
+    label = {'MASTER': '최고 관리자용', 'ADMIN': '관리자용', 'VIEWER': '조회용'}[DISTRIBUTION_ROLE]
     tray = None
 
     def do_open():
@@ -6362,13 +6401,20 @@ def run_with_tray(run_port):
 
 
 REQUEST_ACCESS = request_access_api.install(app, globals())
+MASTER = master_auth.install(app, request_access_api.HostNamespace(globals()))
+
+
+def dinner_master_authorized(request, cursor=None):
+    return MASTER.authorized(request, cursor)
+
+
 DINNER = dinner_api.install(app, globals())
-for _logger in (logging.getLogger(), logging.getLogger("uvicorn.access")):
-    if not any(isinstance(f, request_access_local.CredentialLogFilter) for f in _logger.filters):
-        _logger.addFilter(request_access_local.CredentialLogFilter())
+for _logger in (logger, logging.getLogger(), logging.getLogger("uvicorn.access")):
+    if not any(isinstance(f, master_auth.PrivateAccessLogFilter) for f in _logger.filters):
+        _logger.addFilter(master_auth.PrivateAccessLogFilter())
     for _handler in _logger.handlers:
-        if not any(isinstance(f, request_access_local.CredentialLogFilter) for f in _handler.filters):
-            _handler.addFilter(request_access_local.CredentialLogFilter())
+        if not any(isinstance(f, master_auth.PrivateAccessLogFilter) for f in _handler.filters):
+            _handler.addFilter(master_auth.PrivateAccessLogFilter())
 
 if os.path.exists(FRONTEND_DIST):
     app.mount('/', NoStoreStaticFiles(directory=FRONTEND_DIST, html=True), name='static')

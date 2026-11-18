@@ -69,20 +69,22 @@ class DinnerAPI:
             # Recheck process mode and administrator credentials while owning the
             # transaction; domain methods separately recheck CA term and binding.
             admin = self.admin(request, required=admin_required)
+            verify_master = getattr(self.h, 'dinner_master_authorized', None)
+            master = bool(verify_master and verify_master(request, cur))
             def confirm_duty(cursor, poll, candidate, body):
                 nonlocal duty_changed
                 result = self.h.confirm_dinner_duty(cursor, poll, candidate, body)
                 duty_changed = True
                 return result
             key = request.headers.get('x-onair-dinner-key', '')
-            peer_response_hash = None
+            peer_response_hashes = None
             if method in ('summary', 'detail', 'respond') and request.headers.get('x-onair-local-session'):
                 @lru_cache(maxsize=4)
-                def peer_response_hash(dataset_id, name):
-                    return self.h.REQUEST_ACCESS.peer_dinner_response_hash(
+                def peer_response_hashes(dataset_id, name):
+                    return self.h.REQUEST_ACCESS.peer_dinner_response_hashes(
                         request, dataset_id, name, key)
-            domain = service.DinnerService(cur, key=key, admin=admin, confirm_duty=confirm_duty,
-                                          peer_response_hash=peer_response_hash)
+            domain = service.DinnerService(cur, key=key, admin=admin, master=master, confirm_duty=confirm_duty,
+                                          peer_response_hashes=peer_response_hashes)
             result = getattr(domain, method)(*args)
             if method in ('manage', 'detail'):
                 result['dutyDataVersion'] = self.h.read_data_version(cur)
@@ -125,6 +127,10 @@ def install(app, host):
     @app.get('/api/dinner/manage')
     def manage(request: Request):
         return api.call(request, 'manage')
+
+    @app.get('/api/dinner/role-management')
+    def role_management(request: Request):
+        return api.call(request, 'role_management', admin_required=True)
 
     @app.get('/api/dinner/polls/{poll_id}')
     def detail(request: Request, poll_id: str, name: str = ''):

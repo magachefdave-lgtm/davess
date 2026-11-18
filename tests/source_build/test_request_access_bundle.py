@@ -13,7 +13,7 @@ builder = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(builder)
 FILES = ('__init__.py', 'request_access_schema.py', 'request_access_store.py',
          'request_access_local.py', 'request_recovery.py', 'request_access_api.py',
-         'dinner_schema.py', 'dinner_service.py', 'dinner_api.py')
+         'dinner_schema.py', 'dinner_service.py', 'dinner_api.py', 'master_auth.py')
 MODULES = ('backend',) + tuple('backend.' + Path(name).stem for name in FILES[1:])
 
 
@@ -27,7 +27,7 @@ def source(tmp_path):
     return root
 
 
-@pytest.mark.parametrize('role', ['ADMIN', 'VIEWER'])
+@pytest.mark.parametrize('role', ['ADMIN', 'VIEWER', 'MASTER'])
 def test_staged_request_access_imports_are_complete_and_allowlisted(source, tmp_path, role):
     stage = tmp_path / role
     builder.prepare_role(source, stage, role, '3.18.35', 'a' * 64)
@@ -54,7 +54,7 @@ def test_request_access_inventory_is_hashed_and_missing_files_fail(source):
         builder.source_paths(source)
 
 
-@pytest.mark.parametrize('role', ['ADMIN', 'VIEWER'])
+@pytest.mark.parametrize('role', ['ADMIN', 'VIEWER', 'MASTER'])
 def test_runtime_selftest_imports_support_modules_without_application(source, tmp_path, role):
     stage = tmp_path / role
     builder.prepare_role(source, stage, role, '3.18.35', 'a' * 64)

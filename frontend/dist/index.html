@@ -3500,6 +3500,16 @@
     <div class="modal-body" style="width:640px;">
       <div class="modal-head"><div class="modal-title">연결 정보</div><button onclick="closeServerInfo()">✕</button></div>
       <div id="serverinfo-body" style="font-size:13px;"></div>
+      <details id="master-program-info" class="master-program-info" hidden>
+        <summary>프로그램 정보</summary>
+        <details id="master-version-detail">
+          <summary>버전 상세</summary>
+          <div id="master-device-info"></div>
+          <button type="button" id="master-session-open" hidden>관리 세션 열기</button>
+          <button type="button" id="master-session-lock" hidden>관리 세션 잠그기</button>
+          <span id="master-status" role="status"></span>
+        </details>
+      </details>
       <div id="serverinfo-update" style="font-size:13px;"></div>
       <div style="display:flex; gap:8px; margin:10px 0;">
         <button class="btn-main" onclick="closeServerInfo(); openDiagModal();">자가 진단 열기</button>
@@ -4133,6 +4143,7 @@
     function checkVersionSkew(data) {
       if (!data) return;
       SYS_INFO = data;
+      window.OnAirMaster?.configure(data);
       renderSysBanners(data);
       const lw = data.lastWrite || {};
       if (lw.version && versionLess(data.version, lw.version) && !versionSkewNotified) {
@@ -4454,7 +4465,7 @@
         const data = await res.json();
         SERVER_CONNECTED = true;
         CONN.server = true;
-        SYSTEM_MODE = data.mode || "VIEWER";
+        SYSTEM_MODE = data.effectiveMode || data.mode || "VIEWER";
         // v3.9.5 SYS_INFO 대입은 아래(배너 출력 직전)라 배지용으로 여기서 따로 받는다.
         APP_VER = data.version || "";
         applyModeUI();
@@ -4462,6 +4473,7 @@
         // v3.9.0 배너는 자리가 하나뿐이라 반드시 한 곳에서 합쳐 출력한다.
         //   따로 쓰면 나중에 쓴 쪽이 앞의 경고를 지운다.
         SYS_INFO = data;
+        window.OnAirMaster?.configure(data);
         renderSysBanners(data);
 
         if (SYSTEM_MODE === "ADMIN") updatePendingBadge(data.pendingCount || 0);
@@ -10883,24 +10895,28 @@
         const res = await fetch("/api/system/info");
         if (!res.ok) throw apiError(res, await readJsonSafe(res));
         const d = await res.json();
+        window.OnAirMaster?.configure(d, true);
         const row = (label, value, warn) =>
           `<tr><th style="width:130px; text-align:left; background:var(--surface-2, #f1f5f9); padding:7px 10px; border:1px solid var(--border);">${label}</th>` +
           `<td style="padding:7px 10px; border:1px solid var(--border); ${warn ? 'color:var(--holiday-text); font-weight:800;' : ''}">${value}</td></tr>`;
         box.innerHTML = `<table style="width:100%; border-collapse:collapse; font-size:12px;">` +
           row("접속 주소", esc(location.origin)) +
-          row("프로그램 종류", d.mode === "ADMIN" ? "관리자용" : "조회용") +
+          row("프로그램 종류", (d.effectiveMode || d.mode) === "ADMIN" ? "관리자용" : "조회용") +
           row("프로그램 버전", esc(d.version || "-")) +
           // v3.18.0 데이터 위치·관리자 암호 상태는 관리자용에서만 보인다(조회용 사용자에게는 필요 없고 오해만 산다).
           (SYSTEM_MODE === "ADMIN" ? row("데이터 위치", `<span style="font-family:monospace; word-break:break-all;">${esc(d.dbPath || "-")}</span>`) : "") +
           row("데이터 연결", d.dbOk ? "정상" : esc(d.detail || "연결 안 됨"), !d.dbOk) +
-          (SYSTEM_MODE === "ADMIN" ? row("관리자 암호", d.authRequired ? "설정됨 (수정 시 암호 필요)" : "설정 안 됨 (누구나 수정 가능)", !d.authRequired && d.mode === "ADMIN") : "") +
+          (SYSTEM_MODE === "ADMIN" ? row("관리자 암호", d.authRequired ? "설정됨 (수정 시 암호 필요)" : "설정 안 됨 (누구나 수정 가능)", !d.authRequired && (d.effectiveMode || d.mode) === "ADMIN") : "") +
           (d.storageWarning ? row("경고", esc(d.storageWarning), true) : "") +
           `</table>`;
       } catch (e) {
         box.innerHTML = `<span style="color:var(--holiday-text); font-weight:800;">${esc(friendlyFetchError(e, null, "연결 정보 불러오기"))}</span>`;
       }
     }
-    function closeServerInfo() { document.getElementById("serverinfo-modal").classList.remove("active"); }
+    function closeServerInfo() {
+      document.getElementById("serverinfo-modal").classList.remove("active");
+      window.OnAirMaster?.collapse();
+    }
 
     function showToast(msg, isError) {
       const t = document.getElementById("toast");
@@ -10927,6 +10943,7 @@
   <script src="/holiday_preview.js"></script>
   <script src="/absence_request_calendar.js"></script>
   <script src="/update_status.js"></script>
+  <script src="/master_session.js"></script>
   <script src="/dinner_polls.js"></script>
   <script src="/dinner_admin.js"></script>
 </body>

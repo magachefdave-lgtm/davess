@@ -225,7 +225,7 @@ test('index.html loads usability and management sidecars after the main script, 
   const tags = [...html.matchAll(/<script\b[^>]*\bsrc="([^"]+)"[^>]*><\/script>/g)].map(m => m[1]);
   assert.deepEqual(tags, ['/usability_common.js', '/holiday_supplement.js', '/usability_personal.js', '/usability_weekly.js',
     '/request_access.js', '/usability_requests.js', '/usability_notifications.js', '/usability_admin.js', '/assignment_explanations.js',
-    '/holiday_management.js', '/absence_management.js', '/holiday_preview.js', '/absence_request_calendar.js', '/update_status.js', '/dinner_polls.js', '/dinner_admin.js']);
+    '/holiday_management.js', '/absence_management.js', '/holiday_preview.js', '/absence_request_calendar.js', '/update_status.js', '/master_session.js', '/dinner_polls.js', '/dinner_admin.js']);
   const mainEnd = html.indexOf(script) + script.length;
   assert.ok(html.indexOf('<script src="/usability_common.js">') > mainEnd, 'sidecars come after the main script');
   for (const src of tags) assert.ok(fs.existsSync(path.join(root, 'frontend/dist', src)), src);

@@ -25,7 +25,10 @@ PRODUCT = 'WLR_OnAir'
 LAUNCHER_VERSION = '1.1.0'
 MAX_PACKAGE_BYTES = 268435456
 MAX_EXECUTABLE_BYTES = 268435456
-EXECUTABLES = {'ADMIN': 'WLR_OnAir_Admin.exe', 'VIEWER': 'WLR_OnAir_Viewer.exe'}
+ROLE_FOLDERS = {'ADMIN': 'Admin', 'VIEWER': 'Viewer', 'MASTER': 'MasterAdmin'}
+EXECUTABLES = {role: f'WLR_OnAir_{folder}.exe' for role, folder in ROLE_FOLDERS.items()}
+ROLE_LABELS = {'ADMIN': '관리자용', 'VIEWER': '조회용', 'MASTER': '최고 관리자용'}
+DEFAULT_PORTS = {'ADMIN': 8000, 'VIEWER': 8001, 'MASTER': 8002}
 _PAYLOAD_KEYS = {'schema', 'product', 'role', 'version', 'sequence', 'package', 'sha256',
                  'size', 'executable', 'min_launcher', 'data_schema'}
 _CANDIDATE_KEYS = {'role', 'version', 'sequence', 'path', 'sha256', 'data_schema'}
@@ -37,7 +40,7 @@ class UpdateError(Exception):
     """A rejected update, unavailable repository, or incompatible local cache."""
 
 
-def _role(role: str) -> str:
+def validate_role(role: str) -> str:
     if not isinstance(role, str) or role not in EXECUTABLES:
         raise UpdateError('유효하지 않은 프로그램 역할입니다.')
     return role
@@ -195,7 +198,7 @@ def _base64(text, length: int, label: str) -> bytes:
 
 
 def validate_bootstrap(value: dict, role: str) -> dict:
-    _role(role)
+    validate_role(role)
     if type(value) is not dict or set(value) != {'schema', 'product', 'role', 'repository', 'public_key'}:
         raise UpdateError('초기 업데이트 설정의 필드가 올바르지 않습니다.')
     if type(value['schema']) is not int or value['schema'] != 1 or value['product'] != PRODUCT or value['role'] != role:
@@ -210,7 +213,7 @@ def validate_bootstrap(value: dict, role: str) -> dict:
 
 
 def verify_envelope(envelope: dict, public_key: str, role: str) -> dict:
-    _role(role)
+    validate_role(role)
     if type(envelope) is not dict or set(envelope) != {'payload', 'signature'}:
         raise UpdateError('서명된 업데이트 선언의 필드가 올바르지 않습니다.')
     payload = envelope['payload']
@@ -274,7 +277,7 @@ def stage_update(repository: Path, profile: Path, role: str, public_key: str,
                  highest_sequence: int = 0, current_version: str = '0.0.0', *,
                  expected_envelope: dict | None = None, progress=None) -> dict | None:
     """Authenticate, locally stage and atomically install; never activate/write state."""
-    _role(role)
+    validate_role(role)
     if not _integer(highest_sequence, 0):
         raise UpdateError('기존 업데이트 배포 차수가 올바르지 않습니다.')
     current = parse_version(current_version)
@@ -344,7 +347,7 @@ def stage_update(repository: Path, profile: Path, role: str, public_key: str,
 
 
 def verify_candidate(candidate: dict, profile: Path, role: str) -> Path:
-    _role(role)
+    validate_role(role)
     if type(candidate) is not dict or set(candidate) != _CANDIDATE_KEYS:
         raise UpdateError('설치된 버전 정보의 필드가 올바르지 않습니다.')
     if (candidate['role'] != role or type(candidate['data_schema']) is not int

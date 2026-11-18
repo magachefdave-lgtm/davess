@@ -54,7 +54,7 @@ jobs:
         shell: python
         run: |
           from pathlib import Path
-          import hashlib,json,os,zipfile
+          import ast,hashlib,json,os,zipfile
           p=Path('files');version=os.environ['RELEASE_VERSION']
           assert Path('VERSION').read_text().strip()==version
           manifest=json.loads(Path('SOURCE_MANIFEST.json').read_text())
@@ -63,10 +63,23 @@ jobs:
           assert m['source_fingerprint']==manifest['source_fingerprint']
           assert (p/'BUILD_SUCCESS.txt').is_file()
           assert not (p/'BUILD_INCOMPLETE.txt').exists()
-          assert {a['role'] for a in m['artifacts']}=={'ADMIN','VIEWER'}
+          # Historical successful runs used a two-role build. Verify against
+          # the role table from the exact source commit recorded by Actions.
+          tree=ast.parse(Path('build.py').read_text(encoding='utf-8'))
+          roles,=[ast.literal_eval(node.value) for node in tree.body if isinstance(node,ast.Assign)
+                  and any(isinstance(t,ast.Name) and t.id=='ROLES' for t in node.targets)]
+          legacy={'ADMIN':'Admin','VIEWER':'Viewer'}
+          assert roles in (legacy,legacy|{'MASTER':'MasterAdmin'})
+          assert len(m['artifacts'])==len(roles)
+          assert {a['role'] for a in m['artifacts']}==set(roles)
           for a in m['artifacts']:
+              role=a['role'];label=roles[role]
+              assert a['file']==f'{label}/WLR_OnAir_{label}.exe'
               assert hashlib.sha256((p/a['file']).read_bytes()).hexdigest()==a['sha256']
-              assert a['checks']['frozen_self_test']['ok'] is True
+              report=json.loads((p/f'{label}_SELFTEST.json').read_text())
+              assert report==a['checks']['frozen_self_test'] and report['ok'] is True
+              assert report['role']==role and report['publisher_present'] is (role=='ADMIN')
+              assert report['version']==version and report['source_fingerprint']==m['source_fingerprint']
           assert hashlib.sha256((p/m['update_zip']['file']).read_bytes()).hexdigest()==m['update_zip']['sha256']
           z=Path(f'WLR_OnAir_v{version}_Windows.zip')
           with zipfile.ZipFile(z,'w',zipfile.ZIP_DEFLATED,compresslevel=6) as archive:
@@ -74,7 +87,8 @@ jobs:
                   if f.is_file(): archive.write(f,f.relative_to(p))
           digest=hashlib.sha256(z.read_bytes()).hexdigest()
           Path('WINDOWS_SHA256SUMS.txt').write_text(digest+'  '+z.name+'\n')
-          Path('release-notes.md').write_text(f'WLR OnAir v{version} Windows Admin·Viewer 실행파일.\n\nWindows Server 2022 / Python 3.12에서 EXE 생성과 자체점검을 통과했습니다. ZIP에는 Admin, Viewer, 업데이트 ZIP, 배포관리.cmd, 빌드 기록이 포함됩니다.\n\n실제 PC의 최초 설정·공유폴더·트레이·DPAPI·업데이트는 별도 확인 항목입니다. 운영 공유폴더에 자동 게시하지 않습니다.\n\n빌드: https://github.com/{os.environ["GH_REPO"]}/actions/runs/{os.environ["BUILD_RUN_ID"]}\n')
+          labels='·'.join(roles.values())
+          Path('release-notes.md').write_text(f'WLR OnAir v{version} Windows {labels} 실행파일.\n\nWindows Server 2022 / Python 3.12에서 EXE 생성과 자체점검을 통과했습니다. ZIP에는 역할별 실행파일, 업데이트 ZIP, 배포관리.cmd, 빌드 기록이 포함됩니다.\n\n실제 PC의 최초 설정·공유폴더·트레이·DPAPI·업데이트는 별도 확인 항목입니다. 운영 공유폴더에 자동 게시하지 않습니다.\n\n빌드: https://github.com/{os.environ["GH_REPO"]}/actions/runs/{os.environ["BUILD_RUN_ID"]}\n')
       - name: Publish download
         env:
           SOURCE_COMMIT: ${{ steps.build.outputs.commit }}
@@ -83,7 +97,7 @@ jobs:
             python -c 'import json; r=json.load(open("release-state.json")); assert r["isDraft"] and not r["assets"], "Published or populated releases are immutable"'
             test "$(gh api "repos/$GH_REPO/git/ref/tags/v$RELEASE_VERSION" --jq .object.sha)" = "$SOURCE_COMMIT"
           else
-            gh release create "v$RELEASE_VERSION" --draft --target "$SOURCE_COMMIT" --title "WLR OnAir v$RELEASE_VERSION Windows Admin and Viewer" --notes-file release-notes.md
+            gh release create "v$RELEASE_VERSION" --draft --target "$SOURCE_COMMIT" --title "WLR OnAir v$RELEASE_VERSION Windows" --notes-file release-notes.md
           fi
           gh release upload "v$RELEASE_VERSION" "WLR_OnAir_v${RELEASE_VERSION}_Windows.zip" WINDOWS_SHA256SUMS.txt
           gh release edit "v$RELEASE_VERSION" --draft=false --notes-file release-notes.md

@@ -23,7 +23,8 @@ import time
 import zipfile
 
 ROOT = Path(__file__).resolve().parent
-ROLES = {'ADMIN': 'Admin', 'VIEWER': 'Viewer'}
+ROLES = {'ADMIN': 'Admin', 'VIEWER': 'Viewer', 'MASTER': 'MasterAdmin'}
+ROLE_TITLES = {'ADMIN': '관리자용', 'VIEWER': '조회용', 'MASTER': '최고 관리자용'}
 SOURCE_FILES = ('VERSION', 'entrypoint.py', 'build.py', 'build_windows.py',
                 'build_windows.cmd', '배포관리.cmd', 'build_preflight.py', 'build_selftest.py',
                 'collect_wheels.py', 'collect_wheels.cmd', 'requirements.txt',
@@ -32,7 +33,7 @@ SOURCE_FILES = ('VERSION', 'entrypoint.py', 'build.py', 'build_windows.py',
                 'requirements-test.txt', 'backend/main.py')
 BACKEND_FILES = ('__init__.py', 'request_access_schema.py', 'request_access_store.py',
                  'request_access_local.py', 'request_recovery.py', 'request_access_api.py',
-                 'dinner_schema.py', 'dinner_service.py', 'dinner_api.py')
+                 'dinner_schema.py', 'dinner_service.py', 'dinner_api.py', 'master_auth.py')
 BACKEND_MODULES = ('backend',) + tuple('backend.' + Path(name).stem for name in BACKEND_FILES[1:])
 UPDATER_FILES = ('__init__.py', 'core.py', 'launcher.py', 'profiles.py', 'publisher.py', 'setup_ui.py', 'manual_update.py', 'process_identity.py')
 METHOD = 'clean-source-pyinstaller'
@@ -202,7 +203,7 @@ def prepare_role(root, stage, role, version, fingerprint):
     shutil.copyfile(root / 'build_preflight.py', stage / 'build_preflight.py')
     (stage / 'updater').mkdir()
     for name in UPDATER_FILES:
-        if role == 'VIEWER' and name == 'publisher.py':
+        if role != 'ADMIN' and name == 'publisher.py':
             continue
         shutil.copyfile(root / 'updater' / name, stage / 'updater' / name)
     # Enumerate/validate before copying; never copy databases, profiles or recovered runtime.
@@ -235,7 +236,7 @@ def pyinstaller_command(python, stage, work, dist, role):
                '--collect-submodules', 'websockets']
     for name in BACKEND_MODULES:
         command += ['--hidden-import', name]
-    if role == 'VIEWER':
+    if role != 'ADMIN':
         command += ['--exclude-module', 'updater.publisher']
     command.append(str(stage / 'entrypoint.py'))
     return command
@@ -244,7 +245,7 @@ def pyinstaller_command(python, stage, work, dist, role):
 def compile_role(stage, work, dist, role, log_path, timeout=COMPILE_TIMEOUT):
     """Bound one freezer invocation and keep complete per-role diagnostics."""
     runner = load_source_module('onair_compile_runner', ROOT / 'build_windows.py')
-    label = '관리자용' if role == 'ADMIN' else '조회용'
+    label = ROLE_TITLES[role]
     with Path(log_path).open('w', encoding='utf-8') as log:
         runner.run_logged(pyinstaller_command(sys.executable, stage, work, dist, role),
                           log, stage, timeout=timeout, label=f'{label} EXE 생성',
@@ -281,7 +282,7 @@ def verify_archive(executable, role, version, info):
         if name not in modules:
             raise ValueError(f'EXE 필수 Python 모듈 누락: {name}')
     if ('updater.publisher' in modules) != (role == 'ADMIN'):
-        raise ValueError('EXE 관리자/조회용 publisher 분리 실패')
+        raise ValueError('EXE 역할별 업데이트 배포 모듈 분리 실패')
     with pefile.PE(str(executable)) as pe:
         if pe.FILE_HEADER.Machine != 0x8664 or pe.OPTIONAL_HEADER.Subsystem != 2:
             raise ValueError('EXE는 Windows AMD64 GUI 형식이어야 합니다.')
@@ -418,7 +419,7 @@ def build(root, output):
             for role, label in ROLES.items():
                 stage = Path(temp) / role
                 info = prepare_role(root, stage, role, manifest['version'], manifest['source_fingerprint'])
-                title = '관리자용' if role == 'ADMIN' else '조회용'
+                title = ROLE_TITLES[role]
                 build_progress(f'{title}: EXE 생성 시작')
                 compile_role(stage, Path(temp) / f'work-{role}', output / label, role, output / f'{label}_BUILD.log')
                 executable = output / label / f'WLR_OnAir_{label}.exe'

@@ -28,14 +28,14 @@ from cryptography.hazmat.primitives.kdf.scrypt import Scrypt
 
 from . import core
 from .core import (
-    LAUNCHER_VERSION, UpdateError, atomic_json, canonical_json, load_json, parse_version,
-    public_key_fingerprint, sha256_file, verify_envelope,
+    EXECUTABLES, LAUNCHER_VERSION, ROLE_FOLDERS, ROLE_LABELS, UpdateError, atomic_json,
+    canonical_json, load_json, parse_version, public_key_fingerprint, sha256_file, verify_envelope,
 )
 
 PRODUCT = 'WLR_OnAir'
 MAX_PACKAGE = 268435456
 MAX_JSON = 65536
-EXECUTABLES = {'ADMIN': 'WLR_OnAir_Admin.exe', 'VIEWER': 'WLR_OnAir_Viewer.exe'}
+STANDARD_ROLES = ('ADMIN', 'VIEWER')
 PUBLIC_PIN = 'public_key.json'
 _KEY_ENTROPY = b'WLR_OnAir publisher private key v1'
 KEY_FILE_NAME = 'signing_key.json'
@@ -46,7 +46,6 @@ BACKUP_FORMAT = 'wlr-onair-key-backup'
 BACKUP_SCRYPT = {'n': 2 ** 15, 'r': 8, 'p': 1}
 MIN_PASSPHRASE = 12
 _HASH_RE = re.compile(r'^[0-9a-f]{64}$')
-ROLE_LABELS = {'ADMIN': '관리자용', 'VIEWER': '조회용'}
 # 게시 화면의 확인란 이름. 오류 문장이 화면의 실제 이름을 그대로 가리키도록 여기 한 곳에서 정한다.
 FORCE_RESET_LABEL = '(경고가 떴을 때만) 저장소를 복원한 것이 맞고 그래도 게시합니다.'
 NEW_REPOSITORY_LABEL = '이 폴더에 새 업데이트 저장소를 만드는 것이 맞습니다.'
@@ -641,7 +640,7 @@ def set_paused(repository, roles, paused: bool) -> dict:
     try:
         if (not isinstance(roles, (tuple, list)) or not roles
                 or any(role not in EXECUTABLES for role in roles)):
-            _fail('일시 정지할 대상(관리자용 / 조회용)을 골라 주세요.')
+            _fail('일시 정지할 대상(관리자용 / 조회용 / 최고 관리자용)을 골라 주세요.')
         repo = _safe_path(repository, absolute=True)
         if _read_pin(repo) is None:
             _fail('게시된 적이 없는 저장소입니다. 경로를 확인하세요.')
@@ -696,13 +695,13 @@ def _valid_zip_member(info):
 @contextlib.contextmanager
 def _validated_release(release_zip):
     release_zip = _safe_path(release_zip, absolute=True)
-    if not release_zip.is_file() or release_zip.stat().st_size > 2 * MAX_PACKAGE + MAX_JSON + 8192:
+    if not release_zip.is_file() or release_zip.stat().st_size > len(EXECUTABLES) * MAX_PACKAGE + MAX_JSON + 8192:
         _fail('Update ZIP 파일이 없거나 너무 큽니다. 경로를 다시 확인하세요.')
     try:
         with zipfile.ZipFile(release_zip) as archive, tempfile.TemporaryDirectory(prefix='onair-release-') as temporary:
             entries = archive.infolist()
-            expected = {'release.json', *(f'{role}/{exe}' for role, exe in EXECUTABLES.items())}
-            if len(entries) != 3 or {info.filename for info in entries} != expected:
+            members = {info.filename for info in entries}
+            if len(entries) not in (3, 4) or len(entries) != len(members) or 'release.json' not in members:
                 _fail('Update ZIP 안의 파일 구성이 다릅니다. 빌드 완료 폴더의 WLR_OnAir_v버전_Update.zip 을 그대로 고르세요.')
             for info in entries:
                 _valid_zip_member(info)
@@ -717,11 +716,14 @@ def _validated_release(release_zip):
                 _fail('이 게시 도구가 지원하지 않는 Update ZIP 형식입니다. 같은 빌드 폴더의 배포관리.cmd 로 게시하세요.')
             parse_version(manifest['version'])
             files = manifest['files']
-            if not isinstance(files, dict) or set(files) != set(EXECUTABLES):
-                _fail('관리자·조회용 파일 선언이 모두 필요합니다.')
+            if not isinstance(files, dict) or set(files) not in (set(STANDARD_ROLES), set(EXECUTABLES)):
+                _fail('관리자·조회용 파일 선언이 필요합니다. 최고 관리자용은 추가로 포함할 수 있습니다.')
+            expected = {'release.json', *(f'{role}/{EXECUTABLES[role]}' for role in files)}
+            if members != expected:
+                _fail('Update ZIP의 파일과 버전 정보에 선언된 파일이 다릅니다. 빌드 완료 폴더에서 다시 복사하세요.')
             extracted = {}
-            for role, executable in EXECUTABLES.items():
-                declared = files[role]
+            for role, declared in files.items():
+                executable = EXECUTABLES[role]
                 expected_path = f'{role}/{executable}'
                 if not isinstance(declared, dict) or set(declared) != {'path', 'sha256', 'size'}:
                     _fail(f'{_label(role)} 파일 선언이 올바르지 않습니다.')
@@ -812,7 +814,7 @@ def _commit_immutable(source, destination):
 
 
 def _make_installer(path, role, version, executable_path, repository, public_key):
-    label = '관리자용' if role == 'ADMIN' else '조회용'
+    label = ROLE_LABELS[role]
     fingerprint = public_key_fingerprint(public_key)
     bootstrap = {'schema': 1, 'product': PRODUCT, 'role': role,
                  'repository': str(repository), 'public_key': public_key}
@@ -869,7 +871,7 @@ PROGRESS_STEPS = (
 
 
 def publish_release(repository: Path, release_zip: Path, key_path: Path,
-                    installer_output: Path | None = None, *, roles=('ADMIN', 'VIEWER'),
+                    installer_output: Path | None = None, *, roles=STANDARD_ROLES,
                     min_launcher: str = '1.0.0', force_sequence_reset: bool = False,
                     progress=None) -> dict:
     """Validate the entire release, then explicitly publish selected role channels.
@@ -895,11 +897,13 @@ def publish_release(repository: Path, release_zip: Path, key_path: Path,
             _fail(f'요구 업데이트 실행기 버전({min_launcher})이 이 게시 도구의 업데이트 실행기 버전({LAUNCHER_VERSION})보다 높습니다.')
         if (not isinstance(roles, (tuple, list)) or not roles or len(set(roles)) != len(roles)
                 or any(role not in EXECUTABLES for role in roles)):
-            _fail('게시 대상(관리자용 / 조회용)을 다시 골라 주세요.')
+            _fail('게시 대상(관리자용 / 조회용 / 최고 관리자용)을 다시 골라 주세요.')
         repository, key_path, installer_output = _storage_paths(repository, key_path, installer_output)
         # A malformed release must not create repository, pin, or private key.
         step(PROGRESS_STEPS[0])
         with _validated_release(release_zip) as (manifest, extracted):
+            if 'MASTER' in roles and 'MASTER' not in extracted:
+                _fail('이 Update ZIP에는 최고 관리자용 실행파일이 없습니다. 최고 관리자용이 포함된 버전을 선택하세요.')
             step(PROGRESS_STEPS[1])
             with _publisher_lock(repository):
                 key_created = not os.path.lexists(key_path)
@@ -968,12 +972,13 @@ def publish_release(repository: Path, release_zip: Path, key_path: Path,
                     if installer_output is not None:
                         step(PROGRESS_STEPS[3])
                         for role in roles:
-                            label = 'Admin' if role == 'ADMIN' else 'Viewer'
+                            label = ROLE_FOLDERS[role]
                             filename = f'WLR_OnAir_{version}_{label}.zip'
                             installer = temporary / filename
                             _make_installer(installer, role, version, extracted[role], repository, public_key)
-                            _commit_immutable(installer, installer_output / filename)
-                            installers[role] = str(installer_output / filename)
+                            folder = installer_output / label if role == 'MASTER' else installer_output
+                            _commit_immutable(installer, folder / filename)
+                            installers[role] = str(folder / filename)
                     step(PROGRESS_STEPS[4])
                     for role in roles:
                         _commit_immutable(packages[role], repository / payloads[role]['package'])

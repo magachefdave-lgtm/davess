@@ -111,7 +111,7 @@ def test_build_exposes_post_exe_checks_and_zip_completion(tmp_path, monkeypatch,
     def compile_role(stage, work, dist, role, logfile, **options):
         events.append(('compile',role))
         dist.mkdir(parents=True)
-        (dist/('WLR_OnAir_'+{'ADMIN':'Admin','VIEWER':'Viewer'}[role]+'.exe')).write_bytes(b'INERT TEST '+role.encode())
+        (dist/f'WLR_OnAir_{builder.ROLES[role]}.exe').write_bytes(b'INERT TEST '+role.encode())
     monkeypatch.setattr(builder, 'compile_role', compile_role, raising=False)
     def archive(executable, role, ver, info):
         events.append(('archive', role));return {'archive_verified': True}
@@ -127,7 +127,8 @@ def test_build_exposes_post_exe_checks_and_zip_completion(tmp_path, monkeypatch,
     output = tmp_path/'output'
     builder.build(ROOT, output)
     assert events == [('compile','ADMIN'),('archive','ADMIN'),('selftest','ADMIN'),
-                      ('compile','VIEWER'),('archive','VIEWER'),('selftest','VIEWER')]
+                      ('compile','VIEWER'),('archive','VIEWER'),('selftest','VIEWER'),
+                      ('compile','MASTER'),('archive','MASTER'),('selftest','MASTER')]
     text = capsys.readouterr().out
     assert text.count('ONAIR_BUILD_PROGRESS ') >= 8
     assert '관리자용' in text and '조회용' in text and 'ZIP' in text

@@ -10,24 +10,27 @@ from pathlib import Path
 
 import pytest
 
-from updater import publisher
+from updater import core, publisher
 from updater.core import UpdateError, canonical_json, load_json, verify_envelope
 
 
 EXES = {'ADMIN': b'MZadmin executable fixture', 'VIEWER': b'MZviewer executable fixture'}
 
 
-def release_zip(tmp_path, version='3.15.0', *, edit=None, extra=None, duplicate=None, symlink=None):
+def release_zip(tmp_path, version='3.15.0', *, edit=None, extra=None, duplicate=None, symlink=None, include_master=False):
+    executables = dict(EXES)
+    if include_master:
+        executables['MASTER'] = b'MZmaster executable fixture'
     files = {role: {'path': f'{role}/{publisher.EXECUTABLES[role]}',
                     'sha256': hashlib.sha256(data).hexdigest(), 'size': len(data)}
-             for role, data in EXES.items()}
+             for role, data in executables.items()}
     manifest = {'schema': 1, 'product': 'WLR_OnAir', 'version': version, 'data_schema': 1, 'files': files}
     if edit:
         edit(manifest)
     path = tmp_path / ('release-' + str(version).replace('/', '_') + '.zip')
     with zipfile.ZipFile(path, 'w') as archive:
         archive.writestr('release.json', canonical_json(manifest))
-        for role, data in EXES.items():
+        for role, data in executables.items():
             member = f'{role}/{publisher.EXECUTABLES[role]}'
             if symlink == role:
                 info = zipfile.ZipInfo(member)
@@ -111,6 +114,43 @@ def test_publish_signed_packages_and_role_installers(tmp_path):
                                  'repository': str(repo), 'public_key': pin}
             assert 'private_key' not in archive.read('onair_update.json').decode()
             assert key.name not in archive.namelist()
+
+
+def test_master_publication_is_explicit_and_role_bound(tmp_path):
+    repo, key, output = tmp_path / 'repo', tmp_path / 'key.json', tmp_path / 'installers'
+    release = release_zip(tmp_path, include_master=True)
+    ordinary = publisher.publish_release(repo, release, key, output)
+    assert set(ordinary['channels']) == set(ordinary['installers']) == {'ADMIN', 'VIEWER'}
+    assert not (repo / 'channels' / 'MASTER.json').exists()
+    assert not (repo / 'packages' / 'MASTER').exists()
+    assert not (output / 'MasterAdmin').exists()
+    channels = {role: (repo / 'channels' / f'{role}.json').read_bytes() for role in EXES}
+    master = publisher.publish_release(repo, release, key, output, roles=('MASTER',))
+    assert set(master['channels']) == set(master['installers']) == {'MASTER'}
+    for role, original in channels.items():
+        assert (repo / 'channels' / f'{role}.json').read_bytes() == original
+    installer = Path(master['installers']['MASTER'])
+    assert installer == output / 'MasterAdmin' / 'WLR_OnAir_3.15.0_MasterAdmin.zip'
+    with zipfile.ZipFile(installer) as archive:
+        assert set(archive.namelist()) == {'WLR_OnAir_MasterAdmin.exe', 'onair_update.json', 'README.txt'}
+        assert '최고 관리자용' in archive.read('README.txt').decode('utf-8-sig')
+        pin = core.validate_bootstrap(json.loads(archive.read('onair_update.json')), 'MASTER')
+        exe = archive.read('WLR_OnAir_MasterAdmin.exe')
+    envelope = core.load_json(repo / 'channels' / 'MASTER.json')
+    for role in EXES:
+        with pytest.raises(UpdateError):
+            verify_envelope(envelope, pin['public_key'], role)
+    profile = tmp_path / 'profiles' / 'MASTER'
+    candidate = core.stage_update(repo, profile, 'MASTER', pin['public_key'])
+    assert core.verify_candidate(candidate, profile, 'MASTER').read_bytes() == exe
+
+
+def test_historical_release_cannot_publish_master(tmp_path):
+    repo, key = tmp_path / 'repo', tmp_path / 'key.json'
+    with pytest.raises(UpdateError, match='최고 관리자용'):
+        publisher.publish_release(repo, release_zip(tmp_path), key, roles=('MASTER',))
+    assert not repo.exists()
+    assert not key.exists()
 
 
 @pytest.mark.parametrize('edit', [

@@ -23,6 +23,7 @@ from datetime import datetime
 from urllib.request import ProxyHandler, build_opener
 
 from . import core, profiles
+from .core import DEFAULT_PORTS, EXECUTABLES
 
 
 STARTUP_TIMEOUT = 120.0          # 기본값(초). 프로필 INI [UPDATE] startup_timeout_seconds 로 조정
@@ -37,7 +38,6 @@ VERSIONS_KEEP_RECENT = 3
 HEALTH_POLL_INTERVAL = 0.15
 HEALTH_MAX_BYTES = 4096
 STATE_MAX_BYTES = 65536
-EXECUTABLES = {'ADMIN': 'WLR_OnAir_Admin.exe', 'VIEWER': 'WLR_OnAir_Viewer.exe'}
 IS_WINDOWS = os.name == 'nt'
 STATUS_FILE = 'update_status.json'      # 프로그램 화면 [연결 정보] 가 읽는 마지막 업데이트 확인 결과
 RESET_REQUEST = 'reset_blocked.request'  # 화면의 '차단된 업데이트 다시 허용' 버튼이 남기는 요청 표식
@@ -359,7 +359,7 @@ def _seed_bundled(executable: Path, profile: Path, role: str, version: str) -> d
 
 def _read_update_settings(config: Path, role: str) -> configparser.ConfigParser:
     """[UPDATE] 설정 읽기. 어떤 문제가 있어도 빈 설정(=기본값)으로 처리한다(utf-8-sig -> cp949)."""
-    path = config / ('config_admin.ini' if role == 'ADMIN' else 'config_viewer.ini')
+    path = config / f'config_{role.lower()}.ini'
     for encoding in ('utf-8-sig', 'cp949'):
         settings = configparser.ConfigParser(interpolation=None)
         try:
@@ -390,7 +390,7 @@ def _reset_requested(settings: configparser.ConfigParser) -> bool:
 
 def _expected_host(config: Path, role: str) -> str:
     settings = configparser.ConfigParser(interpolation=None)
-    path = config / ('config_admin.ini' if role == 'ADMIN' else 'config_viewer.ini')
+    path = config / f'config_{role.lower()}.ini'
     try:
         settings.read(path, encoding='utf-8-sig')
     except (UnicodeDecodeError, configparser.MissingSectionHeaderError):
@@ -424,28 +424,29 @@ def _ensure_no_running_app(config: Path, role: str) -> None:
     """Detect a previous/orphaned server; never attach to or terminate it."""
     host = _expected_host(config, role)
     settings = configparser.ConfigParser(interpolation=None)
-    path = config / ('config_admin.ini' if role == 'ADMIN' else 'config_viewer.ini')
+    path = config / f'config_{role.lower()}.ini'
     try:
         settings.read(path, encoding='utf-8-sig')
     except (UnicodeDecodeError, configparser.MissingSectionHeaderError):
         settings.read(path, encoding='cp949')
     try:
-        port = int(settings.get('NETWORK', 'server_port', fallback='8000' if role == 'ADMIN' else '8001'))
+        port = settings.getint('NETWORK', 'server_port', fallback=DEFAULT_PORTS[role])
     except ValueError:
-        port = 8000 if role == 'ADMIN' else 8001
+        port = DEFAULT_PORTS[role]
     if not 1 <= port <= 65535:
         raise core.UpdateError('설정된 프로그램 포트가 올바르지 않습니다.')
     for current in range(port, min(port + 21, 65536)):
         try:
             info = _read_system_info(host, current)
-            if not isinstance(info, dict) or info.get('mode') not in EXECUTABLES:
+            running_role = info.get('distributionRole', info.get('mode')) if isinstance(info, dict) else None
+            if not isinstance(running_role, str) or running_role not in EXECUTABLES:
                 continue
             core.parse_version(info.get('version'))
         except (OSError, ValueError, core.UpdateError):
             continue
-        # At the configured port the legacy server's duplicate detection also
-        # refuses another role. Elsewhere only this profile's role blocks us.
-        if current == port or info['mode'] == role:
+        # Older releases refuse any existing WLR instance on their configured
+        # port. A role-aware server can share the PC using the next free port.
+        if running_role == role or (current == port and 'distributionRole' not in info):
             raise core.UpdateError('기존 WLR OnAir 프로그램이 실행 중입니다. 작업을 저장하고 해당 프로그램의 트레이에서 종료한 뒤 다시 실행해 주세요. 트레이 아이콘이 없으면 작업 관리자에서 WLR_OnAir_*.exe 를 종료해 주세요. 기존 프로그램은 종료하지 않았습니다.')
 
 
@@ -1040,10 +1041,10 @@ def run(role: str, executable: Path, *, version: str) -> int:
     설치본이 캐시보다 새 것/오래된 것으로 잘못 판단된다).
     """
     if role not in EXECUTABLES:
-        raise core.UpdateError('관리자용 또는 조회용 프로그램 구분이 필요합니다.')
+        raise core.UpdateError('프로그램 구분을 확인할 수 없습니다.')
     executable = Path(executable).absolute()
     if executable.name != EXECUTABLES[role]:
-        raise core.UpdateError('관리자용과 조회용 실행파일의 구분이 일치하지 않습니다.')
+        raise core.UpdateError(f'{core.ROLE_LABELS[role]} 실행파일 이름은 {EXECUTABLES[role]}이어야 합니다.')
     core.parse_version(version)
     profile = profiles.profile_dir(role)
     profile.mkdir(parents=True, mode=0o700, exist_ok=True)

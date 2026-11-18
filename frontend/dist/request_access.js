@@ -121,6 +121,7 @@ async function decision(action){const snapshot=view();try{if(action==='APPROVE'&
 async function refresh(){if(document.hidden||refreshBusy===viewGeneration||!$('ra-modal')?.classList.contains('active'))return;const generation=viewGeneration;refreshBusy=generation;try{if(adminMode)await refreshAdmin();else await refreshEmployee();}finally{if(refreshBusy===generation)refreshBusy=null;}}
 function startPolling(){clearInterval(timer);timer=setInterval(()=>{if(!document.hidden&&$('ra-modal')?.classList.contains('active'))refresh();},10000);}
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&$('ra-modal')?.classList.contains('active'))refresh();});
-window.OnAirRequestAccess={syncAdminNotifications,bootstrap,dinnerCredentials,refreshReceipts,renderBanner,submitDurable,openRecovery,openAdminRecovery,refresh,create,claim,cancel,preview,adminList:()=>{++viewGeneration;active=null;selected.clear();digest=null;return refreshAdmin();},search:()=>{++viewGeneration;query=$('ra-search').value;offset=0;digest=null;return candidates();},approve:()=>decision('APPROVE'),reject:()=>decision('REJECT'),close};
+async function localSessionToken(){return await bootstrap() ? session.sessionToken : null;}
+window.OnAirRequestAccess={syncAdminNotifications,bootstrap,localSessionToken,dinnerCredentials,refreshReceipts,renderBanner,submitDurable,openRecovery,openAdminRecovery,refresh,create,claim,cancel,preview,adminList:()=>{++viewGeneration;active=null;selected.clear();digest=null;return refreshAdmin();},search:()=>{++viewGeneration;query=$('ra-search').value;offset=0;digest=null;return candidates();},approve:()=>decision('APPROVE'),reject:()=>decision('REJECT'),close};
 bootstrap().catch(()=>{});
 })();

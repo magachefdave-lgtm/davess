@@ -9,7 +9,7 @@ import pytest
 
 from test_backend_regression import AUTH, load_app
 from test_backend_manual_backup import server_app, backup, files, read_success
-from test_dinner_api import assign, assign_year, key_headers, op, publish, send, KST
+from test_dinner_api import assign, assign_year, key_headers, op, operate, publish, send, KST
 from datetime import datetime
 
 
@@ -63,7 +63,7 @@ def test_restore_manual_full_backup_recovers_original_response_and_revokes_ca_co
     assert approved.status_code == 200, approved.text
     poll, key = answered(app)
     body, _, full = full_backup(app)
-    changed = send(app, '/polls/' + poll['id'], op(title='백업 뒤 변경된 제목', expectedRevision=poll['revision']), method='patch')
+    changed = operate(app, '/polls/' + poll['id'], op(title='백업 뒤 변경된 제목', expectedRevision=poll['revision']), method='patch')
     assert changed.status_code == 200, changed.text
     revised = changed.json()['poll']
     amended = send(app, '/polls/' + poll['id'] + '/response', op(memberName='A', answers={'first':'difficult','second':'possible'},
@@ -102,7 +102,7 @@ def test_annual_roles_backed_up_and_restore_preserves_latest_appointments(server
     assign_year(app, year + 1, 'C', revision=1)
     restored = app.post('/api/system/restore', {'name': full.name, 'baseVersion': app.data()['dataVersion']})
     assert restored.status_code == 200, restored.text
-    managed = app.client.get('/api/dinner/manage', headers=AUTH).json()
+    managed = app.client.get('/api/dinner/role-management', headers=AUTH).json()
     assert [(r['roleId'], r['memberName']) for r in managed['roles']] == [(year, 'A'), (year + 1, 'C')]
     assert all(c['status'] == 'INVALIDATED' for c in managed['connections'])
     assert app.client.get('/api/dinner/manage', headers=key_headers(keys[0])).status_code == 403

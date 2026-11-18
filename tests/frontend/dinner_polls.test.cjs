@@ -87,10 +87,63 @@ test('future CA can reach connection setup without receiving an early management
  a.summary().assignedRole={memberName:'이서연',active:false,roleId:2099};
  a.summary().connection={status:'APPROVED',active:false,roleId:2099};
  await available(a).open(null,true);
- const html=a.panels.at(-1).html;assert.match(html,/data-dinner-action="role"/);assert.doesNotMatch(html,/data-dinner-action="manage"/);
+ const html=a.panels.at(-1).html;assert.match(html,/data-dinner-action="own-role"/);assert.doesNotMatch(html,/data-dinner-action="manage"/);
 });
 test('active approved CA keeps the management entry',async()=>{
  const a=app();a.summary().polls=[];a.summary().role={memberName:'이서연',active:true};
- a.summary().assignedRole=a.summary().role;a.summary().connection={status:'APPROVED',active:true};
+ a.summary().assignedRole=a.summary().role;a.summary().connection={status:'APPROVED',active:true};a.summary().canManagePolls=true;
  await available(a).open(null,true);assert.match(a.panels.at(-1).html,/data-dinner-action="manage"/);
+});
+
+test('ordinary admin can appoint the CA and vote without a poll management entry',async()=>{
+ const a=app();a.ctx.SYSTEM_MODE='ADMIN';a.ctx.fetchWithAdminToken=a.ctx.fetch;
+ Object.assign(a.summary(),{canManageRoles:true,canManagePolls:false});
+ await a.api.open(null,true);
+ const html=a.panels.at(-1).html;
+ assert.match(html,/data-dinner-action="role"/);assert.match(html,/data-dinner-action="poll"/);
+ assert.doesNotMatch(html,/data-dinner-action="manage"/);
+ await a.api.api('/role-management');
+ assert.equal(a.sent.at(-1).headers['X-OnAir-Dinner-Key'],undefined);
+ await a.api.api('/polls/p-one/response',{method:'POST',body:{}});
+ assert.equal(a.sent.at(-1).headers['X-OnAir-Dinner-Key'],'stable-personal-key');
+});
+
+test('approved CA on an admin installation uses its personal device credential for poll operations',async()=>{
+ const a=app();a.ctx.SYSTEM_MODE='ADMIN';a.ctx.fetchWithAdminToken=a.ctx.fetch;
+ Object.assign(a.summary(),{canManageRoles:true,canManagePolls:true,assignedRole:{memberName:'이서연'}});
+ await a.api.open(null,true);
+ assert.match(a.panels.at(-1).html,/data-dinner-action="manage"/);
+ assert.match(a.panels.at(-1).html,/data-dinner-action="own-role"/);
+ await a.api.api('/manage');await a.api.api('/polls/p-one/action',{method:'POST',body:{}});
+ for(const req of a.sent.slice(-2))assert.equal(req.headers['X-OnAir-Dinner-Key'],'stable-personal-key');
+});
+
+test('Master operations use the launch session independently of employee selection',async()=>{
+ const a=app();a.ctx.myName='';a.ctx.SYSTEM_MODE='ADMIN';a.ctx.fetchWithAdminToken=a.ctx.fetch;
+ a.ctx.OnAirMaster={isMaster:()=>true};a.ctx.OnAirRequestAccess.localSessionToken=async()=>'local-session';
+ await a.api.api('/summary?name=');await a.api.api('/manage');
+ await a.api.api('/polls',{method:'POST',body:{}});
+ for(const req of a.sent){
+   assert.equal(req.headers['X-OnAir-Local-Session'],'local-session');
+   assert.equal(req.headers['X-OnAir-Dinner-Key'],undefined);
+ }
+});
+
+test('authority changes clear management views immediately and ignore an older privileged summary',async()=>{
+ const a=app();const cleared=[];a.ctx.OnAirDinnerAdmin={clearAuthority:onlyPolls=>cleared.push(onlyPolls)};
+ let release;const delayed=new Promise(resolve=>{release=resolve;});
+ const fresh={...a.summary(),canManagePolls:false};
+ let reads=0;a.ctx.fetch=async()=>({ok:true,status:200,json:async()=>++reads===1?delayed:fresh});
+ const pending=a.api.open(null,true);await new Promise(setImmediate);
+ const reset=a.api.onAuthorityChanged();assert.deepEqual(cleared,[undefined]);
+ await reset;release({...fresh,canManagePolls:true});await pending;
+ assert.ok(!a.panels.some(panel=>panel.html.includes('data-dinner-action="manage"')));
+ await a.api.open(null,true);assert.doesNotMatch(a.panels.at(-1).html,/data-dinner-action="manage"/);
+});
+
+test('change from full CA permission to handoff closes the previous results view',async()=>{
+ const a=app();const clears=[];a.ctx.OnAirDinnerAdmin={clearAuthority:onlyPolls=>clears.push(onlyPolls)};
+ a.setSummary({...a.summary(),canManagePolls:true});await a.api.refresh();
+ a.setSummary({...a.summary(),canManagePolls:false,handoff:{memberName:'이서연',startDate:'2098-12-01',endDate:'2099-01-31'}});
+ await a.api.open(null,true);assert.deepEqual(clears,[true]);assert.match(a.panels.at(-1).html,/인수인계 현황/);
 });

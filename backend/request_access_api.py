@@ -106,22 +106,33 @@ class RequestAccessAPI:
         with self.db(write=True) as cur:
             return schema.read_dataset_identity(cur)
 
-    def peer_dinner_response_hash(self, request, dataset_id, name, key):
-        """Allow a local role to recognize a personal response from its installed sibling."""
+    def peer_dinner_response_hashes(self, request, dataset_id, name, key):
+        """Recognize personal ballots from installed sibling profiles of this OS user."""
         from updater.profiles import profile_dir
         self.authorize(request)
-        role = self.h.APP_MODE
+        role = self.h.DISTRIBUTION_ROLE
+        roles = ('ADMIN', 'VIEWER', 'MASTER')
         vault = self.vault()
-        if role not in ('ADMIN', 'VIEWER') or vault.profile_dir != profile_dir(role):
-            return ''
-        peer = profile_dir('VIEWER' if role == 'ADMIN' else 'ADMIN')
-        if not (peer / 'request_access.v1.dat').is_file():
-            return ''
+        if role not in roles or vault.profile_dir != profile_dir(role):
+            return ()
         own = vault.existing_dinner_key(dataset_id, name)
         if not own or not hmac.compare_digest(own.encode(), key.encode()):
-            return ''
-        other = ReceiptVault(peer).existing_dinner_key(dataset_id, name)
-        return hashlib.sha256(other.encode()).hexdigest() if other else ''
+            return ()
+        hashes = []
+        for peer_role in roles:
+            if peer_role == role:
+                continue
+            peer = profile_dir(peer_role)
+            if not (peer / 'request_access.v1.dat').is_file():
+                continue
+            try:
+                other = ReceiptVault(peer, create=False).existing_dinner_key(dataset_id, name)
+            except (schema.AccessError, OSError):
+                # An unavailable sibling cannot attest ownership for this request.
+                continue
+            if other:
+                hashes.append(hashlib.sha256(other.encode()).hexdigest())
+        return tuple(hashes)
 
     def dinner_credentials(self, body):
         name = body.get('name')

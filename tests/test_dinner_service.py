@@ -42,9 +42,9 @@ def db():
     connection.close()
 
 
-def actor(db, key='', admin=False, now=NOW):
+def actor(db, key='', admin=False, now=NOW, *, master=False):
     from backend.dinner_service import DinnerService
-    return DinnerService(db.cursor(), key=key, admin=admin, now=now)
+    return DinnerService(db.cursor(), key=key, admin=admin, now=now, master=master)
 
 
 def draft(db, **changes):
@@ -53,11 +53,11 @@ def draft(db, **changes):
                     dict(id='one', date='2030-06-14', time='18:30'),
                     dict(id='two', date='2030-06-15', time='19:00')], targets=['A', 'B'])
     body.update(changes)
-    return actor(db, admin=True).create_poll(operation(**body))['poll']
+    return actor(db, master=True).create_poll(operation(**body))['poll']
 
 
 def act(db, poll, action, **fields):
-    return actor(db, admin=True).action(poll['id'], operation(
+    return actor(db, master=True).action(poll['id'], operation(
         action=action, expectedRevision=poll['revision'], **fields))['poll']
 
 
@@ -105,7 +105,7 @@ def test_ca_expiry_role_change_and_restore_revoke_connections(db):
     connected(db)
     with pytest.raises(AccessError):
         actor(db, KEY_CA, now=datetime(2030, 7, 1, tzinfo=KST)).manage()
-    role = actor(db, admin=True).manage()['role']
+    role = actor(db, admin=True).role_management()['role']
     actor(db, admin=True).set_role(operation(memberName='B', startDate='2030-06-01',
         endDate='2030-06-30', expectedRevision=role['revision']))
     with pytest.raises(AccessError):
@@ -131,7 +131,7 @@ def test_poll_lifecycle_results_and_all_difficult_are_valid(db):
     poll = act(db, poll, 'PUBLISH')
     answered = answer(db, poll, answers={'one': 'difficult', 'two': 'difficult'})
     assert answered['responded'] and answered['ownResponse']['answers']['one'] == 'difficult'
-    managed = actor(db, admin=True).manage()['polls'][0]
+    managed = actor(db, master=True).manage()['polls'][0]
     assert managed['results']['nonresponders'] == ['B']
     assert managed['results']['candidates'][0]['difficult'] == 1
     assert managed['results']['candidates'][0]['unanswered'] == 1
@@ -162,7 +162,7 @@ def test_response_owner_key_required_and_private_projection(db):
 def test_changed_candidate_only_needs_reconfirmation_other_answer_preserved(db):
     poll = opened(db)
     answer(db, poll)
-    changed = actor(db, admin=True).patch_poll(poll['id'], operation(expectedRevision=poll['revision'],
+    changed = actor(db, master=True).patch_poll(poll['id'], operation(expectedRevision=poll['revision'],
         candidates=[dict(id='one', date='2030-06-14', time='18:30'),
                     dict(id='two', date='2030-06-16', time='19:00')]))['poll']
     own = actor(db, KEY_A).detail(poll['id'], 'A')['poll']
@@ -172,7 +172,7 @@ def test_changed_candidate_only_needs_reconfirmation_other_answer_preserved(db):
     assert own['revision'] > poll['revision']
     assert changed['candidates'][0]['revision'] == poll['candidates'][0]['revision']
     assert changed['candidates'][1]['revision'] > poll['candidates'][1]['revision']
-    result = actor(db, admin=True).manage()['polls'][0]['results']
+    result = actor(db, master=True).manage()['polls'][0]['results']
     assert result['candidates'][0]['possible'] == 1
     assert result['candidates'][1]['difficult'] == 0
     assert result['nonresponders'] == ['B']
@@ -181,14 +181,14 @@ def test_changed_candidate_only_needs_reconfirmation_other_answer_preserved(db):
 def test_stale_revision_and_incomplete_answers_rejected(db):
     from backend.request_access_schema import AccessError
     poll = opened(db)
-    changed = actor(db, admin=True).patch_poll(poll['id'], operation(
+    changed = actor(db, master=True).patch_poll(poll['id'], operation(
         expectedRevision=poll['revision'], title='제목 변경'))['poll']
     with pytest.raises(AccessError):
         answer(db, poll)
     with pytest.raises(AccessError):
         answer(db, changed, answers={'one': 'possible'})
     with pytest.raises(AccessError):
-        actor(db, admin=True).patch_poll(poll['id'], operation(expectedRevision=changed['revision'], targets=['A']))
+        actor(db, master=True).patch_poll(poll['id'], operation(expectedRevision=changed['revision'], targets=['A']))
 
 
 def test_response_idempotency_replay_and_conflict(db):
@@ -211,7 +211,7 @@ def test_deadline_uses_kst_and_extension_reopens(db):
         actor(db, KEY_A, now=after).respond(poll['id'], operation(memberName='A',
             expectedRevision=poll['revision'], answers={'one':'possible','two':'possible'}))
     assert actor(db, KEY_A, now=after).detail(poll['id'], 'A')['poll']['status'] == 'CLOSED'
-    extended = actor(db, admin=True, now=after).action(poll['id'], operation(action='EXTEND',
+    extended = actor(db, master=True, now=after).action(poll['id'], operation(action='EXTEND',
         expectedRevision=poll['revision'], deadline='2030-06-13T18:00'))['poll']
     assert extended['status'] == 'OPEN'
 
@@ -261,10 +261,10 @@ def test_sensitive_raw_key_never_persisted_in_shared_database(db):
 def test_removed_candidate_id_cannot_resurrect_an_old_answer(db):
     poll = opened(db)
     answer(db, poll)
-    removed = actor(db, admin=True).patch_poll(poll['id'], operation(expectedRevision=poll['revision'],
+    removed = actor(db, master=True).patch_poll(poll['id'], operation(expectedRevision=poll['revision'],
         candidates=[dict(id='one', date='2030-06-14', time='18:30'),
                     dict(id='three', date='2030-06-16', time='19:00')]))['poll']
-    actor(db, admin=True).patch_poll(poll['id'], operation(expectedRevision=removed['revision'],
+    actor(db, master=True).patch_poll(poll['id'], operation(expectedRevision=removed['revision'],
         candidates=[dict(id='one', date='2030-06-14', time='18:30'),
                     dict(id='two', date='2030-06-15', time='19:00')]))
     own = actor(db, KEY_A).detail(poll['id'], 'A')['poll']
@@ -298,14 +298,14 @@ def test_non_finite_json_input_is_rejected_without_unhandled_error(db):
 def test_deadline_seconds_are_not_rounded_back_to_an_expired_minute(db):
     near = datetime(2030, 6, 10, 12, 0, 30, tzinfo=KST)
     poll = draft(db, deadline='2030-06-10T12:00:59')
-    response = actor(db, admin=True, now=near).action(poll['id'], operation(action='PUBLISH', expectedRevision=poll['revision']))
+    response = actor(db, master=True, now=near).action(poll['id'], operation(action='PUBLISH', expectedRevision=poll['revision']))
     assert response['poll']['status'] == 'OPEN'
 
 
 def test_reminder_reaches_reconfirmation_and_preserves_ca_message(db):
     poll = opened(db)
     answer(db, poll)
-    changed = actor(db, admin=True).patch_poll(poll['id'], operation(expectedRevision=poll['revision'],
+    changed = actor(db, master=True).patch_poll(poll['id'], operation(expectedRevision=poll['revision'],
         candidates=[dict(id='one', date='2030-06-14', time='18:30'),
                     dict(id='two', date='2030-06-16', time='19:00')]))['poll']
     act(db, changed, 'REMIND', notice='새 후보를 오늘 안에 확인해 주세요.')
@@ -339,7 +339,7 @@ def test_never_published_cancelled_draft_stays_private(db):
     with pytest.raises(AccessError) as after:
         actor(db, KEY_A).detail(poll['id'], 'A')
     assert after.value.status == 403
-    assert actor(db, admin=True).manage()['polls'][0]['title'] == 'PRIVATE_DRAFT'
+    assert actor(db, master=True).manage()['polls'][0]['title'] == 'PRIVATE_DRAFT'
 
 
 def test_published_cancelled_poll_keeps_staff_visibility_and_notice(db):
@@ -379,8 +379,8 @@ def test_edit_cannot_make_deadline_later_than_candidate_or_duplicate_dates(db, c
     from backend.request_access_schema import AccessError
     poll = opened(db)
     with pytest.raises(AccessError):
-        actor(db, admin=True).patch_poll(poll['id'], operation(expectedRevision=poll['revision'], **changes))
-    actual = actor(db, admin=True).detail(poll['id'])['poll']
+        actor(db, master=True).patch_poll(poll['id'], operation(expectedRevision=poll['revision'], **changes))
+    actual = actor(db, master=True).detail(poll['id'])['poll']
     assert actual['revision'] == poll['revision']
     assert actual['deadline'] == poll['deadline']
     assert actual['candidates'] == poll['candidates']
@@ -392,7 +392,7 @@ def test_extension_cannot_reopen_at_or_after_a_candidate_datetime(db, deadline):
     poll = act(db, opened(db), 'CLOSE')
     with pytest.raises(AccessError):
         act(db, poll, 'EXTEND', deadline=deadline)
-    actual = actor(db, admin=True).detail(poll['id'])['poll']
+    actual = actor(db, master=True).detail(poll['id'])['poll']
     assert actual['status'] == 'CLOSED'
     assert actual['revision'] == poll['revision']
 
@@ -538,7 +538,7 @@ def test_same_person_and_key_can_hold_two_terms_without_future_superseding_curre
     assert actor(db, KEY_CA).manage()['role']['roleId'] == 2030
     annual_role(db, 2031, name='B', revision=1)
     assert actor(db, KEY_CA).manage()['role']['roleId'] == 2030
-    statuses = {r['id']: r['status'] for r in actor(db, admin=True).manage()['connections']}
+    statuses = {r['id']: r['status'] for r in actor(db, admin=True).role_management()['connections']}
     assert statuses == {current['id']: 'APPROVED', future['id']: 'INVALIDATED'}
 
 
@@ -582,14 +582,14 @@ def test_annual_appointment_overlap_stale_write_and_retry_are_atomic(db):
             actor(db, admin=True).set_role(operation(roleId=2031, memberName=name,
                 startDate='2030-12-31', endDate='2031-12-31', expectedRevision=0))
         assert error.value.status == 409
-    assert len(actor(db, admin=True).manage()['roles']) == 1
+    assert len(actor(db, admin=True).role_management()['roles']) == 1
     body = operation(roleId=2031, memberName='B', startDate='2031-01-01',
                      endDate='2031-12-31', expectedRevision=0)
     result = actor(db, admin=True).set_role(body)
     assert actor(db, admin=True).set_role(body) == result
     with pytest.raises(AccessError):
         actor(db, admin=True).set_role(operation(roleId=2031, memberName='', expectedRevision=0))
-    assert len(actor(db, admin=True).manage()['roles']) == 2
+    assert len(actor(db, admin=True).role_management()['roles']) == 2
 
 
 @pytest.mark.parametrize('role_id', [True, '2031', 0, 2, 1899, 10000])
@@ -611,7 +611,7 @@ def test_legacy_schema_upgrade_preserves_role_and_approved_connection(db):
     assert actor(db, KEY_CA).manage()['role']['roleId'] == 1
     assert db.execute('SELECT role_id FROM dinner_connections').fetchone()[0] == 1
     annual_role(db, 2031, 'B')
-    assert len(actor(db, admin=True).manage()['roles']) == 2
+    assert len(actor(db, admin=True).role_management()['roles']) == 2
 
 
 def test_restore_preserves_both_appointments_but_invalidates_connections(db):
@@ -624,7 +624,7 @@ def test_restore_preserves_both_appointments_but_invalidates_connections(db):
     assert 'dinner_appointments' in dinner_schema.TABLES
     assert 'dinner_appointments' in dinner_schema.RESTORE_SKIP_TABLES
     dinner_schema.after_restore(db.cursor())
-    assert len(actor(db, admin=True).manage()['roles']) == 2
-    assert all(c['status'] == 'INVALIDATED' for c in actor(db, admin=True).manage()['connections'])
+    assert len(actor(db, admin=True).role_management()['roles']) == 2
+    assert all(c['status'] == 'INVALIDATED' for c in actor(db, admin=True).role_management()['connections'])
     with pytest.raises(AccessError):
         actor(db, KEY_CA).manage()

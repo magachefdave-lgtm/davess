@@ -1,4 +1,4 @@
-name: Windows Admin and Viewer
+name: Windows Admin, Viewer and MasterAdmin
 on:
   workflow_dispatch:
   push:
@@ -11,7 +11,7 @@ concurrency:
 jobs:
   build:
     runs-on: windows-2022
-    timeout-minutes: 45
+    timeout-minutes: 65
     env:
       PYTHONUTF8: '1'
       PYTHONIOENCODING: utf-8
@@ -33,7 +33,9 @@ jobs:
           python -m pip install --require-hashes --only-binary=:all: -r requirements-build-py312.txt
       - name: Check dependencies
         run: python -m pip check
-      - name: Build and run Admin and Viewer self-tests
+      - name: Check Windows DPAPI and session notifications
+        run: python -B validation/v3.18.49_dinner_master/windows_session.py
+      - name: Build and run Admin, Viewer and MasterAdmin self-tests
         run: python -B -u build.py --output dist/windows
       - name: Verify release outputs
         shell: python
@@ -44,12 +46,24 @@ jobs:
           assert (p/'BUILD_SUCCESS.txt').is_file()
           assert not (p/'BUILD_INCOMPLETE.txt').exists()
           m = json.loads((p/'BUILD_MANIFEST.json').read_text(encoding='utf-8'))
-          assert {a['role'] for a in m['artifacts']} == {'ADMIN','VIEWER'}
+          roles = {'ADMIN':'Admin', 'VIEWER':'Viewer', 'MASTER':'MasterAdmin'}
+          assert len(m['artifacts']) == len(roles)
+          assert {a['role'] for a in m['artifacts']} == set(roles)
           for a in m['artifacts']:
+              role = a['role']
+              label = roles[role]
+              assert a['file'] == f'{label}/WLR_OnAir_{label}.exe'
               assert hashlib.sha256((p/a['file']).read_bytes()).hexdigest() == a['sha256']
-              assert a['checks']['frozen_self_test']['ok'] is True
+              report = json.loads((p/f'{label}_SELFTEST.json').read_text(encoding='utf-8'))
+              assert report == a['checks']['frozen_self_test']
+              assert report['ok'] is True and report['role'] == role
+              assert report['publisher_present'] is (role == 'ADMIN')
+              assert report['version'] == m['version'] and report['source_fingerprint'] == m['source_fingerprint']
           assert hashlib.sha256((p/m['update_zip']['file']).read_bytes()).hexdigest() == m['update_zip']['sha256']
-          print('Admin, Viewer, self-tests and update ZIP verified:', m['version'])
+          print('Admin, Viewer, MasterAdmin, self-tests and update ZIP verified:', m['version'])
+      - name: Start and verify all three frozen applications on temporary profiles
+        timeout-minutes: 3
+        run: python -B validation/v3.18.49_dinner_master/windows_runtime.py dist/windows
       - uses: actions/upload-artifact@v4
         with:
           name: WLR-OnAir-Windows-${{ github.run_number }}

@@ -57,7 +57,7 @@ def check_modules(role):
                 'uvicorn.lifespan.on', 'anyio._backends._asyncio',
                 'backend', 'backend.request_access_schema', 'backend.request_access_store',
                 'backend.request_access_local', 'backend.request_recovery', 'backend.request_access_api',
-                'backend.dinner_schema', 'backend.dinner_service', 'backend.dinner_api')
+                'backend.dinner_schema', 'backend.dinner_service', 'backend.dinner_api', 'backend.master_auth')
     for name in required:
         importlib.import_module(name)
     backend = importlib.util.find_spec('onair_backend')

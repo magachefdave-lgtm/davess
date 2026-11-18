@@ -5,7 +5,7 @@
   const answerLabels={possible:'참석 가능',maybe:'미정',difficult:'참석 어려움'};
   const statusLabels={DRAFT:'작성 중',OPEN:'응답 받는 중',CLOSED:'마감 · 날짜 결정 중',CONFIRMED:'날짜 확정',CANCELLED:'취소'};
   const drafts=new Map(), seenMemory=new Map(), openedMemory=new Map(), calendarIntroductions=new Set();
-  let summary=null, summaryName='', refreshGeneration=0, refreshing=null, activePoll=null, viewName='', view='list', calendarMonth='', linkedDate='', busy=false, requestGeneration=0;
+  let summary=null, summaryName='', refreshGeneration=0, refreshing=null, activePoll=null, viewName='', view='list', calendarMonth='', linkedDate='', busy=false, requestGeneration=0, authorityGeneration=0;
   const getName=()=>typeof myName==='string'?myName:'';
   const isAdmin=()=>typeof SYSTEM_MODE!=='undefined'&&SYSTEM_MODE==='ADMIN';
   const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -52,8 +52,11 @@
   }
   async function api(path,options={}){
     if(typeof path!=='string'||!path.startsWith('/')||path.startsWith('//'))throw Error('요청 경로를 확인해 주세요.');
+    const generation=authorityGeneration;
     const method=String(options.method||'GET').toUpperCase(),headers={'Content-Type':'application/json','X-OnAir-Data-Contract':'1'};
-    const needsKey=!isAdmin()||path.includes('/response')||(/^\/(summary|polls\/[^/]+)(?:\?|$)/.test(path)&&getName());
+    const roleAdministration=path==='/role-management'||path==='/role'||path.endsWith('/decision');
+    const needsKey=!roleAdministration;
+    const pollOperation=path==='/manage'||(method!=='GET'&&path.startsWith('/polls')&&!path.endsWith('/response'));
     if(needsKey&&getName()){
       const local=await credentials();
       headers['X-OnAir-Dinner-Key']=local.key;
@@ -61,13 +64,29 @@
         headers['X-OnAir-Local-Session']=local.localSession;
       }
     }
-    else if(needsKey&&method!=='GET')throw Error('먼저 내 이름을 선택해 주세요.');
+    else if(needsKey&&method!=='GET'&&(!(isAdmin()||window.OnAirMaster?.isMaster())||!pollOperation))throw Error('먼저 내 이름을 선택해 주세요.');
+    if(window.OnAirMaster?.isMaster()&&!headers['X-OnAir-Local-Session']){
+      const session=await window.OnAirRequestAccess?.localSessionToken?.();
+      if(session)headers['X-OnAir-Local-Session']=session;
+    }
+    if(generation!==authorityGeneration)throw Error('접근 권한이 변경되었습니다. 화면을 다시 열어 주세요.');
     const init={method,headers,cache:'no-store',referrerPolicy:'no-referrer'};
     if(options.body!==undefined)init.body=JSON.stringify(options.body);
     let response;
     try{response=isAdmin()?await fetchWithAdminToken(base+path,init,'회식 운영을 계속하려면 관리자 암호를 입력하세요.'):await fetch(base+path,init);}
     catch{throw Error('프로그램 연결을 확인하지 못했습니다. 입력한 내용은 유지됩니다. 연결을 확인한 뒤 다시 시도해 주세요.');}
-    return responseJSON(response);
+    try{
+      const data=await responseJSON(response);
+      if(generation!==authorityGeneration)throw Error('접근 권한이 변경되었습니다. 화면을 다시 열어 주세요.');
+      return data;
+    }
+    catch(error){
+      if(generation===authorityGeneration&&pollOperation&&[401,403].includes(error.status)){
+        window.OnAirDinnerAdmin?.clearAuthority(true);refresh().catch(()=>{});
+        if(typeof showToast==='function')showToast(error.message);
+      }
+      throw error;
+    }
   }
   function readSet(key,memory){
     if(memory.has(key))return memory.get(key);
@@ -116,6 +135,11 @@
       const data=await api('/summary?name='+encodeURIComponent(name));
       if(generation!==refreshGeneration||name!==getName())return null;
       const previous=summary;
+      if(previous&&(summaryName!==name||previous.datasetKey!==data.datasetKey||
+           !!previous.canManagePolls!==!!data.canManagePolls||
+           JSON.stringify(previous.handoff||null)!==JSON.stringify(data.handoff||null))){
+        window.OnAirDinnerAdmin?.clearAuthority(true);
+      }
       summary=data;summaryName=name;announce(data,name);renderHeader();
       const modal=document.getElementById(modalId);
       if(modal?.classList.contains('active') && viewName===name){
@@ -140,14 +164,26 @@
     try{return await task;}finally{if(refreshing===task)refreshing=null;}
   }
   function managerActions(){
-    if(isAdmin())return btn('회식 관리','manage','btn-main')+btn('CA 지정·연결 승인','role');
-    if(summary?.handoff?.memberName===getName())return btn('인수인계 현황','manage','btn-main');
-    const role=summary?.assignedRole||summary?.role;
-    if(role?.memberName===getName()){
-      const manages=role.active&&summary.connection?.status==='APPROVED';
-      return btn(manages?'회식 관리':'CA 사용 연결',manages?'manage':'role','btn-main');
+    const current=summaryName===getName()?summary:null,actions=[];
+    if(current?.canManagePolls)actions.push(btn('회식 관리','manage','btn-main'));
+    else if(current?.handoff&&current.handoff.memberName===getName())actions.push(btn('인수인계 현황','manage','btn-main'));
+    const ownRole=current?.assignedRole||current?.role;
+    if(ownRole?.memberName&&ownRole.memberName===getName()&&(!current.canManagePolls||isAdmin())){
+      actions.push(btn('CA 사용 연결','own-role'));
     }
-    return '';
+    // The ADMIN entry can also initiate its existing password challenge.
+    if(current?.canManageRoles||isAdmin())actions.push(btn('CA 지정·연결 승인','role'));
+    return actions.join('');
+  }
+  function onAuthorityChanged(){
+    ++authorityGeneration;++refreshGeneration;++requestGeneration;refreshing=null;summary=null;summaryName='';activePoll=null;view='closed';
+    window.OnAirDinnerAdmin?.clearAuthority();
+    window.OnAirUI?.close(modalId);
+    const node=document.getElementById(modalId);
+    for(const selector of ['.oa-body','.modal-title']){
+      const content=node?.querySelector?.(selector);if(content)content.textContent='';
+    }
+    renderHeader();return refresh();
   }
   function shell(title,html,width=940){
     const node=window.OnAirUI.open(modalId,title,`<div class="dp-content">${html}</div>`,{width,onClose:()=>{requestGeneration++;activePoll=null;view='closed';}});
@@ -156,13 +192,17 @@
   }
   function errorText(error){return error?.message||'연결을 확인한 후 다시 시도해 주세요.';}
   function showError(error){const node=document.getElementById('dp-error');if(node){node.textContent=errorText(error);node.hidden=false;}else if(typeof showToast==='function')showToast(errorText(error),true);}
+  function participantPoll(poll){
+    const {results,...personal}=poll;
+    return personal;
+  }
   async function open(id,listOnly=false){
     const generation=++requestGeneration;viewName=getName();view='loading';
     shell('회식 일정','<p class="dp-empty" role="status">회식 일정을 불러오고 있습니다.</p>');
     try{
       await refresh();if(generation!==requestGeneration)return;
       if(!id&&!listOnly){const waiting=(summary?.polls||[]).filter(pending);if(waiting.length===1)id=waiting[0].id;}
-      if(id){const data=await api('/polls/'+encodeURIComponent(id)+'?name='+encodeURIComponent(viewName));if(generation!==requestGeneration||viewName!==getName())return;activePoll=data.poll;markOpened(id);renderPoll();}
+      if(id){const data=await api('/polls/'+encodeURIComponent(id)+'?name='+encodeURIComponent(viewName));if(generation!==requestGeneration||viewName!==getName())return;activePoll=participantPoll(data.poll);markOpened(id);renderPoll();}
       else{activePoll=null;renderList();}
     }catch(error){if(generation!==requestGeneration)return;shell('회식 일정',`<div class="dp-empty"><p role="alert">${esc(errorText(error))}</p>${btn('다시 확인','retry','btn-main',id?`data-poll-id="${esc(id)}"`:'')}${isAdmin()?managerActions():''}</div>`);}
   }
@@ -254,12 +294,12 @@
     try{
       const data=await api('/polls/'+encodeURIComponent(poll.id)+'/response',{method:'POST',body:{memberName:name,answers:{...draft.answers},suggestion:draft.suggestion,expectedRevision:poll.revision,expectedResponseVersion:draft.responseVersion,operationId:draft.operationId}});
       drafts.delete(draftKey(poll));
-      if(generation===requestGeneration&&name===getName()){activePoll=data.poll;renderPoll();}
+      if(generation===requestGeneration&&name===getName()){activePoll=participantPoll(data.poll);renderPoll();}
       await refresh().catch(()=>{});
     }catch(error){
       if(generation!==requestGeneration||name!==getName())return;
       if([409,410,423].includes(error.status)){
-        try{const latest=await api('/polls/'+encodeURIComponent(poll.id)+'?name='+encodeURIComponent(name));if(generation===requestGeneration){if(error.code==='RESPONSE_CHANGED')drafts.delete(draftKey(poll));activePoll=latest.poll;renderPoll(error.code!=='RESPONSE_CHANGED');}}catch{}
+        try{const latest=await api('/polls/'+encodeURIComponent(poll.id)+'?name='+encodeURIComponent(name));if(generation===requestGeneration){if(error.code==='RESPONSE_CHANGED')drafts.delete(draftKey(poll));activePoll=participantPoll(latest.poll);renderPoll(error.code!=='RESPONSE_CHANGED');}}catch{}
       }
       showError(error);
     }finally{busy=false;controls.forEach(control=>control.disabled=false);}
@@ -270,6 +310,7 @@
     if(action==='close'){window.OnAirUI.close(modalId);return;}
     if(action==='manage'){window.OnAirDinnerAdmin?.open();return;}
     if(action==='role'){window.OnAirDinnerAdmin?.openRole();return;}
+    if(action==='own-role'){window.OnAirDinnerAdmin?.openRole(false);return;}
     if(action==='name'){window.OnAirUI.close(modalId);await promptMyName();return open();}
     if(action==='poll'||action==='retry')return open(button.dataset.pollId||undefined);
     if(action==='list'||action==='refresh')return open(undefined,true);
@@ -286,7 +327,7 @@
     setInterval(()=>{if(!document.hidden)return refresh().catch(()=>{});},30000);
   }
   if(typeof setMyName==='function'){
-    const previous=setMyName;setMyName=function(...args){const before=getName(),result=previous.apply(this,args);if(before!==getName()){refreshGeneration++;requestGeneration++;summary=null;summaryName='';activePoll=null;window.OnAirUI?.close(modalId);renderHeader();refresh().catch(()=>{});}return result;};
+    const previous=setMyName;setMyName=function(...args){const before=getName(),result=previous.apply(this,args);if(before!==getName())onAuthorityChanged().catch(()=>{});return result;};
   }
   if(typeof fetchSystemInfo==='function'){
     const previous=fetchSystemInfo;fetchSystemInfo=async function(...args){const result=await previous.apply(this,args);refresh().catch(()=>{});return result;};
@@ -294,5 +335,5 @@
   window.addEventListener?.('focus',()=>{if(!document.hidden)refresh().catch(()=>{});});
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh().catch(()=>{});});
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
-  window.OnAirDinner={api,refresh,open,getName,esc,credentials};
+  window.OnAirDinner={api,refresh,open,getName,esc,credentials,onAuthorityChanged};
 })();

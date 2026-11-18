@@ -441,7 +441,7 @@ STEPS = {
     1: ('빌드 준비 확인', '약 10초'),
     2: ('빌드 전용 작업 공간 만들기 (설치된 Python 은 바뀌지 않습니다)', '약 1분'),
     3: ('필요한 부품 설치', '저장된 부품 재사용 시 약 1분, 첫 다운로드는 네트워크에 따라 다름'),
-    4: ('관리자용·조회용 프로그램 만들기와 자체 점검', '약 5~15분, 가장 오래 걸립니다'),
+    4: ('관리자용·조회용·최고 관리자용 프로그램 만들기와 자체 점검', '약 8~25분, 가장 오래 걸립니다'),
     5: ('마무리', '몇 초'),
 }
 
@@ -517,7 +517,7 @@ def main(opener=open_folder):
                 run_logged([str(python), '-m', 'pip', 'check'], log, ROOT, label='[3/5] pip check', timeout=60)
                 _step(4)
                 run_logged([str(python), '-I', '-u', '-X', 'utf8', str(ROOT / 'build.py'), '--output', str(output)], log, ROOT,
-                           label='[4/5] Compile Admin + Viewer and self-test', timeout=2400, heartbeat=30.0, expected='5~15분')
+                           label='[4/5] Compile Admin, Viewer, MasterAdmin and self-test', timeout=3600, heartbeat=30.0, expected='8~25분')
                 if not (output / 'BUILD_SUCCESS.txt').is_file() or (output / 'BUILD_INCOMPLETE.txt').exists():
                     raise RuntimeError('빌드 완료 표식이 없습니다.')
                 _step(5)

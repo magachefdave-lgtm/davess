@@ -1,6 +1,7 @@
 """Dinner capability keys remain private and durable across browser launches."""
 from concurrent.futures import ThreadPoolExecutor
 import base64
+import copy
 import os
 import uuid
 import logging
@@ -10,7 +11,8 @@ from fastapi.testclient import TestClient
 
 from backend.request_access_store import ReceiptVault
 from backend.request_access_schema import AccessError
-from test_backend_regression import load_app
+from test_backend_regression import load_app, SEED
+from test_dinner_api import assign, dates, key_headers, op, send
 from test_request_access_api import site, session, PREFIX
 
 
@@ -141,3 +143,72 @@ def test_disabled_managed_profile_never_reports_unmanaged_fallback(site, monkeyp
     denied = credentials(site, headers)
     assert denied.json()['code'] == 'DISABLED'
     assert 'key' not in denied.json()
+
+
+def test_installed_roles_share_only_own_ballots_through_local_sessions(load_app, tmp_path, monkeypatch):
+    from updater.profiles import profile_dir
+
+    monkeypatch.setenv('WLR_PROFILE_ROOT', str(tmp_path / 'installed'))
+    apps = {role: load_app('source', mode=role) for role in ('ADMIN', 'VIEWER', 'MASTER')}
+    admin, viewer = apps['ADMIN'], apps['VIEWER']
+    admin.save(copy.deepcopy(SEED))
+    headers = {}
+    for role, app in apps.items():
+        profile = profile_dir(role)
+        (profile / 'config').mkdir(parents=True)
+        profile.chmod(0o700)
+        monkeypatch.setattr(app.module, 'MANAGED_CONFIG', True)
+        monkeypatch.setattr(app.module, 'CONFIG_DIR', str(profile / 'config'))
+        monkeypatch.setattr(app.module, 'DB_PATH', admin.module.DB_PATH)
+        app.client = TestClient(app.module.app, base_url='http://localhost')
+        local = session(app)
+        key = credentials(app, local).json()['key']
+        headers[role] = {**local, **key_headers(key)}
+
+    assign(admin)
+    ca_key = headers['VIEWER']['X-OnAir-Dinner-Key']
+    device = send(viewer, '/connections', op(memberName='A'), key=ca_key, admin=False).json()['connection']
+    assert send(admin, '/connections/' + device['id'] + '/decision', op(decision='APPROVE')).status_code == 200
+    deadline, first, second, _ = dates()
+    draft = send(viewer, '/polls', op(title='날짜 선택', deadline=deadline+'T18:00',
+        candidates=[dict(id='first', date=first, time='18:00'), dict(id='second', date=second, time='18:00')],
+        targets=['A','B']), key=ca_key, admin=False).json()['poll']
+    path = '/api/dinner/polls/' + draft['id']
+    published = viewer.client.post(path+'/action', headers=headers['VIEWER'],
+                                   json=op(action='PUBLISH', expectedRevision=draft['revision'])).json()['poll']
+    previous = None
+    for role in ('MASTER', 'VIEWER', 'MASTER', 'ADMIN', 'MASTER'):
+        app, proof = apps[role], headers[role]
+        own = app.client.get(path, params={'name':'A'}, headers=proof).json()['poll']['ownResponse']
+        assert own == previous
+        if own:
+            key_only = key_headers(proof['X-OnAir-Dinner-Key'])
+            assert app.client.get(path, params={'name':'A'}, headers=key_only).json()['poll']['ownResponse'] is None
+        write = app.client.post(path+'/response', headers=proof, json=op(memberName='A',
+            expectedRevision=published['revision'], expectedResponseVersion=own['version'] if own else None,
+            answers={'first':'possible','second':'maybe'}, suggestion=role))
+        assert write.status_code == 200, write.text
+        previous = write.json()['poll']['ownResponse']
+        assert previous['suggestion'] == role
+
+    for role in ('ADMIN', 'MASTER'):
+        assert apps[role].client.get('/api/dinner/manage', headers=headers[role]).status_code == 403
+    wrong_key = credentials(admin, headers['ADMIN'], 'B').json()['key']
+    wrong_person = {**headers['ADMIN'], **key_headers(wrong_key)}
+    assert admin.client.get(path, params={'name':'A'}, headers=wrong_person).json()['poll']['ownResponse'] is None
+
+
+def test_existing_peer_lookup_does_not_create_keys_files_or_profiles(tmp_path):
+    profile = tmp_path / 'existing'
+    vault = ReceiptVault(profile)
+    key = vault.dinner_key('dataset', 'A')
+    vault.lock_path.unlink()
+    reader = ReceiptVault(profile, create=False)
+    assert reader.existing_dinner_key('dataset', 'A') == key
+    assert reader.existing_dinner_key('other-dataset', 'A') is None
+    assert reader.existing_dinner_key('dataset', 'B') is None
+    assert set(profile.iterdir()) == {vault.path}
+    missing = tmp_path / 'missing'
+    with pytest.raises(AccessError):
+        ReceiptVault(missing, create=False)
+    assert not missing.exists()

@@ -54,6 +54,20 @@ def send(site, path, body, *, key=None, admin=True, method='post'):
     return getattr(site.client, method)(PREFIX + path, json=body, headers=headers)
 
 
+def master_headers(site):
+    # Isolate the dinner authorization contract from the launch/session verifier.
+    if not hasattr(site, 'master_test_session'):
+        site.master_test_session = secrets.token_urlsafe(32)
+        site.module.dinner_master_authorized = lambda request, cursor: (
+            request.headers.get('X-Test-Master-Session') == site.master_test_session)
+    return {'X-Test-Master-Session': site.master_test_session}
+
+
+def operate(site, path, body, *, method='post'):
+    return getattr(site.client, method)(PREFIX + path, json=body,
+                                       headers={**CONTRACT, **master_headers(site)})
+
+
 def dates():
     today = datetime.now(KST).date()
     return [(today + timedelta(days=n)).isoformat() for n in (1, 10, 11, 30)]
@@ -98,7 +112,7 @@ def test_annual_roles_and_future_connection_use_separate_http_bindings(dinner_si
     overlap = send(site, '/role', op(roleId=year + 1, memberName='B', startDate=f'{year}-12-31',
                                     endDate=f'{year+1}-12-31', expectedRevision=1))
     assert overlap.status_code == 409
-    managed = site.client.get(PREFIX + '/manage', headers=AUTH).json()
+    managed = site.client.get(PREFIX + '/role-management', headers=AUTH).json()
     assert managed['roles'][1]['revision'] == 1
     assert managed['connections'][0]['status'] == 'APPROVED'
 
@@ -137,7 +151,7 @@ def test_summary_exposes_only_own_selected_member_connections_for_both_terms(din
 
 def draft(site):
     days = dates()
-    response = send(site, '/polls', op(title='11월 회식 날짜', description='모두 가능한 날을 고릅니다.', deadline=days[0] + 'T18:00',
+    response = operate(site, '/polls', op(title='11월 회식 날짜', description='모두 가능한 날을 고릅니다.', deadline=days[0] + 'T18:00',
         candidates=[{'id':'first', 'date':days[1], 'time':'18:00'}, {'id':'second', 'date':days[2], 'time':'18:30'}], targets=['A','B','C']))
     assert response.status_code == 200, response.text
     return response.json()['poll']
@@ -145,7 +159,7 @@ def draft(site):
 
 def publish(site):
     poll = draft(site)
-    response = send(site, '/polls/' + poll['id'] + '/action', op(action='PUBLISH', expectedRevision=poll['revision']))
+    response = operate(site, '/polls/' + poll['id'] + '/action', op(action='PUBLISH', expectedRevision=poll['revision']))
     assert response.status_code == 200, response.text
     return response.json()['poll']
 
@@ -155,6 +169,70 @@ def test_summary_is_available_without_credentials_and_never_cacheable(dinner_sit
     assert response.status_code == 200, response.text
     assert set(('datasetKey','role','connection','polls','events','pendingConnections')) <= response.json().keys()
     assert response.headers['cache-control'] == 'no-store'
+
+
+def test_admin_role_management_is_separate_from_named_poll_results(dinner_site, monkeypatch):
+    site = dinner_site
+    role = assign(site)
+    ca_key = secrets.token_urlsafe(32)
+    device = send(site, '/connections', op(memberName='A', deviceLabel='CA PC'),
+                  key=ca_key, admin=False).json()['connection']
+    poll = publish(site)
+    owner = secrets.token_urlsafe(32)
+    ballot = op(memberName='B', answers={'first':'maybe','second':'possible'},
+                suggestion='본인 의견', expectedRevision=poll['revision'])
+    assert send(site, '/polls/' + poll['id'] + '/response', ballot, key=owner).status_code == 200
+
+    metadata = site.client.get(PREFIX + '/role-management', headers=AUTH)
+    assert metadata.status_code == 200
+    assert metadata.json() == dict(role=role, roles=[role], members=['A','B','C'], connections=[device])
+    assert metadata.headers['cache-control'] == 'no-store'
+    assert site.client.get(PREFIX + '/role-management').status_code == 401
+    flags = site.client.get(PREFIX + '/summary', headers=AUTH).json()
+    assert flags['canManageRoles'] and not flags['canManagePolls']
+    path = PREFIX + '/polls/' + poll['id']
+    ordinary = site.client.get(path, params={'name':'B'}, headers=AUTH).json()['poll']
+    assert 'results' not in ordinary and ordinary['ownResponse'] is None
+    own = site.client.get(path, params={'name':'B'}, headers={**AUTH, **key_headers(owner)}).json()['poll']
+    assert own['ownResponse']['answers'] == ballot['answers'] and 'results' not in own
+    assert site.client.get(PREFIX + '/manage', headers=AUTH).status_code == 403
+    assert site.client.get(PREFIX + '/polls/' + draft(site)['id'], params={'name':'B'}, headers=AUTH).status_code == 403
+
+    master = master_headers(site)
+    flags = site.client.get(PREFIX + '/summary', headers=master).json()
+    assert flags['canManagePolls'] and not flags['canManageRoles']
+    results = site.client.get(path, headers=master).json()['poll']['results']
+    assert results['responders'][0]['suggestion'] == ballot['suggestion']
+    assert send(site, '/connections/' + device['id'] + '/decision', op(decision='APPROVE')).status_code == 200
+    dual = {**AUTH, **key_headers(ca_key)}
+    flags = site.client.get(PREFIX + '/summary?name=A', headers=dual).json()
+    assert flags['canManagePolls'] and flags['canManageRoles']
+    assert site.client.get(path, headers=dual).json()['poll']['results'] == results
+    monkeypatch.setattr(site.module, 'APP_MODE', 'VIEWER')
+    assert site.client.get(PREFIX + '/role-management', headers=AUTH).status_code == 403
+    assert site.client.get(PREFIX + '/role-management', headers=key_headers(ca_key)).status_code == 403
+
+
+def test_poll_mutations_and_result_receipts_require_current_operator(dinner_site, monkeypatch):
+    site = dinner_site
+    role = assign(site)
+    ca_key = secrets.token_urlsafe(32)
+    device = send(site, '/connections', op(memberName='A'), key=ca_key, admin=False).json()['connection']
+    assert send(site, '/connections/' + device['id'] + '/decision', op(decision='APPROVE')).status_code == 200
+    poll = publish(site)
+    path = '/polls/' + poll['id']
+    patch = op(title='수정된 제목', expectedRevision=poll['revision'])
+    revised = send(site, path, patch, key=ca_key, method='patch')
+    assert 'results' in revised.json()['poll']
+    assert send(site, '/role', op(memberName='', expectedRevision=role['revision'])).status_code == 200
+    assert send(site, path, patch, key=ca_key, method='patch').status_code == 403
+    close = op(action='CLOSE', expectedRevision=revised.json()['poll']['revision'])
+    assert 'results' in operate(site, path + '/action', close).json()['poll']
+    assert send(site, path + '/action', close).status_code == 403
+    monkeypatch.delattr(site.module, 'dinner_master_authorized')
+    denied = operate(site, path + '/action', close)
+    assert denied.status_code == 403 and 'results' not in denied.json()
+    assert send(site, '/polls', op(title='작성 불가')).status_code == 403
 
 
 def test_admin_password_and_viewer_mode_cannot_be_bypassed(dinner_site, monkeypatch):
@@ -173,7 +251,8 @@ def test_remote_passwordless_admin_is_denied_but_local_admin_is_allowed(dinner_s
     response = remote.post(PREFIX + '/role', json=op(memberName='', expectedRevision=0), headers=CONTRACT)
     assert response.status_code == 403
     assert remote.get(PREFIX + '/manage').status_code in (401,403)
-    assert site.client.get(PREFIX + '/manage').status_code == 200
+    assert site.client.get(PREFIX + '/role-management').status_code == 200
+    assert site.client.get(PREFIX + '/manage').status_code == 403
 
 
 def test_ca_name_and_pending_connection_do_not_authorize_management(dinner_site):
@@ -188,7 +267,7 @@ def test_ca_name_and_pending_connection_do_not_authorize_management(dinner_site)
     approved = send(site, '/connections/' + connection.json()['connection']['id'] + '/decision', op(decision='APPROVE', reason='확인'))
     assert approved.status_code == 200, approved.text
     assert site.client.get(PREFIX + '/manage', headers=key_headers(key)).status_code == 200
-    current = site.client.get(PREFIX + '/manage', headers=AUTH).json()['role']
+    current = site.client.get(PREFIX + '/role-management', headers=AUTH).json()['role']
     revoked = send(site, '/role', op(memberName='', expectedRevision=current['revision']))
     assert revoked.status_code == 200, revoked.text
     assert site.client.get(PREFIX + '/manage', headers=key_headers(key)).status_code in (401,403)
@@ -219,11 +298,11 @@ def test_response_owner_is_required_even_when_member_name_matches(dinner_site):
 def test_stale_poll_edit_does_not_overwrite_newer_management_change(dinner_site):
     site = dinner_site
     poll = draft(site)
-    first = send(site, '/polls/' + poll['id'], op(title='변경한 제목', expectedRevision=poll['revision']), method='patch')
+    first = operate(site, '/polls/' + poll['id'], op(title='변경한 제목', expectedRevision=poll['revision']), method='patch')
     assert first.status_code == 200, first.text
-    stale = send(site, '/polls/' + poll['id'], op(title='오래된 화면의 제목', expectedRevision=poll['revision']), method='patch')
+    stale = operate(site, '/polls/' + poll['id'], op(title='오래된 화면의 제목', expectedRevision=poll['revision']), method='patch')
     assert stale.status_code == 409, stale.text
-    current = site.client.get(PREFIX + '/manage', headers=AUTH).json()['polls'][0]
+    current = site.client.get(PREFIX + '/manage', headers=master_headers(site)).json()['polls'][0]
     assert current['title'] == '변경한 제목'
 
 
@@ -258,9 +337,10 @@ def test_invalid_json_body_is_rejected_by_http_validation(dinner_site):
     assert response.status_code == 422
 
 
-def test_remote_valid_admin_password_can_manage_and_invalid_header_never_grants_admin(dinner_site):
+def test_remote_valid_admin_can_manage_roles_and_invalid_header_never_grants_admin(dinner_site):
     remote = TestClient(dinner_site.module.app, client=('192.0.2.32', 5001))
-    assert remote.get(PREFIX + '/manage', headers=AUTH).status_code == 200
+    assert remote.get(PREFIX + '/role-management', headers=AUTH).status_code == 200
+    assert remote.get(PREFIX + '/manage', headers=AUTH).status_code == 403
     denied = remote.get(PREFIX + '/manage', headers={'X-Admin-Token':'not-the-password'})
     assert denied.status_code == 401
     assert denied.headers['cache-control'] == 'no-store'
@@ -283,7 +363,7 @@ def test_http_lifecycle_remind_close_extend_confirm_and_cancel(dinner_site):
 
     def act(action, **changes):
         nonlocal poll
-        response = send(site, '/polls/' + poll['id'] + '/action',
+        response = operate(site, '/polls/' + poll['id'] + '/action',
                         op(action=action, expectedRevision=poll['revision'], **changes))
         assert response.status_code == 200, response.text
         poll = response.json()['poll']
@@ -315,16 +395,16 @@ def test_published_candidate_edit_preserves_unchanged_answer_and_excludes_stale_
                     op(memberName='A', answers={'first':'possible','second':'maybe'},
                        suggestion='', expectedRevision=poll['revision']), key=key, admin=False)
     assert answered.status_code == 200, answered.text
-    current = site.client.get(PREFIX + '/manage', headers=AUTH).json()['polls'][0]
+    current = site.client.get(PREFIX + '/manage', headers=master_headers(site)).json()['polls'][0]
     candidates = [{'id':c['id'],'date':c['date'],'time':c['time']} for c in current['candidates']]
     candidates[0]['time'] = '19:00'
-    changed = send(site, '/polls/' + poll['id'],
+    changed = operate(site, '/polls/' + poll['id'],
                    op(candidates=candidates, expectedRevision=current['revision']), method='patch')
     assert changed.status_code == 200, changed.text
     detail = site.client.get(PREFIX + '/polls/' + poll['id'] + '?name=A', headers=key_headers(key)).json()['poll']
     assert detail['needsConfirmation']
     assert detail['ownResponse']['answers']['second'] == 'maybe'
-    managed = site.client.get(PREFIX + '/manage', headers=AUTH).json()['polls'][0]
+    managed = site.client.get(PREFIX + '/manage', headers=master_headers(site)).json()['polls'][0]
     counts = {row['id']:row for row in managed['results']['candidates']}
     assert counts['first']['possible'] == 0
     assert counts['second']['maybe'] == 1

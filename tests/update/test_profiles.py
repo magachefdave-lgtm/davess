@@ -53,7 +53,7 @@ def isolated_environment(tmp_path, monkeypatch):
         monkeypatch.delenv(name, raising=False)
 
 
-@pytest.mark.parametrize('role', ['ADMIN', 'VIEWER'])
+@pytest.mark.parametrize('role', ['ADMIN', 'VIEWER', 'MASTER'])
 def test_profile_role_roots_are_stable(tmp_path, role):
     assert profiles.profile_dir(role) == tmp_path / 'profiles' / role
 
@@ -104,6 +104,26 @@ def test_migrate_shared_path_remains_original(tmp_path):
     config_dir = profiles.prepare_profile('ADMIN', legacy_dir=legacy)
     assert read_config(config_dir / 'config_admin.ini')['NETWORK']['shared_folder_path'] == str(shared)
     assert (digest(db), ini.read_bytes()) == before
+
+
+@pytest.mark.parametrize(('source_name', 'expected_port'), [('config_master.ini', '8123'),
+                                                           ('config_admin.ini', '8002'), ('config.ini', '8002')])
+def test_master_migration_uses_separate_profile_and_shared_original_database(tmp_path, source_name, expected_port):
+    data = tmp_path / 'shared'
+    db = make_db(data)
+    legacy = tmp_path / 'prior'
+    legacy.mkdir()
+    ini = legacy / source_name
+    ini.write_text(f'[NETWORK]\nshared_folder_path={data}\nserver_port=8123\nadmin_password=old\n')
+    original_ini, original_db = ini.read_bytes(), digest(db)
+    config_dir = profiles.prepare_profile('MASTER', legacy_dir=legacy)
+    assert config_dir == tmp_path / 'profiles' / 'MASTER' / 'config'
+    cfg = read_config(config_dir / 'config_master.ini')['NETWORK']
+    assert cfg['shared_folder_path'] == str(data) and cfg['server_port'] == expected_port
+    assert cfg['admin_password'] == 'old'
+    profiles.validate_profile_storage('MASTER', config_dir)
+    assert (ini.read_bytes(), digest(db)) == (original_ini, original_db)
+    assert not (config_dir / 'smart_duty.db').exists()
 
 
 def test_relative_legacy_data_path_resolved_against_legacy_folder(tmp_path):

@@ -300,6 +300,19 @@ def test_legacy_lan_host_is_preserved_in_health_probe(site, monkeypatch):
     request.assert_called_once_with('12.80.127.170', 8000)
 
 
+def test_master_and_admin_can_run_on_separate_ports(tmp_path, monkeypatch):
+    def system_info(host, port):
+        if port == 8002:
+            return {'mode': 'MASTER', 'distributionRole': 'MASTER', 'effectiveMode': 'ADMIN', 'version': '3.18.49'}
+        raise ConnectionRefusedError
+
+    monkeypatch.setattr(launcher, '_read_system_info', system_info)
+    launcher._ensure_no_running_app(tmp_path, 'ADMIN')
+    launcher._ensure_no_running_app(tmp_path, 'VIEWER')
+    with pytest.raises(core.UpdateError, match='실행 중'):
+        launcher._ensure_no_running_app(tmp_path, 'MASTER')
+
+
 def test_missing_bootstrap_allows_only_trusted_local_base(site, monkeypatch):
     (site['exe'].parent / 'onair_update.json').unlink()
     stage = Mock()

@@ -46,7 +46,7 @@ def _dpapi(data, protect):
     finally:ctypes.windll.kernel32.LocalFree(out.pbData)
 
 class ReceiptVault:
-    def __init__(self, profile_dir: Path):
+    def __init__(self, profile_dir: Path, *, create=True):
         if not profile_dir or not Path(profile_dir).is_absolute():raise _error('UNSUPPORTED_PROFILE')
         p=Path(profile_dir).absolute()
         if str(p).startswith(('\\\\','//')):raise _error('UNSUPPORTED_PROFILE')
@@ -63,7 +63,10 @@ class ReceiptVault:
                     if len(cols)>2 and (str(p)==cols[1] or str(p).startswith(cols[1].rstrip('/')+'/')):mounts.append((len(cols[1]),cols[2]))
                 if mounts and max(mounts)[1] in {'cifs','smbfs','nfs','nfs4','9p','sshfs','fuse.sshfs'}:raise _error('UNSUPPORTED_PROFILE')
             except OSError:pass
-        p.mkdir(parents=True,exist_ok=True,mode=0o700)
+        if create:
+            p.mkdir(parents=True,exist_ok=True,mode=0o700)
+        elif not p.is_dir():
+            raise _error('UNSUPPORTED_PROFILE')
         if os.name!='nt':
             st=p.stat()
             if st.st_uid!=os.getuid() or stat.S_IMODE(st.st_mode)&0o077:raise _error('UNSUPPORTED_PROFILE')
@@ -131,7 +134,9 @@ class ReceiptVault:
                 d['receipts'].setdefault(record.dataset_id,{})[record.request_uid]=asdict(record)
     def list_receipts(self,dataset_id):return [ReceiptRecord(**r) for r in self.read()['receipts'].get(dataset_id,{}).values()]
     def existing_dinner_key(self, dataset_id, name):
-        with self._locked():
+        # Vault changes use atomic file replacement. A lookup only needs one
+        # complete snapshot, and must not initialize a sibling's lock or keys.
+        with self._lock:
             key = self._read().get('dinner_keys', {}).get(dataset_id, {}).get(name)
             if key is not None and (not isinstance(key, str) or len(key) < 43):
                 raise _error()

@@ -218,7 +218,7 @@ class LiveCheck:
                 if Path(runtime['executable']).resolve() != path.resolve():
                     raise core.UpdateError('현재 실행 파일이 검증된 버전과 다릅니다.')
                 settings = launcher._read_update_settings(profile / 'config', role)
-                configured = settings.getint('NETWORK', 'server_port', fallback=8000 if role == 'ADMIN' else 8001)
+                configured = settings.getint('NETWORK', 'server_port', fallback=core.DEFAULT_PORTS[role])
                 if configured != runtime['port'] or launcher._expected_host(profile / 'config', role) != runtime['host']:
                     raise core.UpdateError('접속 설정이 변경되었습니다. 트레이에서 종료하고 다시 실행한 뒤 업데이트해 주세요.')
                 def progress(count, total):
@@ -269,7 +269,7 @@ class LiveCheck:
         runtime = self.runtime
         revalidate_prepared(runtime['profile'], runtime['role'], self.prepared)
         settings = launcher._read_update_settings(runtime['profile'] / 'config', runtime['role'])
-        port = settings.getint('NETWORK', 'server_port', fallback=8000 if runtime['role'] == 'ADMIN' else 8001)
+        port = settings.getint('NETWORK', 'server_port', fallback=core.DEFAULT_PORTS[runtime['role']])
         if port != runtime['port'] or launcher._expected_host(runtime['profile'] / 'config', runtime['role']) != runtime['host']:
             raise core.UpdateError('접속 설정이 변경되어 재시작을 취소했습니다.')
 

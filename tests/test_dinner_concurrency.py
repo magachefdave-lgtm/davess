@@ -37,14 +37,14 @@ def race(db, tmp_path, callbacks):
 def test_two_managers_cannot_overwrite_same_poll_revision(db, tmp_path):
     poll = opened(db)
     def edit(title):
-        return lambda connection: actor(connection, admin=True).patch_poll(poll['id'],
+        return lambda connection: actor(connection, master=True).patch_poll(poll['id'],
             operation(expectedRevision=poll['revision'], title=title))
     path, results = race(db, tmp_path, [edit('첫 제목'), edit('두 번째 제목')])
     assert sorted(status for status, _ in results) == [200, 409]
     accepted = next(result['poll']['title'] for status, result in results if status == 200)
     with sqlite3.connect(path) as connection:
         connection.row_factory = sqlite3.Row
-        actual = actor(connection, admin=True).detail(poll['id'])['poll']
+        actual = actor(connection, master=True).detail(poll['id'])['poll']
         assert actual['title'] == accepted
         assert actual['revision'] == poll['revision'] + 1
 
@@ -61,7 +61,7 @@ def test_racing_first_responses_cannot_take_over_an_existing_owner(db, tmp_path)
     with sqlite3.connect(path) as connection:
         connection.row_factory = sqlite3.Row
         assert connection.execute('SELECT COUNT(*) FROM dinner_responses').fetchone()[0] == 1
-        result = actor(connection, admin=True).manage()['polls'][0]['results']['responders'][0]
+        result = actor(connection, master=True).manage()['polls'][0]['results']['responders'][0]
         assert result['answers'] == accepted
 
 

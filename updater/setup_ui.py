@@ -13,6 +13,8 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, urlsplit
 import webbrowser
 
+from .core import ROLE_LABELS
+
 
 FORM_TIMEOUT = 15 * 60       # 설정/게시 창 전체 제한 시간(초). 넘으면 창 없이 종료한다.
 
@@ -442,19 +444,23 @@ FINGERPRINT_HINT = ('관리자가 알려 준 지문(설치 ZIP 의 README.txt)�
 
 
 def ensure_setup(role, executable):
-    from .profiles import profile_dir, prepare_profile
+    from .profiles import legacy_ini_names, profile_dir, prepare_profile
     config_dir = profile_dir(role) / 'config'
-    ini_name = 'config_admin.ini' if role == 'ADMIN' else 'config_viewer.ini'
+    ini_name = f'config_{role.lower()}.ini'
     if (config_dir / ini_name).is_file():
         return prepare_profile(role)
     executable = Path(executable)
-    default_legacy = str(executable.parent) if any((executable.parent / n).exists() for n in (ini_name, 'config.ini')) else ''
+    default_legacy = str(executable.parent) if any((executable.parent / n).is_file() for n in legacy_ini_names(role)) else ''
+    legacy_help = ('이 PC에서 예전 WLR OnAir 를 쓰고 있었습니다. 예전 프로그램 폴더를 고르면 그 설정'
+                   '(공유 데이터 폴더·포트·암호)을 그대로 가져옵니다.')
+    if role == 'MASTER':
+        legacy_help = ('예전 프로그램의 설정 파일이 있는 폴더를 고르세요. 일반 관리자 설정에서 가져오면 '
+                       '같은 데이터 폴더와 관리자 암호를 사용하고 최고 관리자용 포트는 8002로 정합니다.')
     choices = [('legacy', '기존 공유 폴더 사용',
-                '이 PC에서 예전 WLR OnAir 를 쓰고 있었습니다. 예전 프로그램 폴더를 고르면 그 설정'
-                '(공유 데이터 폴더·포트·암호)을 그대로 가져옵니다.'),
+                legacy_help),
                ('shared', '이 PC를 새로 연결',
                 '이 PC에서는 처음 씁니다. 관리자가 알려 준 공유 데이터 폴더(smart_duty.db 가 있는 폴더)를 고르세요.')]
-    if role == 'ADMIN':
+    if role != 'VIEWER':
         choices.append(('new', '새 데이터 만들기',
                         'WLR OnAir 를 처음 도입하는 경우에만 고르세요. 빈 당직표를 이 PC에 새로 만듭니다.'))
     fields = [
@@ -462,7 +468,7 @@ def ensure_setup(role, executable):
          'value': 'legacy' if default_legacy else 'shared'},
         {'type': 'group', 'show_when': ('choice', 'legacy')},
         {'name': 'legacy_dir', 'label': '예전 프로그램 폴더', 'value': default_legacy, 'browse': 'browse_legacy',
-         'help': '예전 WLR OnAir(관리자용 또는 조회용) 실행 파일이 들어 있던 폴더를 [찾아보기]로 고르세요.'},
+         'help': f'예전 WLR OnAir 설정 파일({", ".join(legacy_ini_names(role))})이 있는 폴더를 [찾아보기]로 고르세요.'},
         {'name': 'closed', 'label': '예전 WLR OnAir 프로그램을 종료했습니다(트레이 아이콘에서 종료).', 'type': 'checkbox'},
         {'type': 'end_group'},
         {'type': 'group', 'show_when': ('choice', 'shared')},
@@ -470,7 +476,7 @@ def ensure_setup(role, executable):
          'help': '관리자가 알려 준 공유 폴더(당직 데이터 파일 smart_duty.db가 있는 폴더)를 [찾아보기]로 고르거나 전체 경로를 적으세요.'},
         {'type': 'end_group'},
     ]
-    if role == 'ADMIN':
+    if role != 'VIEWER':
         fields += [{'type': 'group', 'show_when': ('choice', 'new')},
                    {'type': 'note', 'label': '다른 PC들이 함께 쓰려면 나중에 데이터 폴더를 공유 폴더로 옮겨야 합니다. '
                                              '이미 쓰고 있는 당직표가 있다면 이 항목을 고르지 마세요.'},
@@ -483,7 +489,7 @@ def ensure_setup(role, executable):
         choice = data.get('choice')
         legacy = _path_input(data.get('legacy_dir', ''))
         shared = _path_input(data.get('shared_dir', ''))
-        if choice not in ('legacy', 'shared', 'new') or (choice == 'new' and role != 'ADMIN'):
+        if choice not in ('legacy', 'shared', 'new') or (choice == 'new' and role == 'VIEWER'):
             raise ValueError('위에서 어떤 경우인지 하나를 골라 주세요.')
         if choice == 'legacy':
             if not legacy:
@@ -499,7 +505,7 @@ def ensure_setup(role, executable):
             path = prepare_profile(role, allow_new=True)
         return {'config_dir': str(path), 'message': '설정을 저장했습니다. WLR OnAir를 실행합니다. 이 창은 닫아도 됩니다.'}
 
-    form = LocalForm('관리자용 첫 설정' if role == 'ADMIN' else '조회용 첫 설정', fields, apply,
+    form = LocalForm(f'{ROLE_LABELS[role]} 첫 설정', fields, apply,
                      '한 번만 설정하면 이후 버전에서도 같은 설정과 데이터를 사용합니다.\n'
                      '아래에서 이 PC에 맞는 경우를 고르세요. 원래 당직 데이터 파일은 옮기거나 덮어쓰지 않습니다.'
                      + bootstrap_fingerprint_text(role, executable),
@@ -515,12 +521,11 @@ def ensure_setup(role, executable):
     return Path(result['config_dir'])
 
 
-ROLE_NAMES = {'ADMIN': '관리자용', 'VIEWER': '조회용'}
-ROLE_CHOICES = {'BOTH': ('ADMIN', 'VIEWER'), 'ADMIN': ('ADMIN',), 'VIEWER': ('VIEWER',)}
+ROLE_CHOICES = {'BOTH': ('ADMIN', 'VIEWER'), **{role: (role,) for role in ROLE_LABELS}}
 
 
 def _role_text(roles):
-    return ' + '.join(ROLE_NAMES[r] for r in roles)
+    return ' + '.join(ROLE_LABELS[r] for r in roles)
 
 
 def format_repository_status(status, key_status):
@@ -540,7 +545,7 @@ def format_repository_status(status, key_status):
             text = f"현재 버전 {info['version']} (배포 차수 {info['sequence']})"
         else:
             text = '아직 게시된 버전 없음'
-        lines.append(f"{ROLE_NAMES[role]}: {text}" + ('  [업데이트 일시 정지 중]' if info['paused'] else ''))
+        lines.append(f"{ROLE_LABELS[role]}: {text}" + ('  [업데이트 일시 정지 중]' if info['paused'] else ''))
     for warning in status['warnings']:
         lines.append(f'주의: {warning}')
     if key_status.get('warning'):
@@ -633,7 +638,7 @@ class PublisherActions:
         roles = ROLE_CHOICES.get(data.get(field))
         if roles is None:
             if field == 'pause_roles':
-                raise ValueError('일시 정지/해제할 대상을 먼저 골라 주세요(관리자용만 / 조회용만 / 둘 다).')
+                raise ValueError('일시 정지/해제할 대상을 먼저 골라 주세요.')
             raise ValueError('게시 대상을 확인해 주세요.')
         return roles
 
@@ -706,9 +711,10 @@ class PublisherActions:
         self.publisher.save_last_paths({'repository': str(repo), 'release': str(release),
                                         'installers': str(output)}, self.key)
         self._viewed.pop(str(repo), None)
-        opened = self.opener(output)
+        folder = Path(result['installers']['MASTER']).parent if roles == ('MASTER',) else output
+        opened = self.opener(folder)
         text = (f"버전 {result['version']} 게시를 완료했습니다. ({_role_text(roles)})\n"
-                f"직원 PC용 설치 ZIP 폴더: {output}" + ('  (탐색기로 열었습니다)' if opened else '') + '\n'
+                f"설치 ZIP 폴더: {folder}" + ('  (탐색기로 열었습니다)' if opened else '') + '\n'
                 '처음 설치하는 PC에만 해당 설치 ZIP을 전달하세요(직원에게는 조회용). '
                 '이미 설치한 PC는 프로그램을 다시 시작하면 새 버전을 받습니다.')
         for warning in result['warnings']:
@@ -883,7 +889,9 @@ def publisher_ui(executable):
          'value': default_installers_dir(built, last.get('installers')), 'required': True,
          'help': '게시가 끝나면 이 폴더를 탐색기로 열어 줍니다. 처음 설치하는 PC에만 여기의 설치 ZIP을 전달하세요.'},
         {'type': 'button', 'name': 'save_paths', 'label': '경로 저장 (게시하지 않고 저장)'},
-        {'name': 'roles', 'label': '게시 대상', 'type': 'select', 'options': [('BOTH', '관리자용 + 조회용'), ('ADMIN', '관리자용만'), ('VIEWER', '조회용만')]},
+        {'name': 'roles', 'label': '게시 대상', 'type': 'select',
+         'options': [('BOTH', '관리자용 + 조회용'), ('ADMIN', '관리자용만'), ('VIEWER', '조회용만'), ('MASTER', '최고 관리자용만')],
+         'help': '최고 관리자용을 고르면 전용 설치 ZIP을 MasterAdmin 하위 폴더에 저장합니다.'},
         {'type': 'details', 'label': '3. 서명 키 백업'},
         {'type': 'note', 'label': '서명 키는 처음 게시할 때 이 PC에 자동으로 만들어지고, 게시 직후 백업 화면이 나옵니다. '
                                   '여기서는 언제든 백업을 한 부 더 만들 수 있습니다.'},
@@ -901,7 +909,8 @@ def publisher_ui(executable):
         {'type': 'end_details'},
         {'type': 'details', 'label': '4. 비상 정지 / 저장소 복원'},
         {'name': 'pause_roles', 'label': '일시 정지·해제할 대상', 'type': 'select', 'value': '',
-         'options': [('', '— 대상을 고르세요 —'), ('VIEWER', '조회용만'), ('ADMIN', '관리자용만'), ('BOTH', '관리자용 + 조회용')]},
+         'options': [('', '— 대상을 고르세요 —'), ('VIEWER', '조회용만'), ('ADMIN', '관리자용만'),
+                     ('BOTH', '관리자용 + 조회용'), ('MASTER', '최고 관리자용만')]},
         {'type': 'button', 'name': 'pause', 'label': '선택한 대상의 업데이트 일시 정지', 'danger': True},
         {'type': 'button', 'name': 'resume', 'label': '선택한 대상의 일시 정지 해제', 'danger': True},
         {'name': 'force_sequence_reset', 'label': publisher.FORCE_RESET_LABEL, 'type': 'checkbox'},

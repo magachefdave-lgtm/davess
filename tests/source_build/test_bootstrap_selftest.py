@@ -80,7 +80,7 @@ def test_cmd_prefers_requested_series_and_never_auto_installs():
     assert 'winget' not in text and 'powershell' not in text
 
 
-@pytest.mark.parametrize('role', ['ADMIN', 'VIEWER'])
+@pytest.mark.parametrize('role', ['ADMIN', 'VIEWER', 'MASTER'])
 def test_staged_dependency_probe_does_not_execute_backend(role, tmp_path):
     import subprocess
     builder = load('build')

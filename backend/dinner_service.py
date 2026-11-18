@@ -54,9 +54,10 @@ def moment(value):
 
 
 class DinnerService:
-    def __init__(self, cur, key='', admin=False, now=None, confirm_duty=None, peer_response_hash=None):
+    def __init__(self, cur, key='', admin=False, now=None, confirm_duty=None, peer_response_hashes=None, *, master=False):
         self.cur = cur
         self.admin = bool(admin)
+        self.master = bool(master)
         self.key = key if isinstance(key, str) else ''
         self.key_hash = hashlib.sha256(self.key.encode()).hexdigest() if self.key else ''
         self.now = now or datetime.now(KST)
@@ -65,7 +66,7 @@ class DinnerService:
         self.now = self.now.astimezone(KST)
         self.identity = read_dataset_identity(cur)
         self.confirm_duty = confirm_duty
-        self.peer_response_hash = peer_response_hash
+        self.peer_response_hashes = peer_response_hashes
 
     def _exists(self):
         return bool(self.cur.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='dinner_polls'").fetchone())
@@ -137,12 +138,12 @@ class DinnerService:
                     reason=row['reason'], createdAt=row['created_at'])
 
     def _manager(self, required=True):
-        if self.admin:
+        if self.master:
             return True
         row, role = self._connection(), self._role()
         permitted = bool(self._connection_valid(row, role) and role['active'] and row['status'] == 'APPROVED')
         if required and not permitted:
-            fail('관리자 또는 임기 중인 CA의 승인된 PC에서만 관리할 수 있습니다.', 403, 'FORBIDDEN')
+            fail('최고 관리자 인증 또는 임기 중인 CA의 승인된 PC 연결이 필요합니다.', 403, 'FORBIDDEN')
         return permitted
 
     def _handoff(self):
@@ -179,11 +180,11 @@ class DinnerService:
         if value != revision:
             fail('다른 PC에서 먼저 변경했습니다. 최신 내용을 확인해 주세요.', 409, 'REVISION_CONFLICT')
 
-    def _operation(self, kind, body):
+    def _operation(self, kind, body, *, principal=None):
         operation_id = body.get('operationId')
         if not isinstance(operation_id, str) or not 8 <= len(operation_id) <= 128:
             fail('처리 번호를 확인해 주세요.')
-        principal = 'admin' if self.admin else self._key()
+        principal = principal or ('admin' if self.admin else self._key())
         scope = self.identity.dataset_id + ':' + self.identity.generation + ':' + principal
         try:
             digest = hashlib.sha256(pack([kind, {k:v for k,v in body.items() if k != 'operationId'}]).encode()).hexdigest()
@@ -197,10 +198,20 @@ class DinnerService:
             return scope, operation_id, digest, json.loads(old['result_json'])
         return scope, operation_id, digest, None
 
+    def _manager_operation(self, kind, body):
+        # Recheck authority before looking up any saved poll/result response.
+        self._manager()
+        # Master can safely retry a pre-upgrade operator receipt under its
+        # original scope. CA sessions continue to use their device principal.
+        return self._operation(kind, body, principal='admin' if self.master else self._key())
+
     def _finish(self, op, result, action, subject):
         self.cur.execute('INSERT INTO dinner_operations VALUES(?,?,?,?,?)',
                          (op[0], op[1], op[2], pack(result), self._stamp()))
-        actor = 'ADMIN' if self.admin else (self._connection() or {}).get('member_name', 'EMPLOYEE')
+        if op[0].endswith(':admin'):
+            actor = 'MASTER' if self.master else 'ADMIN'
+        else:
+            actor = (self._connection() or {}).get('member_name', 'EMPLOYEE')
         self.cur.execute('INSERT INTO dinner_audit VALUES(?,?,?,?,?)',
                          (str(uuid.uuid4()), action, subject, actor, self._stamp()))
         return result
@@ -265,8 +276,10 @@ class DinnerService:
             return False
         if hmac.compare_digest(row['key_hash'], self.key_hash):
             return True
-        return bool(self.peer_response_hash and hmac.compare_digest(
-            row['key_hash'], self.peer_response_hash(self.identity.dataset_id, row['member_name'])))
+        if not self.peer_response_hashes:
+            return False
+        peers = self.peer_response_hashes(self.identity.dataset_id, row['member_name'])
+        return any(hmac.compare_digest(row['key_hash'], peer) for peer in peers)
 
     def _response_version(self, row):
         if not row:
@@ -306,7 +319,8 @@ class DinnerService:
     def summary(self, name):
         name = text(name, '이름', 100, empty=True)
         empty = dict(datasetKey=self.identity.dataset_id, role=None, roles=[], assignedRole=None,
-                     connection=None, ownConnections={}, handoff=None, polls=[], events=[], pendingConnections=[])
+                     connection=None, ownConnections={}, handoff=None, polls=[], events=[], pendingConnections=[],
+                     canManagePolls=self.master, canManageRoles=self.admin)
         if not self._exists():
             return empty
         role, assigned = self._role(), self._role(member_name=name)
@@ -331,27 +345,39 @@ class DinnerService:
             pending = [self._public_connection(dict(r)) for r in self.cur.execute("SELECT * FROM dinner_connections WHERE status='PENDING' ORDER BY rowid DESC").fetchall()
                        if self._connection_valid(dict(r), self._role(dict(r).get('role_id', 1)))
                        and self._role(dict(r).get('role_id', 1))['endDate'] >= self.now.date().isoformat()]
-        handoff = self._handoff() if name and not self.admin else None
+        manager = self._manager(required=False)
+        handoff = self._handoff() if name and not manager else None
         if handoff and handoff['memberName'] != name:
             handoff = None
         return dict(datasetKey=self.identity.dataset_id, role=role, roles=self._roles(), assignedRole=assigned,
                     connection=self._public_connection(connection) if connection else None,
                     ownConnections=own_connections, handoff=handoff,
-                    polls=polls, events=events, pendingConnections=pending)
+                    polls=polls, events=events, pendingConnections=pending,
+                    canManagePolls=manager, canManageRoles=self.admin)
+
+    def _all_connections(self):
+        rows = self.cur.execute('SELECT * FROM dinner_connections ORDER BY rowid DESC').fetchall()
+        return [self._public_connection(dict(row)) for row in rows]
+
+    def role_management(self):
+        self._admin()
+        return dict(role=self._role(), roles=self._roles(), members=self._members(),
+                    connections=self._all_connections())
 
     def manage(self):
         manager = self._manager(required=False)
         handoff = None if manager else self._handoff()
         if not manager and not handoff:
-            fail('관리자 또는 조회 권한이 있는 CA의 승인된 PC에서만 볼 수 있습니다.', 403, 'FORBIDDEN')
-        connections = [self._public_connection(dict(r)) for r in self.cur.execute('SELECT * FROM dinner_connections ORDER BY rowid DESC').fetchall()] if self.admin else []
+            fail('최고 관리자 인증 또는 조회 권한이 있는 CA의 승인된 PC 연결이 필요합니다.', 403, 'FORBIDDEN')
+        connections = self._all_connections() if self.admin else []
         polls = []
         for row in self.cur.execute('SELECT data_json FROM dinner_polls ORDER BY rowid DESC').fetchall():
             poll = json.loads(row[0])
             if manager or self._handoff_poll_visible(poll, handoff):
                 polls.append(self._project(poll, results=True))
         return dict(role=self._role(), roles=self._roles(), connections=connections, handoff=handoff,
-                    polls=polls, members=self._members() if manager else [])
+                    polls=polls, members=self._members() if manager else [],
+                    canManagePolls=manager, canManageRoles=self.admin)
 
     def detail(self, poll_id, name=''):
         name = text(name, '이름', 100, empty=True)
@@ -490,8 +516,7 @@ class DinnerService:
             fail('응답 마감은 모든 후보 날짜와 시각보다 앞서야 합니다.')
 
     def create_poll(self, body):
-        self._manager()
-        op = self._operation('create', body)
+        op = self._manager_operation('create', body)
         if op[3] is not None:
             return op[3]
         poll = self._fields(body)
@@ -501,8 +526,7 @@ class DinnerService:
         return self._finish(op, dict(poll=self._project(poll, results=True)), 'DRAFT_CREATED', poll['id'])
 
     def patch_poll(self, poll_id, body):
-        self._manager()
-        op = self._operation('patch:' + poll_id, body)
+        op = self._manager_operation('patch:' + poll_id, body)
         if op[3] is not None:
             return op[3]
         original = self._poll(poll_id)
@@ -517,8 +541,7 @@ class DinnerService:
         return self._finish(op, dict(poll=self._project(poll, results=True)), 'POLL_UPDATED', poll_id)
 
     def action(self, poll_id, body):
-        self._manager()
-        op = self._operation('action:' + poll_id, body)
+        op = self._manager_operation('action:' + poll_id, body)
         if op[3] is not None:
             return op[3]
         poll = self._poll(poll_id)

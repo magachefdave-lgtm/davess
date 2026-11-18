@@ -11,7 +11,7 @@ import threading
 import pytest
 
 from test_backend_regression import AUTH, load_app
-from test_dinner_api import dinner_site, publish, op, send, assign, key_headers
+from test_dinner_api import dinner_site, publish, op, operate, send, assign, key_headers, master_headers
 from test_backend_holiday_supplement import (annual, applied, TARGET, CONTRACT,
     preview as holiday_preview, apply_payload as holiday_payload, post as holiday_post)
 
@@ -46,7 +46,8 @@ def confirmation(site, poll=None, **changes):
 
 def confirm(site, body=None, poll=None, **kwargs):
     poll = poll or site.dinner_poll
-    return send(site, '/polls/' + poll['id'] + '/action', body or confirmation(site, poll), **kwargs)
+    submit = send if kwargs else operate
+    return submit(site, '/polls/' + poll['id'] + '/action', body or confirmation(site, poll), **kwargs)
 
 
 def private_poll(site, poll_id=None):
@@ -96,7 +97,7 @@ def test_confirm_releases_only_selected_day_preserves_memo_and_records_private_b
 def test_manage_and_detail_include_version_from_same_database_snapshot(duty_site):
     site = duty_site
     version = site.data()['dataVersion']
-    assert site.client.get('/api/dinner/manage', headers=AUTH).json()['dutyDataVersion'] == version
+    assert site.client.get('/api/dinner/manage', headers=master_headers(site)).json()['dutyDataVersion'] == version
     assert site.client.get('/api/dinner/polls/' + site.dinner_poll['id'] + '?name=A').json()['dutyDataVersion'] == version
 
 
@@ -284,7 +285,7 @@ def test_cancellation_keeps_applied_duty_day_and_later_admin_edits_unchanged(dut
     current = site.data()
     site.save({'comments':dict(current['comments'],**{site.dinner_target:'관리자가 나중에 수정'})})
     before = site.data()
-    cancelled = send(site,'/polls/'+poll['id']+'/action',op(action='CANCEL',expectedRevision=poll['revision'],notice='취소'))
+    cancelled = operate(site,'/polls/'+poll['id']+'/action',op(action='CANCEL',expectedRevision=poll['revision'],notice='취소'))
     assert cancelled.status_code == 200, cancelled.text
     assert site.data() == before
     assert cancelled.json()['poll']['dutyEffect'] == poll['dutyEffect']
@@ -336,12 +337,12 @@ def test_holiday_target_cancellation_preserves_consumed_reservation_and_validate
     other_result = holiday_post(site,'/api/duty/holiday-supplement/apply',holiday_payload(other_draft,plan))
     assert other_result.status_code == 200, other_result.text
     deadline = (datetime.fromisoformat(TARGET).date() - timedelta(days=1)).isoformat() + 'T18:00'
-    created = send(site,'/polls',op(title='공휴일 석식',description='',deadline=deadline,
+    created = operate(site,'/polls',op(title='공휴일 석식',description='',deadline=deadline,
         candidates=[dict(id='selected',date=TARGET,time='18:30'),dict(id='other',date='2027-06-17',time='18:30')],
         targets=['M1','F2']))
     assert created.status_code == 200, created.text
     poll = created.json()['poll']
-    posted = send(site,'/polls/'+poll['id']+'/action',op(action='PUBLISH',expectedRevision=poll['revision']))
+    posted = operate(site,'/polls/'+poll['id']+'/action',op(action='PUBLISH',expectedRevision=poll['revision']))
     assert posted.status_code == 200, posted.text
     poll = posted.json()['poll']
     before = site.data()

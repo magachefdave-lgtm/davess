@@ -70,11 +70,11 @@ def test_source_inventory_rejects_symlink(tmp_path):
         builder.create_source_manifest(root)
 
 
-def test_role_staging_is_allowlisted_and_viewer_has_no_publisher(tmp_path):
+def test_role_staging_is_allowlisted_and_only_admin_has_publisher(tmp_path):
     root = fixture_source(tmp_path)
     (root / 'updater/signing_key.json').write_text('do not ship')
     (root / 'backend/smart_duty.db').write_text('do not ship')
-    for role in ('ADMIN', 'VIEWER'):
+    for role in ('ADMIN', 'VIEWER', 'MASTER'):
         stage = tmp_path / role
         info = builder.prepare_role(root, stage, role, '3.16.3', 'a' * 64)
         assert (stage / 'onair_backend.py').read_bytes() == (root / 'backend/main.py').read_bytes()
@@ -86,9 +86,10 @@ def test_role_staging_is_allowlisted_and_viewer_has_no_publisher(tmp_path):
         assert (stage / 'frontend/dist/index.html').read_bytes() == (root / 'frontend/dist/index.html').read_bytes()
 
 
-def test_freeze_command_keeps_onefile_contract_and_role_isolation(tmp_path):
+@pytest.mark.parametrize('role', ['VIEWER', 'MASTER'])
+def test_freeze_command_keeps_onefile_contract_and_role_isolation(tmp_path, role):
     stage = tmp_path / '한글 stage'
-    command = builder.pyinstaller_command('python.exe', stage, tmp_path / 'work', tmp_path / 'dist', 'VIEWER')
+    command = builder.pyinstaller_command('python.exe', stage, tmp_path / 'work', tmp_path / 'dist', role)
     assert command[:3] == ['python.exe', '-m', 'PyInstaller']
     assert '--onefile' in command and '--windowed' in command and '--noupx' in command
     assert command[command.index('--exclude-module') + 1] == 'updater.publisher'
@@ -101,7 +102,7 @@ def test_freeze_command_keeps_onefile_contract_and_role_isolation(tmp_path):
 def test_release_zip_contract_hashes_actual_artifacts(tmp_path):
     out = tmp_path / 'output'
     files = {}
-    for role, label in [('ADMIN', 'Admin'), ('VIEWER', 'Viewer')]:
+    for role, label in [('ADMIN', 'Admin'), ('VIEWER', 'Viewer'), ('MASTER', 'MasterAdmin')]:
         p = out / label / f'WLR_OnAir_{label}.exe'
         p.parent.mkdir(parents=True)
         p.write_bytes(b'INERT TEST ' + role.encode())
@@ -111,7 +112,8 @@ def test_release_zip_contract_hashes_actual_artifacts(tmp_path):
     import zipfile
     with zipfile.ZipFile(result) as z:
         metadata = json.loads(z.read('release.json'))
-        assert set(z.namelist()) == {'release.json', 'ADMIN/WLR_OnAir_Admin.exe', 'VIEWER/WLR_OnAir_Viewer.exe'}
+        assert set(z.namelist()) == {'release.json', 'ADMIN/WLR_OnAir_Admin.exe', 'VIEWER/WLR_OnAir_Viewer.exe',
+                                     'MASTER/WLR_OnAir_MasterAdmin.exe'}
         for role in files:
             item = metadata['files'][role]
             assert item['sha256'] == builder.sha256_file(files[role])
@@ -129,6 +131,61 @@ def test_entry_selftest_does_not_start_setup_or_backend(monkeypatch, tmp_path):
     monkeypatch.setattr(sys, 'argv', ['app.exe', '--onair-self-test', target])
     assert entry.main() == 0
     assert calls == [('ADMIN', (ROOT / 'VERSION').read_text(encoding='utf-8').strip(), target)]
+
+
+@pytest.mark.parametrize('role', ['ADMIN', 'VIEWER', 'MASTER'])
+def test_frozen_backend_receives_staged_role_even_when_executable_is_renamed(role, monkeypatch, tmp_path):
+    import runpy
+    stage = tmp_path / role
+    builder.prepare_role(ROOT, stage, role, '1.2.3', 'a' * 64)
+    (stage / 'onair_backend.py').write_text(
+        f'import sys\nassert sys.modules["__main__"].BUILD_ROLE == {role!r}\n', encoding='utf-8')
+    renamed = 'WLR_OnAir_Admin.exe' if role == 'MASTER' else 'WLR_OnAir_MasterAdmin.exe'
+    monkeypatch.setattr(sys, 'argv', [renamed, '--onair-app'])
+    monkeypatch.setattr(sys, 'executable', str(tmp_path / renamed))
+    monkeypatch.setattr(sys, 'frozen', True, raising=False)
+    monkeypatch.syspath_prepend(str(stage))
+    monkeypatch.setenv('SMART_DUTY_MODE', 'ADMIN' if role == 'MASTER' else 'MASTER')
+    for key in ('WLR_CONFIG_DIR', 'WLR_HEALTH_FILE', 'WLR_UPDATE_INSTANCE_ID'):
+        monkeypatch.setenv(key, 'fixture')
+    with pytest.raises(SystemExit) as exit_status:
+        runpy.run_path(str(stage / 'entrypoint.py'), run_name='__main__')
+    assert exit_status.value.code == 0
+
+
+@pytest.mark.parametrize(('role', 'frozen', 'allowed'), [
+    ('ADMIN', True, False), ('VIEWER', True, False), ('MASTER', False, False), ('MASTER', True, True),
+])
+def test_only_master_exe_dispatches_provisioning(role, frozen, allowed, monkeypatch, tmp_path):
+    import types
+    stage = tmp_path / role
+    builder.prepare_role(ROOT, stage, role, '1.2.3', 'a' * 64)
+    entry = builder.load_source_module('provision_entry', stage / 'entrypoint.py')
+    calls = []
+    monkeypatch.setitem(sys.modules, 'backend.master_auth', types.SimpleNamespace(
+        provision_cli=lambda args: calls.append(args) or 0))
+    monkeypatch.setattr(sys, 'frozen', frozen, raising=False)
+    args = ['--database', 'fixture.db', '--device', 'fixture-device']
+    monkeypatch.setattr(sys, 'argv', ['WLR_OnAir_MasterAdmin.exe', '--master-provision', *args])
+    monkeypatch.setenv('SMART_DUTY_MODE', 'MASTER')
+    if allowed:
+        assert entry.main() == 0
+        assert calls == [args]
+    else:
+        with pytest.raises(RuntimeError, match='최고 관리자용'):
+            entry.main()
+        assert not calls
+
+
+@pytest.mark.parametrize('role', ['MASTER', 'VIEWER'])
+def test_publisher_command_requires_ordinary_admin(role, monkeypatch, tmp_path):
+    stage = tmp_path / role
+    builder.prepare_role(ROOT, stage, role, '1.2.3', 'a' * 64)
+    entry = builder.load_source_module('publisher_entry', stage / 'entrypoint.py')
+    monkeypatch.setattr(sys, 'argv', ['WLR_OnAir_Admin.exe', '--publish'])
+    monkeypatch.setenv('SMART_DUTY_MODE', 'ADMIN')
+    with pytest.raises(RuntimeError, match='일반 관리자용'):
+        entry.main()
 
 
 def test_missing_build_inputs_and_private_static_assets_rejected(tmp_path):
@@ -205,7 +262,7 @@ def test_archive_requires_exact_selected_python_dll(minor, monkeypatch, tmp_path
              'uvicorn', 'websockets', 'backend', 'backend.request_access_schema',
              'backend.request_access_store', 'backend.request_access_local',
              'backend.request_recovery', 'backend.request_access_api',
-             'backend.dinner_schema', 'backend.dinner_service', 'backend.dinner_api')
+             'backend.dinner_schema', 'backend.dinner_service', 'backend.dinner_api', 'backend.master_auth')
     archive = types.SimpleNamespace(toc=toc,
         extract=lambda name: json.dumps(info).encode(),
         open_embedded_archive=lambda name: types.SimpleNamespace(toc=dict.fromkeys(names)))

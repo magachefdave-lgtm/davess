@@ -8,19 +8,19 @@ from pathlib import Path
 import sqlite3
 import tempfile
 
-from .core import UpdateError, profile_lock, sha256_file
+from .core import DEFAULT_PORTS, UpdateError, profile_lock, sha256_file, validate_role
 
 DB_NAME = 'smart_duty.db'
 
 
-def _role(role: str) -> str:
-    if role not in ('ADMIN', 'VIEWER'):
-        raise UpdateError('프로그램 구분은 관리자용 또는 조회용이어야 합니다.')
-    return role
+def legacy_ini_names(role: str) -> tuple[str, ...]:
+    if role == 'MASTER':
+        return ('config_master.ini', 'config_admin.ini', 'config.ini')
+    return (f'config_{validate_role(role).lower()}.ini', 'config.ini')
 
 
 def profile_dir(role: str) -> Path:
-    role = _role(role)
+    role = validate_role(role)
     override = os.environ.get('WLR_PROFILE_ROOT')
     if override is not None:
         root = Path(override)
@@ -92,7 +92,7 @@ def validate_profile_storage(role: str, config_dir: Path) -> None:
     share is not classified as a defective release. Older valid schemas remain
     eligible for the backend's existing migrations.
     """
-    role = _role(role)
+    role = validate_role(role)
     config_dir = _directory(Path(config_dir), '프로필 설정 폴더')
     config = _read_ini(config_dir / f'config_{role.lower()}.ini')
     configured = config.get('NETWORK', 'shared_folder_path', fallback='').strip()
@@ -149,7 +149,7 @@ def _create_database(target: Path) -> None:
 
 def prepare_profile(role: str, legacy_dir: Path | None = None,
                     shared_dir: Path | None = None, allow_new: bool = False) -> Path:
-    role = _role(role)
+    role = validate_role(role)
     profile = profile_dir(role)
     target = profile / 'config' / f'config_{role.lower()}.ini'
     if target.exists():
@@ -164,11 +164,11 @@ def _prepare_profile(role: str, legacy_dir: Path | None = None,
                      shared_dir: Path | None = None, allow_new: bool = False) -> Path:
     """Prepare stable settings, retaining the original database at its location.
 
-    Existing initialized settings are never rewritten. A fresh ADMIN database is
+    Existing initialized settings are never rewritten. A fresh administrative database is
     created only for an explicit allow_new request; VIEWER always needs an
     existing database. No source database, INI or backup is copied or renamed.
     """
-    role = _role(role)
+    role = validate_role(role)
     config_dir = profile_dir(role) / 'config'
     target = config_dir / f'config_{role.lower()}.ini'
     if target.exists():
@@ -177,17 +177,18 @@ def _prepare_profile(role: str, legacy_dir: Path | None = None,
         return config_dir
     if legacy_dir is not None and shared_dir is not None:
         raise UpdateError('기존 프로그램 폴더와 데이터 폴더 중 하나만 선택하세요.')
-    if allow_new and (role != 'ADMIN' or legacy_dir is not None or shared_dir is not None):
+    if allow_new and (role == 'VIEWER' or legacy_dir is not None or shared_dir is not None):
         raise UpdateError('[새 데이터 만들기]는 관리자용 첫 설정에서만 고를 수 있습니다.')
     config = configparser.ConfigParser(interpolation=None)
     if legacy_dir is not None:
         legacy = _directory(Path(legacy_dir), '기존 프로그램 폴더')
-        source = legacy / target.name
-        if not source.is_file():
-            source = legacy / 'config.ini'
-        if not source.is_file():
-            raise UpdateError(f'기존 {target.name} 또는 config.ini를 찾을 수 없습니다.')
+        candidates = legacy_ini_names(role)
+        source = next((legacy / name for name in candidates if (legacy / name).is_file()), None)
+        if source is None:
+            raise UpdateError(f'기존 설정 파일을 찾을 수 없습니다: {", ".join(candidates)}')
         config = _read_ini(source)
+        if role == 'MASTER' and source.name != target.name:
+            config.set('NETWORK', 'server_port', str(DEFAULT_PORTS[role]))
         configured = config.get('NETWORK', 'shared_folder_path', fallback='').strip()
         data_dir = Path(configured) if configured else legacy
         if not data_dir.is_absolute():
@@ -198,13 +199,13 @@ def _prepare_profile(role: str, legacy_dir: Path | None = None,
         data_dir = _directory(Path(shared_dir), '데이터 폴더')
         _existing_db(data_dir)
         config['NETWORK'] = {}
-    elif allow_new and role == 'ADMIN':
+    elif allow_new:
         data_dir = config_dir
         config['NETWORK'] = {}
     else:
         raise UpdateError('기존 프로그램/데이터 폴더를 선택하세요. 처음 도입하는 관리자용이면 [새 데이터 만들기]를 고르세요.')
     config.set('NETWORK', 'shared_folder_path', str(data_dir))
-    defaults = {'server_port': '8000' if role == 'ADMIN' else '8001',
+    defaults = {'server_port': str(DEFAULT_PORTS[role]),
                 'db_timeout_seconds': '30.0', 'bind_host': '127.0.0.1',
                 'admin_password': '', 'open_browser': 'true', 'tray_icon': 'true'}
     for key, value in defaults.items():
@@ -259,7 +260,7 @@ def _validate_setting(key: str, value: str) -> str:
         return value
     if key == 'server_port':
         if not re.fullmatch(r'\d{1,5}', value.strip()) or not 1024 <= int(value) <= 65535:
-            raise UpdateError('포트는 1024~65535 사이의 숫자로 입력하세요(관리자용 기본 8000, 조회용 기본 8001).')
+            raise UpdateError('포트는 1024~65535 사이의 숫자로 입력하세요.')
         return str(int(value))
     if key == 'allowed_hosts':
         items = [item.strip() for item in value.split(',') if item.strip()]

@@ -5,11 +5,16 @@ import runpy
 import sys
 
 BUILD_ROLE = 'ADMIN'
-APP_VERSION = '3.18.48'
+APP_VERSION = '3.18.49'
 
 
 def main():
     role = BUILD_ROLE
+    if '--master-provision' in sys.argv[1:]:
+        if role != 'MASTER' or not getattr(sys, 'frozen', False) or sys.argv[1] != '--master-provision':
+            raise RuntimeError('서버에서 최고 관리자용 실행파일의 --master-provision 명령을 사용하세요.')
+        from backend.master_auth import provision_cli
+        return provision_cli(sys.argv[2:])
     if '--onair-manual-update' in sys.argv[1:]:
         if len(sys.argv) != 3 or sys.argv[1] != '--onair-manual-update':
             raise RuntimeError('업데이트 작업 번호가 필요합니다.')
@@ -42,14 +47,16 @@ def main():
         for name in ('WLR_CONFIG_DIR', 'WLR_HEALTH_FILE', 'WLR_UPDATE_INSTANCE_ID'):
             if not os.environ.get(name):
                 raise RuntimeError('WLR OnAir 실행 파일(업데이트 실행기)로 다시 시작해 주세요.')
+        # runpy replaces __main__ during backend execution. Carry the fixed
+        # build role into that module, including when the EXE was renamed.
         if getattr(sys, 'frozen', False):
-            runpy.run_module('onair_backend', run_name='__main__', alter_sys=True)
+            runpy.run_module('onair_backend', run_name='__main__', init_globals={'BUILD_ROLE': role}, alter_sys=True)
         else:
-            runpy.run_path(str(Path(__file__).parent / 'backend/main.py'), run_name='__main__')
+            runpy.run_path(str(Path(__file__).parent / 'backend/main.py'), run_name='__main__', init_globals={'BUILD_ROLE': role})
         return 0
     if '--publish' in sys.argv[1:]:
         if role != 'ADMIN':
-            raise RuntimeError('조회용에는 업데이트 배포 관리 기능이 없습니다.')
+            raise RuntimeError('조회용·최고 관리자용에서 업데이트를 배포할 수 없습니다. 일반 관리자용 실행파일을 사용하세요.')
         from updater.setup_ui import publisher_ui
         publisher_ui(executable)
         return 0

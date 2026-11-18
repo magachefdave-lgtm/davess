@@ -222,7 +222,7 @@ def test_build_window_shows_korean_steps_durations_and_opens_output(windows_buil
     out = capsys.readouterr().out
     for step in ('[1/5] 빌드 준비 확인', '[2/5]', '[3/5] 필요한 부품 설치', '[4/5]', '[5/5] 마무리'):
         assert step in out
-    assert '예상: 약 5~15분' in out
+    assert '예상: 약 8~25분' in out
     assert 'GIL' not in out and 'hash-pinned' not in out                 # 전문 용어는 로그에만
     assert opened and opened[0].name.startswith('source-build-')
     assert '배포관리.cmd' in out and '탐색기로 열었습니다' in out

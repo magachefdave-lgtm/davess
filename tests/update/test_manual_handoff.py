@@ -79,7 +79,8 @@ def start(s, hold=False):
     env = dict(os.environ, WLR_PROFILE_ROOT=str(s['root'] / 'profiles'), SMART_DUTY_MODE=s['role'], PYTHONDONTWRITEBYTECODE='1')
     if hold: env['TEST_HOLD_OLD'] = '1'
     with (s['root'] / 'process.log').open('ab') as output:
-        return subprocess.Popen([sys.executable, str(ACTOR), str(LEGACY), s['role'], str(s['exe'])], env=env,
+        supervisor = ROOT if s['role'] == 'MASTER' else LEGACY
+        return subprocess.Popen([sys.executable, str(ACTOR), str(supervisor), s['role'], str(s['exe'])], env=env,
                                 stdout=output, stderr=output, start_new_session=True)
 
 
@@ -115,9 +116,11 @@ def test_candidate_root_exit_does_not_hide_child(tmp_path):
     assert process_identity.wait_candidate_stopped(tracker, 4)
 
 
-@pytest.mark.skipif(os.name == 'nt' or not LEGACY.exists(), reason='POSIX process fixture requires immutable legacy source')
-@pytest.mark.parametrize('role', ['ADMIN', 'VIEWER'])
-def test_legacy_helper_three_updates_then_failed_release_rolls_back(tmp_path, role):
+@pytest.mark.skipif(os.name == 'nt', reason='POSIX process fixture')
+@pytest.mark.parametrize('role', ['ADMIN', 'VIEWER', 'MASTER'])
+def test_manual_helper_three_updates_then_failed_release_rolls_back(tmp_path, role):
+    if role != 'MASTER' and not LEGACY.exists():
+        pytest.skip('Historical supervisor fixture requires immutable legacy source')
     s = site(tmp_path, role)
     protected = {key: s[key].read_bytes() for key in ('db', 'ini', 'exe')}
     old = start(s)

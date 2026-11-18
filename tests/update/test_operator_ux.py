@@ -73,6 +73,20 @@ def test_publish_release_reports_key_creation_once(tmp_path):
     assert first['key_created'] is True and second['key_created'] is False
 
 
+def test_master_publish_opens_dedicated_installer_folder(actions, monkeypatch):
+    act, tmp, opened = actions
+    page = page_of(monkeypatch, tmp)
+    assert '<select name="roles"><option value="BOTH">' in page
+    assert '<option value="MASTER">최고 관리자용만</option>' in page
+    data = form_data(tmp, roles='MASTER', new_repo_ok=True)
+    data['release'] = str(release_zip(tmp, include_master=True))
+    result = confirmed(act.publish, data)
+    assert opened == [tmp / 'inst' / 'MasterAdmin']
+    assert str(opened[0]) in result['message']
+    assert not (tmp / 'repo' / 'channels' / 'ADMIN.json').exists()
+    assert not (tmp / 'repo' / 'channels' / 'VIEWER.json').exists()
+
+
 # [위험] 첫 게시 전에 '키 백업'을 누르면 '원래 게시 PC의 키를 사용하세요'가 나와 처음 쓰는 사람이 헤맸다.
 def test_backup_before_first_publish_explains_when_key_is_created(actions):
     act, tmp, _ = actions

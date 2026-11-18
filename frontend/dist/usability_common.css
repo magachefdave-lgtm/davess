@@ -203,3 +203,15 @@
     animation: none; opacity: 1;
   }
 }
+
+.master-program-info { margin: 8px 0; color: var(--text-sub); font-size: 12px; }
+.master-program-info details { margin: 5px 0 5px 14px; }
+.master-program-info summary { cursor: pointer; width: fit-content; }
+#master-device-info { margin: 6px 0; overflow-wrap: anywhere; }
+.master-program-info [hidden] { display: none; }
+.master-session-form { display: grid; gap: 12px; }
+.master-session-form label { display: grid; gap: 4px; }
+.master-session-form input { font: inherit; color: var(--text-main); background: var(--surface); border: 1px solid var(--border-strong); border-radius: 8px; padding: 8px 10px; width: 100%; }
+.master-session-form [role=alert] { color: var(--holiday-text); }
+.master-session-form [role=alert]:empty { display: none; }
+.master-session-form button { justify-self: end; }
