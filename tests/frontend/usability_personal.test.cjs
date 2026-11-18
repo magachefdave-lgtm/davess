@@ -76,6 +76,17 @@ test('candidate is rechecked against changes immediately before prefilling',()=>
 test('ICS uses all-day dates, exclusive ends, stable UIDs and CRLF',()=>{const a=app();a.run(`scheduleMap={'2026-10-18':[{name:'은지'}],'2026-10-19':[{name:'은지'}]};noDutyMap={'2026-10-19':true};absences=[{id:9,name:'은지',type:'교육',start:'2026-10-30',end:'2026-11-02',education:{title:'실무',location:'본관'}}]`);const text=a.p.buildICS('은지');assert.match(text,/DTSTART;VALUE=DATE:20261030\r\nDTEND;VALUE=DATE:20261103/);assert.match(text,/DTSTART;VALUE=DATE:20261018\r\nDTEND;VALUE=DATE:20261019/);assert.doesNotMatch(text,/20261019\r\nDTEND|TZID|T090000/);assert.equal((text.match(/BEGIN:VEVENT/g)||[]).length,2);assert.deepEqual(text.match(/UID:[^\r]+/g),a.p.buildICS('은지').match(/UID:[^\r]+/g));assert.equal(text.replace(/\r\n/g,'').includes('\n'),false);});
 test('ICS escapes CRLF, delimiters, and backslashes without exposing private reasons',()=>{const a=app();a.run(`absences=[{id:9,name:'은지',type:'교육',start:'2026-10-30',end:'2026-11-02',reason:'PRIVATE',education:{title:'교육,실무;A',content:'첫줄\\r\\n둘째줄\\\\장비'}}]`);const text=a.p.buildICS('은지');assert.match(text,/교육\\,실무\\;A/);assert.match(text.replace(/\r\n[ \t]/g,''),/첫줄\\n둘째줄\\\\장비/);assert.doesNotMatch(text,/PRIVATE/);});
 test('ICS folding keeps every UTF-8 content line within 75 octets',()=>{const a=app();a.run(`absences=[{name:'은지',type:'교육',start:'2026-10-30',end:'2026-11-02',education:{content:'가'.repeat(120)}}]`);const text=a.p.buildICS('은지');for(const line of text.split('\r\n'))assert.ok(Buffer.byteLength(line)<=75,line);});
+test('cross-year personal absence detail shows both years and weekdays',()=>{
+  const a=app();
+  a.ctx.OnAirUI.dateLabel=(key, full)=>{
+    const [year, month, date]=key.split('-').map(Number);
+    const weekday='일월화수목금토'[new Date(year,month-1,date).getDay()];
+    return full ? `${year}년 ${month}월 ${date}일(${weekday})` : `${month}/${date}(${weekday})`;
+  };
+  a.run(`todayStr='2026-11-18';absences=[{name:'은지',type:'파견',start:'2026-11-09',end:'2027-01-15'}]`);
+  a.p.openAbsence('은지');
+  assert.match(a.ctx.opened.body,/2026년 11월 9일\(월\) ~ 2027년 1월 15일\(금\)/);
+});
 test('long displayed names fit their centered slot without shrinking the font or replacing identity',()=>{const a=app();assert.equal(typeof a.p.fitNameLabel,'function');const full='김가람가장긴이름테스트';const display=a.p.fitNameLabel(full,62,s=>Array.from(s).length*10);assert.ok(display.endsWith('…'));assert.ok(Array.from(display).length*10<=58);assert.equal(a.p.fitNameLabel('김민수',62,s=>Array.from(s).length*10),'김민수');assert.equal(full,'김가람가장긴이름테스트');});
 
 // [위험] v3.17.12 관리자 모드의 '내 일정'에 [맞교환 후보]가 보였고, 후보를 고르면 일정 창이 모두 닫힌 뒤

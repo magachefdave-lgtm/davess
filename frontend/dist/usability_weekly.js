@@ -76,10 +76,7 @@
     // The board may have replaced the original button during a data refresh.
     queueMicrotask(() => {
       if (get()?.classList.contains('active')) return;
-      const container = document.getElementById(`week-${state.kind}-container`);
-      const original = trigger?.node;
-      const fallback = trigger?.more ? container?.querySelector('.abs-more') : null;
-      const target = original?.isConnected ? original : fallback || document.getElementById(`week-${state.kind}-title`) || document.querySelector(`[data-weekly-open="${state.kind}"]`);
+      const target = trigger?.isConnected ? trigger : document.getElementById(`week-${state.kind}-title`);
       target?.focus({preventScroll:true});
     });
   }
@@ -128,7 +125,7 @@
   function open(kind = 'vacation', page = 0) {
     hideTooltip();
     const active = document.activeElement;
-    if (!get()?.classList.contains('active')) state.trigger = {node:active, more:!!active?.matches('.abs-more')};
+    if (!get()?.classList.contains('active')) state.trigger = active;
     state.kind = kindOf(kind);
     state.page = Math.max(0, Math.floor(Number(page) || 0));
     state.size = pageSize();

@@ -1,7 +1,7 @@
 'use strict';
 // 이번 주 휴가·부재 안내판과 '이번 주 전체 일정' 창(usability_weekly.js) 회귀.
 // index.html 의 실제 스크립트와 보조 스크립트를 Node VM 에서 실행한다.
-// 목록 칸은 '항목 높이를 차례로 쌓는' 작은 가짜 배치로 재서, 넘침 판정(fits/hideOverflow)을 그대로 돌린다.
+// 작은 가짜 배치는 한 열에서의 남은 공간만 재고, 실제 열 너비·폰트는 브라우저에서 검증한다.
 const {test} = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs'), path = require('node:path'), vm = require('node:vm');
@@ -20,7 +20,7 @@ function app({today = '2026-10-14', innerHeight = 1080, members = [], absences =
   let created = 0;
   function el(id, tag = 'div') {
     const classes = new Set();
-    const e = {id, tagName: tag.toUpperCase(), style: {}, dataset: {}, attrs: {}, children: [], parent: null, textContent: '',
+    const e = {id, tagName: tag.toUpperCase(), style: {setProperty() {}}, dataset: {}, attrs: {}, children: [], parent: null, textContent: '',
       clientHeight: 0, isConnected: true, disabled: false,
       classList: {add: c => classes.add(c), remove: c => classes.delete(c), contains: c => classes.has(c), toggle(c, v) { (v ?? !classes.has(c)) ? classes.add(c) : classes.delete(c); }},
       get className() { return [...classes].join(' '); }, set className(v) { classes.clear(); String(v).split(/\s+/).filter(Boolean).forEach(c => classes.add(c)); },
@@ -61,6 +61,12 @@ function app({today = '2026-10-14', innerHeight = 1080, members = [], absences =
   nodes.set(ID, modal);
   nodes.set('week-vacation-container', listNode('week-vacation-container'));
   nodes.set('week-dispatch-container', listNode('week-dispatch-container'));
+  const board = el('desk-absences');
+  board.clientHeight = listHeight;
+  Object.defineProperty(board, 'scrollHeight', {get: () =>
+    ['vacation', 'dispatch'].flatMap(kind => nodes.get(`week-${kind}-container`).children)
+      .filter(row => row.style.display !== 'none').length * ROW_H});
+  nodes.set(board.id, board);
   const getElementById = id => { if (!nodes.has(id)) nodes.set(id, el(id)); return nodes.get(id); };
   const opened = [];
   const ctx = vm.createContext({console, Date, setTimeout, clearTimeout, setInterval, clearInterval, queueMicrotask,
@@ -124,7 +130,8 @@ test('records overlapping the week edges are included; outside and unregistered 
   a.run('renderWeekAbsenceBoard()');
   assert.deepEqual(a.list('vacation').children.map(r => r.dataset.oaPerson), ['가', '사', '바', '나'], 'board and dialog agree');
   assert.deepEqual(a.list('dispatch').children.map(r => r.dataset.oaPerson), ['다']);
-  assert.match(a.run("document.getElementById('week-vacation-count').innerHTML"), /휴가 1.*부재 3/);
+  assert.equal(a.run("document.getElementById('week-vacation-count').textContent"), '4명');
+  assert.equal(a.run("document.getElementById('week-vacation-period').textContent"), '10.11 ~ 10.17');
   assert.equal(a.run("document.getElementById('week-dispatch-count').textContent"), '1명');
 });
 
@@ -200,6 +207,7 @@ test('weekly vacation overflow keeps records and full-list title without a botto
   assert.equal(rows.length, 13);
   assert.ok(rows.some(r => r.style.display !== 'none'));
   assert.ok(rows.some(r => r.style.display === 'none'));
+  assert.equal(a.run("document.getElementById('week-vacation-hidden').hidden"), false);
   a.weekly.open('vacation');
   assert.equal(a.opened.at(-1).title, '이번 주 휴가·부재');
   assert.match(a.opened.at(-1).html, /일정 <strong>13건<\/strong>/);
@@ -253,7 +261,7 @@ test('same-person adjacent annual leave is one card, with weekdays and original 
   assert.equal(a.weekly.rows('vacation').length, 2);
   a.weekly.open('vacation');
   assert.match(a.body.innerHTML, /일정 <strong>2건<\/strong>/);
-  assert.match(a.run("document.getElementById('week-vacation-count').innerHTML"), /휴가 1/);
+  assert.equal(a.run("document.getElementById('week-vacation-count').textContent"), '1명');
 });
 test('separated leave days share a card but never become one continuous range', () => {
   const a = vacationBoard([rec('가', '연차', '2026-11-02'), rec('가', '연차', '2026-11-05')]);

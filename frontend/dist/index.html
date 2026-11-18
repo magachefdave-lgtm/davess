@@ -624,7 +624,7 @@
     /* v3.12.0 STEP 4 — 휴가자 | 파견·부재 | 메모를 각자 한 열로.
        예전에는 휴가자와 파견을 위아래로 쌓아서, 목록 하나가 세로 절반밖에 못 쓰고
        인원이 조금만 늘어도 스크롤이 생겼다. 세 열로 나누면 각자 카드 높이를 온전히 쓴다. */
-    .info-desk-grid { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);
+    .info-desk-grid { display: grid; grid-template-columns: minmax(0,2fr) minmax(0,1fr);
                       gap: 0; align-items: stretch; height: 100%; min-height: 0; }
     .info-desk-col { min-width: 0; min-height: 0; display: flex; flex-direction: column;
                      padding-right: 13px; }
@@ -807,50 +807,6 @@
     .today-person.male-card .person-name { color: var(--male-text); }
     .today-person.female-card .person-name,
     .today-person.single-card .person-name { color: var(--female-text); }
-    /* 이번 주 휴가/파견 목록 (v3.9.2) — 이름 + 기간(요일 포함) 두 줄짜리 행 */
-    /* 인원이 늘면 스크롤 대신 열이 늘어난다. 그래도 넘치면 아래 밀도 단계가 항목을 조인다. */
-    .abs-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
-                gap: 4px; align-content: start; padding-right: 2px; flex: none; }
-    /* 이름·구분은 첫 줄, 기간은 둘째 줄. 어느 밀도에서도 구분·기간을 숨기지 않는다.
-       좁은 열에서는 기간을 간략히 표시하고, 전체 기간은 행 말풍선과 개인 일정에 유지한다. */
-    .abs-list[data-density="b"] { grid-template-columns: repeat(auto-fit, minmax(116px, 1fr)); }
-    .abs-list[data-density="b"] .abs-row { padding: 3px 7px; }
-
-    .abs-list[data-density="c"] { grid-template-columns: repeat(auto-fit, minmax(116px, 1fr)); gap: 4px; }
-    .abs-list[data-density="c"] .abs-row { padding: 3px 6px; }
-    .abs-list[data-density="c"] .abs-row-name { font-size: 11.5px; }
-    .abs-list[data-density="c"] .abs-row-type { font-size: 9px; }
-
-    .abs-list[data-density="d"] { grid-template-columns: repeat(auto-fit, minmax(116px, 1fr)); gap: 3px; }
-    .abs-list[data-density="d"] .abs-row { padding: 2px 6px; }
-    .abs-list[data-density="d"] .abs-row-name { font-size: 11px; }
-    /* v3.12.0 STEP 3c — 당직자 카드와 같은 규칙(그라디언트 + 안쪽 흰 하이라이트 + 색 후광).
-       색은 종전대로 보라 = 휴가, 주황 = 파견이다. */
-    .abs-row { padding: 4px 8px; border-radius: var(--radius-sm); border: 1px solid transparent; }
-    .abs-row.vac { background: linear-gradient(160deg, var(--vacation-bg), #ffffff 88%);
-                   border-color: var(--vacation-border);
-                   box-shadow: inset 0 1px 0 #fff, 0 8px 18px -14px rgba(124,58,237,.55); }
-    .abs-row.dis { background: linear-gradient(160deg, var(--dispatch-bg), #ffffff 88%);
-                   border-color: var(--dispatch-border);
-                   box-shadow: inset 0 1px 0 #fff, 0 8px 18px -14px rgba(234,88,12,.5); }
-    .abs-row.short { background: linear-gradient(160deg, var(--short-absence-bg), #ffffff 88%);
-                     border-color: var(--short-absence-border);
-                     box-shadow: inset 0 1px 0 #fff, 0 8px 18px -14px rgba(234,88,12,.55); }
-    .abs-row-top { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
-    .abs-row-name { font-size: 12px; font-weight: 800; letter-spacing: -0.02em; }
-    .abs-row.vac .abs-row-name { color: var(--vacation-text); }
-    .abs-row.dis .abs-row-name { color: var(--dispatch-text); }
-    .abs-row.short .abs-row-name { color: var(--short-absence-text); }
-    .abs-row-type { font-size: 9.5px; font-weight: 700; color: var(--text-muted); white-space: nowrap; }
-    .abs-now-tag { font-size: 9px; font-weight: 800; color: var(--bg); background: var(--today-border);
-                   border-radius: 999px; padding: 1px 5px; margin-left: 4px; }
-    .abs-row-range { margin-top: 2px; font-size: 10.5px; font-weight: 700; color: var(--text-sub);
-                     white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    /* v3.13.0 머리줄이 이미 '이번 주 휴가자 0명' 이라고 말한다.
-       같은 뜻의 문장을 한 번 더 쓰면 빈 칸이 내용처럼 보여 자리를 주장하게 된다. */
-    .abs-empty { grid-column: 1 / -1; color: var(--text-muted); font-size: 11px; padding: 8px 0;
-                 text-align: center; opacity: .6; }
-
     .cal-header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 10px; flex-wrap: wrap; }
     .year-month-nav { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
     .year-select, .month-select { background: var(--card); border: 1px solid var(--border-strong); padding: 6px 10px;
@@ -1415,10 +1371,6 @@
 
     /* ── 인포메이션 데스크 ──────────────────────────────────────────── */
     .info-desk-col + .info-desk-col { border-left: 1px solid var(--border); }
-    .abs-row { border: 0; border-radius: var(--radius-sm); box-shadow: inset 0 1px 0 var(--inner-line); }
-    .abs-row.vac { background: var(--vacation-bg); }
-    .abs-row.dis { background: var(--dispatch-bg); }
-    .abs-row.short { background: var(--short-absence-bg); }
     .abs-empty, .week-memo-empty { font: 650 .58rem 'JetBrains Mono', monospace;
       letter-spacing: .14em; text-transform: uppercase; opacity: .55; }
     .week-memo-item { border: 0; border-left: 0; border-radius: var(--radius-sm);
@@ -1629,7 +1581,7 @@
     .rule-pill, .holiday-name-tag { font-size: 9.5px; font-weight: 700; }
     /* 숫자만 들어가는 곳은 mono 유지 */
     #clock-time, .cal-table .day-number, .member-duty-dates, .member-duty-count, .num,
-    .notif-badge, .abs-more, .memo-more {
+    .notif-badge, .memo-more {
       font-family: 'JetBrains Mono', ui-monospace, monospace !important;
       font-variant-numeric: tabular-nums; }
 
@@ -1642,8 +1594,7 @@
     .week-memo-board[data-density="c"] .week-memo-item { padding: 2px 7px; gap: 5px; }
     .week-memo-board[data-density="c"] .week-memo-text { display: none; }
     .week-memo-board[data-density="c"] .week-memo-date { min-width: 0; }
-    .abs-list { overflow: hidden; }
-    .abs-more, .memo-more { grid-column: 1 / -1; display: flex; align-items: center;
+    .memo-more { grid-column: 1 / -1; display: flex; align-items: center;
       justify-content: center; gap: 5px; margin-top: 2px; padding: 2px 8px;
       border-radius: var(--radius-pill); background: var(--surface); color: var(--text-muted);
       font-size: 10px; font-weight: 700; cursor: default; }
@@ -1745,7 +1696,7 @@
          높이를 확정적으로 받도록 flex: 1 1 0 으로 바꾼다. 그러면 항목을 감춰도
          칸 높이가 변하지 않아 판정이 수렴한다. */
     .info-desk-col { min-height: 0; }
-    .abs-list, .week-memo-board {
+    .week-memo-board {
       flex: 1 1 0; min-height: 0; max-height: none; overflow: hidden; align-content: start; }
 
 
@@ -2011,27 +1962,6 @@
     }
 
 
-    /* ══ v3.13.2 [3] 부재 줄에서 이름이 글자 중간에 쪼개지던 문제 ══════════
-       재현(열 폭 140.3px @1366): `남궁민수` + `병가/경조사` → 이름이 2줄로 깨진다.
-         이름폭 40.5 + 간격 6 + 구분폭 74.3 = 120.8 > 안쪽 폭 ≈ 124 에서 넘어간다.
-       원인: .abs-row-top 이 space-between 인데 **구분에만 nowrap 이 있고 이름에는 없다.**
-             그래서 줄어들 수 있는 쪽인 이름이 글자 중간에서 쪼개졌다.
-       ★ 이름은 사람을 식별하는 정보라 마지막까지 지킨다. 우선순위를 이렇게 준다:
-           ① 이름은 절대 쪼개지 않는다(nowrap) — 줄이지도 않는다(flex 0 0 auto)
-           ② 자리가 모자라면 구분+오늘 배지가 **통째로** 아랫줄로 내려간다(flex-wrap)
-           ③ 이름 하나만으로도 넘칠 만큼 길면 그때만 말줄임 */
-    .abs-row-top { flex-wrap: wrap; row-gap: 1px; }
-    .abs-row-name { flex: 0 0 auto; max-width: 100%;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .abs-row-type { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
-
-
-    /* v3.13.2 왼쪽 칸 머리줄의 인원수 — 숫자 색을 아래 목록의 줄 색과 맞춘다.
-       한 칸에 두 종류가 섞이므로, 둘 다 보라로 쓰면 '부재 4' 가 휴가 인원처럼 읽힌다. */
-    .desk-count .cnt-vac { color: var(--vacation-text); }
-    .desk-count .cnt-abs { color: var(--short-absence-text); }
-    .desk-count .cnt-sep { margin: 0 4px; color: var(--text-muted); font-weight: 700; }
-
     /* ── v3.12.0 화면 높이별 압축 ──────────────────────────────
        ★ 반드시 기본 규칙 '뒤'에 둘 것. 미디어 쿼리는 우선순위를 올려 주지 않으므로
          앞쪽에 두면 뒤에 오는 .card / .menu-row 기본값이 그대로 이긴다
@@ -2066,7 +1996,6 @@
       .card-title { font-size: .92rem; }
       .today-person { padding: 9px 12px; }
       .person-name { font-size: 1.62rem; }
-      .abs-row { padding: 3px 8px; }
       .week-memo-item { padding: 4px 8px; }
       .week-memo-board { max-height: none; }
       .cal-table { border-spacing: 5px; }
@@ -2123,7 +2052,6 @@
       .top-grid .card-head { margin-bottom: 4px; }
       .today-person { padding: 5px 10px; }
       .person-name { font-size: 1.66rem; }
-      .abs-row { padding: 2px 7px; }
       .week-memo-item { padding: 3px 7px; }
       .cal-table .worker-tag { padding: 2px 7px; font-size: 11px; }
     }
@@ -2307,7 +2235,7 @@
       .top-grid, .top-grid[data-desk="0"] { grid-template-columns: minmax(0, 1fr); grid-template-rows: 200px 480px 200px; }
       .top-grid > .card:nth-child(1), .top-grid > .card:nth-child(2), .top-grid > .card:nth-child(3) {
         grid-column: 1; grid-row: auto; }
-      .info-desk-grid { height: 100%; grid-template-rows: repeat(3, minmax(0, 1fr)); }
+      .info-desk-grid { grid-template-rows: minmax(0, 3fr) minmax(0, 1fr); }
     }
 
     @media print {
@@ -2365,7 +2293,7 @@
       /* v3.12.0 STEP 3c — 화면용 띠·후광은 종이에서 잉크만 먹는다 */
       .card::before, header::before, .modal-body::before { display: none !important; }
       body > .card { background-image: none !important; }
-      .worker-tag.male, .worker-tag.female, .abs-row.vac, .abs-row.dis,
+      .worker-tag.male, .worker-tag.female, .abs-row,
       .week-memo-item, .day-badge-label, .v-mini-chip, .holiday-name-tag {
         background-image: none !important; box-shadow: none !important; }
       .cal-table th { height: 8mm; padding: 1mm 1.5mm; }
@@ -2703,13 +2631,21 @@
     </div>
     <div class="card">
       <div class="info-desk-grid">
-        <div class="info-desk-col">
-          <div class="card-head"><button type="button" id="week-vacation-title" class="card-title week-absence-title" data-weekly-open="vacation" aria-haspopup="dialog" onclick="window.OnAirWeekly?.open('vacation')"><svg class="ico" style="color:var(--vacation-text);"><use href="#i-suitcase"/></svg><span class="tt-text"><span class="tt-week">이번 주 </span>휴가·부재</span></button><span id="week-vacation-count" class="desk-count" style="color:var(--vacation-text); font-size:12px; font-weight:800;">0명</span></div>
-          <div class="abs-list" id="week-vacation-container"></div>
-        </div>
-        <div class="info-desk-col">
-          <div class="card-head"><button type="button" id="week-dispatch-title" class="card-title week-absence-title" data-weekly-open="dispatch" aria-haspopup="dialog" onclick="window.OnAirWeekly?.open('dispatch')"><svg class="ico" style="color:var(--dispatch-text);"><use href="#i-plane"/></svg><span class="tt-text"><span class="tt-week">이번 주 </span>장기<span class="tt-long"> 파견</span>·부재</span></button><span id="week-dispatch-count" style="color:var(--dispatch-text); font-size:12px; font-weight:800;">0명</span></div>
-          <div class="abs-list" id="week-dispatch-container"></div>
+        <div class="info-desk-col desk-absences" id="desk-absences">
+          <section class="desk-absence-group" aria-labelledby="week-vacation-title">
+            <div class="card-head">
+              <button type="button" id="week-vacation-title" class="card-title week-absence-title" data-weekly-open="vacation" aria-haspopup="dialog" onclick="window.OnAirWeekly?.open('vacation')"><svg class="ico" aria-hidden="true"><use href="#i-suitcase"/></svg><span class="tt-text">이번 주 휴가·부재</span></button>
+              <span class="desk-absence-summary"><span id="week-vacation-period"></span><span id="week-vacation-count">0명</span><span id="week-vacation-hidden" hidden></span></span>
+            </div>
+            <div class="abs-list" id="week-vacation-container"></div>
+          </section>
+          <section class="desk-absence-group" aria-labelledby="week-dispatch-title">
+            <div class="card-head">
+              <button type="button" id="week-dispatch-title" class="card-title week-absence-title" data-weekly-open="dispatch" aria-haspopup="dialog" onclick="window.OnAirWeekly?.open('dispatch')"><svg class="ico" aria-hidden="true"><use href="#i-plane"/></svg><span class="tt-text">장기 파견·부재</span></button>
+              <span class="desk-absence-summary"><span id="week-dispatch-count">0명</span><span id="week-dispatch-hidden" hidden></span></span>
+            </div>
+            <div class="abs-list" id="week-dispatch-container"></div>
+          </section>
         </div>
         <div class="info-desk-col">
           <div class="card-head"><span class="card-title"><svg class="ico" style="color:var(--primary);"><use href="#i-memo"/></svg><span class="tt-text"><span class="tt-week">이번 주 </span>메모</span></span><span id="week-memo-range" style="font-size:11px; color:var(--text-muted); font-weight:700;"></span></div>
@@ -5520,107 +5456,59 @@
       return cards;
     }
 
-    function fitWeeklyVacation(list, rows) {
-      const title = document.getElementById('week-vacation-title');
+    // 두 명단의 칸 폭은 명단별로 같다. 마지막 줄은 flex로 가운데에 놓는다.
+    function fitDeskAbsences() {
+      const board = document.getElementById('desk-absences');
+      if (!board?.clientHeight) return;
       const active = document.activeElement;
-      const wasMore = active === list.querySelector('.abs-more');
-      list.querySelectorAll('.abs-more').forEach(el => el.remove());
-      rows.forEach(row => row.style.display = '');
-      list.dataset.weeklyFit = 'normal';
-      list.style.gridTemplateColumns = 'minmax(0, 1fr)';
-      list.dataset.hiddenCount = '0';
-      if (!rows.length || !list.clientHeight) return;
-      const width = list.clientWidth || list.getBoundingClientRect().width;
-      const bottom = list.getBoundingClientRect().bottom - FIT_PAD;
-      // Keep the least compressed layout that fits. More columns may need two date lines,
-      // so measure the actual rows rather than guessing capacity from item count.
-      const profiles = [
-        {density:'a', min:132}, {density:'b', min:116},
-        {density:'c', min:94}, {density:'d', min:76},
-        {density:'d', min:64, compact:true}
-      ];
-      let best = null;
-      const apply = choice => {
-        list.dataset.density = choice.density;
-        list.dataset.weeklyFit = choice.compact ? 'compact' : 'normal';
-        list.style.gridTemplateColumns = `repeat(${choice.columns}, minmax(0, 1fr))`;
-      };
-      for (const profile of profiles) {
-        const maxColumns = Math.min(rows.length, Math.max(1, Math.floor((width + 2) / (profile.min + 2))));
-        for (let columns = 1; columns <= maxColumns; columns++) {
-          const choice = {...profile, columns}; apply(choice);
-          const visible = rows.filter(row => row.getBoundingClientRect().bottom <= bottom).length;
-          const dateFits = rows.every(row => {
-            const bounds = row.getBoundingClientRect();
-            return [...row.querySelectorAll('.abs-range-date')].every(date => {
-              const rect = date.getBoundingClientRect();
-              return !rect.width || (rect.left >= bounds.left && rect.right <= bounds.right);
-            });
-          });
-          if (!dateFits) continue;
-          if (!best || visible > best.visible) best = {...choice, visible};
-          if (visible === rows.length) break;
+      const groups = ['vacation', 'dispatch'].map(kind => {
+        const list = document.getElementById(`week-${kind}-container`);
+        const rows = [...list.querySelectorAll('.abs-row')];
+        rows.forEach(row => row.style.display = '');
+        return {kind, list, rows, visible: rows.length};
+      });
+      const fitsHeight = () => board.scrollHeight <= board.clientHeight + 1;
+      for (const density of ['normal', 'compact', 'wrap']) {
+        board.dataset.density = density;
+        for (const {kind, list, rows} of groups) {
+          const maxColumns = Math.max(1, Math.min(rows.length, kind === 'dispatch' && rows.length <= 3 ? 3 : 5));
+          for (let columns = maxColumns; columns >= 1; columns--) {
+            list.style.setProperty('--absence-columns', columns);
+            if (columns === 1 || rows.every(row => [...row.querySelectorAll('.abs-row-name, .abs-row-type, .abs-row-range')]
+              .every(label => label.scrollWidth <= label.clientWidth + 1))) break;
+          }
         }
-        if (best?.visible === rows.length) break;
+        if (fitsHeight()) break;
       }
-      apply(best || {density:'d', compact:true, columns:1});
-      const overflow = rows.filter(row => row.getBoundingClientRect().bottom > bottom);
-      overflow.forEach(row => row.style.display = 'none');
-      const visible = rows.filter(row => row.style.display !== 'none').length;
-      list.dataset.hiddenCount = String(rows.length - visible);
-      if (title) {
-        const keys = weekKeysOf(todayStr);
+
+      // 작은 창이나 일정이 특히 많은 주에도 제목에서 전체 일정을 열 수 있다.
+      // 양쪽에 일정이 있으면 각각 적어도 한 사람은 화면에 남기는 쪽을 우선한다.
+      while (!fitsHeight()) {
+        const [first, second] = groups;
+        const group = first.visible >= second.visible ? first : second;
+        if (!group.visible) break;
+        group.rows[--group.visible].style.display = 'none';
+      }
+      const keys = weekKeysOf(todayStr);
+      for (const {kind, list, rows, visible} of groups) {
+        const title = document.getElementById(`week-${kind}-title`);
+        const extra = document.getElementById(`week-${kind}-hidden`);
         const countRecords = items => items.reduce((sum, row) => sum + (Number(row.dataset.recordCount) || 1), 0);
         const totalRecords = countRecords(rows);
-        const visibleRecords = countRecords(rows.filter(row => row.style.display !== 'none'));
+        const visibleRecords = countRecords(rows.slice(0, visible));
+        const hiddenRecords = totalRecords - visibleRecords;
+        extra.hidden = !hiddenRecords;
+        extra.textContent = hiddenRecords ? `외 ${hiddenRecords}건` : '';
+        list.dataset.hiddenCount = String(rows.length - visible);
+        title.classList.toggle('has-hidden-schedule', Boolean(hiddenRecords));
         title.title = `오늘 기준 이번 주: ${keys[0]} ~ ${keys[6]}\n전체 일정 ${totalRecords}건 / 현재 ${visibleRecords}건 표시 · 클릭하여 전체 일정 보기`;
-        title.setAttribute('aria-label', `이번 주 휴가·부재 · 전체 ${totalRecords}건 중 ${visibleRecords}건 표시 · 전체 일정 보기`);
-        if (wasMore || rows.some(row => row === active && row.style.display === 'none')) title.focus({preventScroll:true});
+        const name = kind === 'vacation' ? '이번 주 휴가·부재' : '장기 파견·부재';
+        title.setAttribute('aria-label', `${name} · ${keys[0]} ~ ${keys[6]} · 전체 ${totalRecords}건 중 ${visibleRecords}건 표시 · 전체 일정 보기`);
+        if (rows.slice(visible).includes(active)) title.focus({preventScroll:true});
       }
     }
 
-    // v3.12.0 STEP 4 — 인원 수에 따라 표시 밀도를 바꿔 스크롤이 생기지 않게 한다.
-    //   개수로 1차 판정한 뒤, 그래도 넘치면 한 단계씩 더 조인다(열 폭이 좁은 화면 대비).
-    function applyAbsDensity(list) {
-      if (!list) return;
-      if (list.id === 'week-vacation-container') {
-        fitWeeklyVacation(list, [...list.querySelectorAll('.abs-row')]);
-        return;
-      }
-      const restoreMoreFocus = document.activeElement === list.querySelector('.abs-more');
-      list.querySelectorAll('.abs-more').forEach(el => el.remove());
-      const rows = [...list.querySelectorAll('.abs-row')];
-      rows.forEach(r => r.style.display = '');
-      // v3.13.2 예전에는 **인원수만 보고** 시작 밀도를 정했다(4명↓ a / 8명↓ b / 그 외 c).
-      //   그 값은 바닥이 될 뿐 위로는 절대 안 돌아왔으므로, 10명이면 칸이 아무리 널널해도
-      //   무조건 c(기간·구분 숨김, 이름 11px)로 그려졌다.
-      //   실측: 1920×911 에서 이 칸은 a 밀도로도 16명이 들어간다 — 조일 이유가 없었다.
-      //   ★ 넉넉한 a 에서 시작해 **실제로 넘칠 때만** 한 단계씩 조인다.
-      //     인원수는 더 이상 보지 않는다. 판정은 언제나 실측(fits)이다.
-      // 밀도는 여백과 글자 크기만 조정한다. 구분·기간은 모든 단계에서 유지한다.
-      const LEVELS = ['a', 'b', 'c', 'd'];
-      let lv = 0;
-      list.dataset.density = LEVELS[lv];
-      while (lv < LEVELS.length - 1 && list.clientHeight >= 40 && !fits(list)) {
-        list.dataset.density = LEVELS[++lv];
-      }
-      // 한 사람이 여러 일정을 가질 수 있으므로 숨긴 기록은 '건'으로 센다.
-      const kind = list.id === 'week-dispatch-container' ? 'dispatch' : 'vacation';
-      hideOverflow(list, rows, 'abs-more', (k) => `일정 ${k}건 더`, () => {
-        const tag = document.createElement('button');
-        tag.type = 'button'; tag.dataset.weeklyOpen = kind;
-        tag.setAttribute('aria-haspopup', 'dialog');
-        tag.title = '숨겨진 일정을 포함한 이번 주 전체 일정 보기';
-        tag.onclick = () => window.OnAirWeekly?.open(kind);
-        return tag;
-      });
-      if (restoreMoreFocus) (list.querySelector('.abs-more') || document.getElementById(`week-${kind}-title`))?.focus({preventScroll:true});
-    }
-
-    // 넘치는 항목을 뒤에서부터 감추고 남은 개수를 알약으로 붙인다. (부재·메모 공용)
-    // ★ 여유 8px 을 남긴 상태를 '들어간 것'으로 본다.
-    //   딱 맞게 채우면 수치상 넘치지 않아도 카드 경계에 붙어 잘린 것처럼 보인다.
-    //   (실측: 마지막 메모가 보드 끝과 1px 차이일 때 사용자가 '벗어난다'고 지적했다)
+    // 메모 목록은 기존 8px 하단 여백과 별도 전체 보기 표기를 유지한다.
     const FIT_PAD = 8;
     // ⚠ scrollHeight 로 판정하면 안 된다. scrollHeight 는 절대 clientHeight 보다
     //   작아지지 않으므로 `scrollHeight <= clientHeight - 8` 은 **영원히 거짓**이고,
@@ -5634,7 +5522,7 @@
       kids.forEach(el => { bottom = Math.max(bottom, el.getBoundingClientRect().bottom); });
       return bottom <= box.getBoundingClientRect().bottom - FIT_PAD;
     }
-    function hideOverflow(box, items, cls, label, createTag = () => document.createElement('div')) {
+    function hideOverflow(box, items, cls, label) {
       // ⚠ 렌더 도중에는 칸의 높이가 아직 안 잡혀 clientHeight 가 0에 가깝다.
       //   그 상태로 판정하면 '전부 넘친다'가 되어 항목을 몽땅 감춘다(실제로 그랬다).
       //   높이가 잡히기 전이면 아무것도 하지 않고, 다음 프레임에 다시 계산한다.
@@ -5648,7 +5536,7 @@
       if (!hidden) return;
       // 알약 자리를 만들려고 한 개 더 감춘다 (알약도 높이를 차지한다)
       for (let i = items.length - hidden - 1; i >= 0; i--) {
-        const tag = createTag();
+        const tag = document.createElement('div');
         tag.className = cls;
         tag.textContent = label(hidden);
         box.appendChild(tag);
@@ -5656,11 +5544,6 @@
         tag.remove();
         items[i].style.display = 'none';
         hidden++;
-      }
-      // 모든 항목을 감춘 작은 칸에도 전체 일정을 여는 버튼은 남긴다.
-      if (cls === 'abs-more' && hidden === items.length) {
-        const tag = createTag(); tag.className = cls; tag.textContent = label(hidden);
-        box.appendChild(tag);
       }
     }
 
@@ -5676,10 +5559,10 @@
       });
     }
     function reflowDeskDensity() {
-      applyAbsDensity(document.getElementById('week-vacation-container'));
-      applyAbsDensity(document.getElementById('week-dispatch-container'));
-      applyMemoDensity(document.getElementById('week-memo-board'));
       syncDeskWidths();
+      fitDeskAbsences();
+      const memoBoard = document.getElementById('week-memo-board');
+      if (memoBoard) applyMemoDensity(memoBoard);
       fitTodayVacations();
       window.OnAirPersonal?.enhanceNames();
     }
@@ -5726,47 +5609,49 @@
         .filter(a => normalizeDate(a.start) <= we && normalizeDate(a.end) >= ws)
         .sort((a, b) => normalizeDate(a.start).localeCompare(normalizeDate(b.start)) ||
                         String(a.name).localeCompare(String(b.name)));
-      // 왼쪽 칸 = 장기 부재가 아닌 것 전부(휴가자 + 부재자), 오른쪽 칸 = 장기 부재
+      // 위에는 휴가·단기 부재, 아래에는 장기 부재를 표시한다.
       // v3.18.0 장기 여부는 기간(isLongAbsence), 휴가·부재 꼬리표는 absenceKind 로 가른다.
       const near = rows.filter(a => !isLongAbsence(a));
       const dis = rows.filter(a => isLongAbsence(a));
-      // 왼쪽 칸 안에서는 휴가자를 먼저 세우고 부재자를 뒤에 붙인다(색으로도 갈린다).
+      // 주간 명단은 휴가를 먼저, 교육·출장 등 단기 부재를 다음에 표시한다.
       const vacOnly = near.filter(a => absenceKind(a) === 'vacation');
       const absOnly = near.filter(a => absenceKind(a) !== 'vacation');
       const vac = vacOnly.concat(absOnly);
 
+      const weekMonth = ws.slice(0, 7) === we.slice(0, 7) ? ws.slice(0, 7) : '';
+      const dayNames = ['일','월','화','수','목','금','토'];
+      const stamp = key => `${Number(key.slice(5, 7))}.${Number(key.slice(8, 10))}`;
+      document.getElementById('week-vacation-period').textContent = `${stamp(ws)} ~ ${stamp(we)}`;
       const rowHtml = (card, cls) => {
         const a = card.record;
-        const ranges = card.periods.map(absCompactRangeLabel);
-        const rangeHtml = ranges.map(range => range.split(' ~ ').map((part, i) =>
-          `<span class="abs-range-date">${esc((i ? ' ~ ' : '') + part)}</span>`).join('')).join(', ');
-        const label = `${a.name} · ${a.type || '부재'} · ${ranges.join(', ')}`;
+        const type = a.type || '부재';
+        const label = `${a.name} · ${type} · ${card.periods.map(absCompactRangeLabel).join(', ')}`;
+        const rangeHtml = compact => card.periods.map(({start, end}) => {
+          const year = start.slice(0, 4) !== end.slice(0, 4) || start.slice(0, 4) !== todayStr.slice(0, 4);
+          const omitMonth = !year && cls !== 'dis' && [start, end].every(key => key.slice(0, 7) === weekMonth);
+          const fmt = key => {
+            const m = Number(key.slice(5, 7)), d = Number(key.slice(8, 10));
+            if (compact && year) return `${key.slice(2, 4)}.${m}.${d}(${dayNames[dowOf(key)]})`;
+            return `${year ? key.slice(0, 4) + '/' : ''}${omitMonth ? '' : m + '/'}${d}(${dayNames[dowOf(key)]})`;
+          };
+          if (start === end) return `<span class="abs-period"><span class="abs-range-date">${esc(fmt(start))}</span></span>`;
+          return `<span class="abs-period"><span class="abs-range-date">${esc(fmt(start))}${compact ? '~' : ' ~'}</span><wbr><span class="abs-range-date">${compact ? '' : ' '}${esc(fmt(end))}</span></span>`;
+        }).join('');
         return `<button type="button" class="abs-row ${cls}" data-oa-person="${esc(a.name)}" data-date-key="${esc(card.periods[0].start)}" data-record-count="${card.recordCount}" aria-haspopup="dialog" aria-label="${esc(label)} · 개인 일정 보기" title="${esc(label)} · 클릭하여 개인 일정 보기">` +
           `<span class="abs-row-top"><span class="abs-row-name">${esc(a.name)}</span>` +
-          `<span class="abs-row-type">${esc(a.type || '부재')}</span></span>` +
-          `<span class="abs-row-range"><span class="abs-range-full">${rangeHtml}</span><span class="abs-range-compact">${rangeHtml}</span></span></button>`;
+          `<span class="abs-row-type">${esc(type === '연차/휴가' ? '연차' : type)}</span></span>` +
+          `<span class="abs-row-range"><span class="abs-range-full">${rangeHtml(false)}</span><span class="abs-range-compact">${rangeHtml(true)}</span></span></button>`;
       };
 
       vC.innerHTML = vac.length
         ? weeklyAbsenceCards(vac).map(card => rowHtml(card, absenceKind(card.record) === 'vacation' ? 'vac' : 'short')).join('')
-        : `<div class="abs-empty">없음</div>`;
+        : '<div class="abs-empty">없음</div>';
       dC.innerHTML = dis.length ? weeklyAbsenceCards(dis).map(card => rowHtml(card, 'dis')).join('')
-                                : `<div class="abs-empty">없음</div>`;
-      // 같은 사람이 두 건이면 사람 수는 1명으로 센다.
-      const nVac = new Set(vacOnly.map(a => a.name)).size;
-      const nAbs = new Set(absOnly.map(a => a.name)).size;
-      // 왼쪽 칸은 두 가지가 섞이므로 인원수도 나눠 말한다. 한쪽이 0이면 그쪽은 생략한다.
-      // ★ 숫자의 색은 아래 목록의 줄 색과 같아야 한다 — '휴가'는 보라, '부재'는 주황.
-      //   둘 다 보라로 쓰면 '부재 4' 가 휴가 인원처럼 읽힌다.
-      const parts = [];
-      if (nVac) parts.push(`<span class="cnt-vac">휴가 ${nVac}</span>`);
-      if (nAbs) parts.push(`<span class="cnt-abs">부재 ${nAbs}</span>`);
-      document.getElementById("week-vacation-count").innerHTML =
-        parts.length ? parts.join('<span class="cnt-sep">·</span>') : '0명';
-      document.getElementById("week-dispatch-count").textContent = `${new Set(dis.map(a => a.name)).size}명`;
-      // v3.12.0 인원이 늘어도 스크롤이 생기지 않도록 표시 밀도를 맞춘다.
-      applyAbsDensity(vC);
-      applyAbsDensity(dC);
+                                : '<div class="abs-empty">없음</div>';
+      document.getElementById('week-vacation-count').textContent = `${new Set(vac.map(a => a.name)).size}명`;
+      document.getElementById('week-dispatch-count').textContent = `${new Set(dis.map(a => a.name)).size}명`;
+      syncDeskWidths();
+      fitDeskAbsences();
       window.OnAirWeekly?.refresh();
     }
 
@@ -5824,25 +5709,15 @@
       syncDeskWidths();
     }
 
-    // ── v3.13.0 인포메이션 데스크 폭 배분 ─────────────────────────
-    // 비어 있는 열은 '0명'만 말하면 되므로 좁게, 내용이 있는 열이 그 폭을 가져간다.
-    // 세 열이 전부 비면 상단 행 자체가 금일 당직자 쪽으로 폭을 넘긴다(.top-grid[data-desk="0"]).
-    // ⚠ 하나라도 내용이 있으면 상단 행 비율은 건드리지 않는다 — 가운데 1.75fr 은
-    //   1600px 에서 부재 목록 2열을 지키는 실측 하한이다(v3.9.2).
+    // 세 명단이 모두 비었을 때만 기존의 빈 안내판 비율을 적용한다.
     function syncDeskWidths() {
-      const grid = document.querySelector(".info-desk-grid");
       const top = document.querySelector(".top-grid");
-      if (!grid || !top) return;
+      if (!top) return;
       const filled = [
         !document.querySelector("#week-vacation-container .abs-empty"),
         !document.querySelector("#week-dispatch-container .abs-empty"),
         !document.querySelector("#week-memo-board .week-memo-empty"),
       ];
-      // v3.13.1 [5] 내용 유무로 폭을 달리하지 않고 **항상 균등하게** 나눈다.
-      //    가중치를 주면 열 경계가 데이터에 따라 움직여 화면이 들썩이고,
-      //    빈 열이 눌려 소제목·기간이 접히는 문제도 여기서 시작됐다.
-      //    (filled 는 아래 data-desk 표시에 계속 쓰인다)
-      grid.style.gridTemplateColumns = "minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr)";
       top.setAttribute("data-desk", String(filled.filter(Boolean).length));
     }
 

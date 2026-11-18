@@ -3,7 +3,7 @@
   'use strict';
   const UI = () => window.OnAirUI;
   const escape = value => UI().escape(value);
-  const day = key => UI().dateLabel(key);
+  const day = (key, full = false) => UI().dateLabel(key, full);
   const ids = {agenda:'oa-personal-agenda',absence:'oa-personal-absence',education:'oa-personal-education',picker:'oa-personal-picker',search:'oa-personal-search',vacation:'oa-personal-vacation',swap:'oa-personal-swap'};
   const get = id => document.getElementById(id);
   // Storage is named, not passed: with blocked site data even reading window.localStorage throws.
@@ -67,7 +67,11 @@
     const order={ongoing:0,upcoming:1,past:2};
     return rows.sort((a,b)=>order[a.state]-order[b.state]||(a.state==='past'?b.start.localeCompare(a.start):a.start.localeCompare(b.start))||a.kind.localeCompare(b.kind));
   }
-  function period(start,end) {return `${escape(day(start))}${end!==start?' ~ '+escape(day(end)):''} · ${diffDays(start,end)+1}일`;}
+  function period(start, end) {
+    const showYear = start.slice(0, 4) !== end.slice(0, 4) || start.slice(0, 4) !== todayStr.slice(0, 4);
+    const dates = start === end ? day(start, showYear) : `${day(start, showYear)} ~ ${day(end, showYear)}`;
+    return `${escape(dates)} · ${diffDays(start, end) + 1}일`;
+  }
   function timing(row) {
     if(row.state==='past')return '<div class="op-sub">지난 일정</div>';
     return row.kind!=='duty'&&row.state==='ongoing'?`<div class="op-sub">${escape(day(row.end))}까지 · 진행 중</div>`:'';
@@ -105,7 +109,8 @@
       const list=get(weeklyReturn.container);
       const row=[...(list?.querySelectorAll('.abs-row')||[])].find(node=>node.dataset.oaPerson===weeklyReturn.name&&node.dataset.dateKey===weeklyReturn.date&&node.getClientRects().length);
       const kind=weeklyReturn.container==='week-dispatch-container'?'dispatch':'vacation';
-      (row||list?.querySelector('.abs-more')||get(`week-${kind}-title`))?.focus({preventScroll:true});
+      const target = row || get(`week-${kind}-title`);
+      target?.focus({preventScroll:true});
     }) : undefined;
     const sections=absenceSections(name);
     const active=sections.ongoing.length+sections.upcoming.length;
@@ -339,24 +344,10 @@
     while(chars.length&&measure(chars.join('')+'…')>available)chars.pop();
     return chars.length?chars.join('')+'…':'…';
   }
-  function fitWeeklyNames() {
-    const canvas=document.createElement('canvas'),context=canvas.getContext?.('2d');
-    if(!context)return;
-    document.querySelectorAll('#week-vacation-container .abs-row-name,#week-dispatch-container .abs-row-name').forEach(node=>{
-      const full=node.dataset.oaPerson||node.textContent.trim(),style=getComputedStyle(node);
-      context.font=style.font||`${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
-      const top=node.closest('.abs-row-top'),type=top?.querySelector('.abs-row-type');
-      const width=top ? top.clientWidth-(type?.getBoundingClientRect().width||0)-(parseFloat(getComputedStyle(top).columnGap)||0) : node.clientWidth;
-      node.textContent=fitNameLabel(full,width,value=>context.measureText(value).width);
-      node.setAttribute('title',full);
-    });
-  }
   function enhanceNames() {
     const todayWorkers=noDutyMap[todayStr]?[]:scheduleMap[todayStr]||[];
     document.querySelectorAll('#today-person-container .today-person:not(.noduty-card)').forEach((node,index)=>{if(todayWorkers[index]){node.dataset.oaPerson=todayWorkers[index].name;node.setAttribute('tabindex','0');node.setAttribute('role','button');node.setAttribute('aria-label',todayWorkers[index].name+' 개인 일정 보기');}});
-    document.querySelectorAll('#week-vacation-container .abs-row-name,#week-dispatch-container .abs-row-name').forEach(node=>{const full=node.dataset.oaPerson||node.textContent.trim();node.dataset.oaPerson=full;node.textContent=full;node.removeAttribute('tabindex');node.removeAttribute('role');node.removeAttribute('aria-label');});
     document.querySelectorAll('#calendar-tbody .worker-tag[data-worker-name]').forEach(node=>{node.setAttribute('tabindex','0');node.setAttribute('role','button');node.setAttribute('aria-label',node.dataset.workerName+' 개인 일정 보기');});
-    fitWeeklyNames();
     const line=get('my-next-duty');if(line&&myName){line.onclick=()=>openAgenda(myName);line.setAttribute('tabindex','0');line.setAttribute('role','button');line.setAttribute('aria-label',myName+' 내 일정 보기');}
   }
   function injectStyle() {
@@ -384,29 +375,6 @@
       #today-vacation-container[data-layout="pair"] .today-vacation-name { font:inherit; text-align:center; }
       #today-vacation-container [data-oa-action="absence"]:hover { transform:none; }
       #today-vacation-container button:focus-visible { outline:2px solid var(--primary); outline-offset:-2px; }
-      #week-vacation-container .abs-row,#week-dispatch-container .abs-row{display:flex;flex-direction:column;justify-content:center;min-width:0;min-height:0;gap:0;font-family:inherit;font-size:inherit;line-height:normal;text-align:center;letter-spacing:inherit;transform:none}
-      #week-vacation-container .abs-row-top,#week-dispatch-container .abs-row-top{display:flex;flex-wrap:nowrap;align-items:center;justify-content:center;gap:5px;width:100%;min-width:0}
-      #week-vacation-container .abs-row-name,#week-dispatch-container .abs-row-name{display:block;flex:0 1 auto;min-width:0;width:auto;text-align:center;cursor:pointer;white-space:nowrap;overflow:hidden}
-      #week-vacation-container .abs-row-type,#week-dispatch-container .abs-row-type{display:block;flex:0 0 auto;max-width:55%;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10.5px;color:var(--text-sub)}
-      #week-vacation-container .abs-row-range,#week-dispatch-container .abs-row-range{display:block;width:100%;margin-top:2px;text-align:center;line-height:1.3;white-space:normal;overflow:visible;overflow-wrap:normal}
-      .abs-range-date{display:inline-block;white-space:pre}
-      #week-vacation-container{grid-auto-rows:max-content;align-content:start}
-      #week-vacation-container[data-weekly-fit="compact"]{gap:1px}
-      #week-vacation-container[data-weekly-fit="compact"] .abs-row{padding:0 1px}
-      #week-vacation-container[data-weekly-fit="compact"] .abs-row-top{gap:2px}
-      #week-vacation-container[data-weekly-fit="compact"] .abs-row-top,
-      #week-vacation-container[data-weekly-fit="compact"] .abs-row-name,
-      #week-vacation-container[data-weekly-fit="compact"] .abs-row-type{line-height:1.05}
-      #week-vacation-container[data-weekly-fit="compact"] .abs-row-name{font-size:11px}
-      #week-vacation-container[data-weekly-fit="compact"] .abs-row-type{font-size:10px}
-      #week-vacation-container[data-weekly-fit="compact"] .abs-row-range{font-size:10px;line-height:1.05;margin-top:0}
-      .abs-range-compact{display:none}.abs-list:not([data-density="a"]) .abs-range-full{display:none}.abs-list:not([data-density="a"]) .abs-range-compact{display:inline}
-      .info-desk-col .week-absence-title{min-height:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;font-family:inherit;line-height:normal;transform:none;text-decoration:underline dotted;text-underline-offset:3px;text-decoration-color:var(--text-muted)}
-      .info-desk-col .week-absence-title:hover{color:var(--primary);background:transparent;transform:none}
-      .abs-list .abs-row:hover{box-shadow:inset 0 0 0 1px var(--primary);transform:none}
-      .abs-list .abs-row:focus-visible,.abs-list .abs-more:focus-visible{outline-offset:-2px}
-      .abs-list .abs-more{min-height:0;line-height:1.3;font-family:inherit!important;font-size:10.5px;letter-spacing:inherit;cursor:pointer;box-shadow:none;transform:none}
-      .abs-list .abs-more:hover{background:var(--primary-light);color:var(--primary);transform:none}
       [data-oa-person],[data-worker-name]{cursor:pointer}[data-oa-person]:focus-visible,[data-worker-name]:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
       @media(max-width:600px){.oa-personal .op-row{flex-wrap:wrap;gap:8px}.oa-personal .op-actions{width:100%}.oa-personal .op-date{min-width:70px}}
     `;document.head.appendChild(node);
