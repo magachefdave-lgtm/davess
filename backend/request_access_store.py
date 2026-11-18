@@ -78,14 +78,22 @@ class ReceiptVault:
             s=path.stat()
             if s.st_uid!=os.getuid() or stat.S_IMODE(s.st_mode)&0o077 or s.st_nlink!=1:raise _error()
     @contextmanager
-    def _locked(self):
+    def _locked(self, *, create=True):
         with self._lock:
             self._safe(self.lock_path)
-            fd=os.open(self.lock_path,os.O_CREAT|os.O_RDWR|getattr(os,'O_NOFOLLOW',0),0o600)
+            flags = os.O_RDWR | getattr(os, 'O_NOFOLLOW', 0)
+            try:
+                fd = os.open(self.lock_path, flags | (os.O_CREAT if create else 0), 0o600)
+            except FileNotFoundError:
+                if create:
+                    raise
+                # A copied vault may have no lock. Its data file is replaced atomically.
+                yield
+                return
             try:
                 if os.name=='nt':
                     import msvcrt
-                    if os.fstat(fd).st_size==0:os.write(fd,b'0')
+                    if create and os.fstat(fd).st_size==0:os.write(fd,b'0')
                     os.lseek(fd,0,0);msvcrt.locking(fd,msvcrt.LK_LOCK,1)
                 else:
                     import fcntl
@@ -134,9 +142,8 @@ class ReceiptVault:
                 d['receipts'].setdefault(record.dataset_id,{})[record.request_uid]=asdict(record)
     def list_receipts(self,dataset_id):return [ReceiptRecord(**r) for r in self.read()['receipts'].get(dataset_id,{}).values()]
     def existing_dinner_key(self, dataset_id, name):
-        # Vault changes use atomic file replacement. A lookup only needs one
-        # complete snapshot, and must not initialize a sibling's lock or keys.
-        with self._lock:
+        # Coordinate with writers without initializing a sibling's lock or keys.
+        with self._locked(create=False):
             key = self._read().get('dinner_keys', {}).get(dataset_id, {}).get(name)
             if key is not None and (not isinstance(key, str) or len(key) < 43):
                 raise _error()
