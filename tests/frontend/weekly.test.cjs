@@ -231,7 +231,7 @@ test('a very short vacation column keeps the title path without a More button', 
 // [위험] 보조 스크립트는 본 스크립트의 함수를 감싸서 바꾼다. 순서가 바뀌면 감싸기가 엉뚱한 함수에 걸린다.
 test('index.html loads usability and management sidecars after the main script, in order, same-origin', () => {
   const tags = [...html.matchAll(/<script\b[^>]*\bsrc="([^"]+)"[^>]*><\/script>/g)].map(m => m[1]);
-  assert.deepEqual(tags, ['/usability_common.js', '/holiday_supplement.js', '/usability_personal.js', '/usability_weekly.js',
+  assert.deepEqual(tags, ['/design_picker.js', '/usability_common.js', '/holiday_supplement.js', '/usability_personal.js', '/usability_weekly.js',
     '/request_access.js', '/usability_requests.js', '/usability_notifications.js', '/usability_admin.js', '/assignment_explanations.js',
     '/holiday_management.js', '/absence_management.js', '/holiday_preview.js', '/absence_request_calendar.js', '/update_status.js', '/master_session.js', '/dinner_polls.js', '/dinner_admin.js']);
   const mainEnd = html.indexOf(script) + script.length;
