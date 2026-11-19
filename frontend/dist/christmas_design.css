@@ -1,0 +1,135 @@
+/* Original cut-paper trees and hanging ornaments are bundled for offline use. */
+@media screen {
+  :root[data-winter="christmas"] {
+    --bg: #f2ebda;
+    --bg-deep: #d8cbb1;
+    --card: #fffcf4;
+    --surface: #eee8d8;
+    --surface-hover: #e7dfcb;
+    --text-main: #243c34;
+    --text-sub: #46574a;
+    --text-muted: #59665c;
+    --primary: #8a363b;
+    --primary-hover: #69262b;
+    --primary-light: #a94a4118;
+    --primary-border: #a94a416b;
+    --live: #226144;
+    --today-border: #a04442;
+    --border: #ded7c6;
+    --border-strong: #b8ae95;
+    --inner-line: #fffef9;
+    --xmas-paper: #fffaf0;
+    --xmas-rule: #b29a64;
+    --xmas-shadow: #493c2320;
+    --xmas-topline: #a8353a;
+    --xmas-fields: #fff9e9;
+    --xmas-field-ink: #29493e;
+    --xmas-field-muted: #53685a;
+  }
+  :root[data-winter="christmas"][data-theme="dark"] {
+    --bg: #11231e;
+    --bg-deep: #0b1b16;
+    --card: #20342d;
+    --surface: #2c4137;
+    --surface-hover: #354e42;
+    --text-main: #f3eedf;
+    --text-sub: #d1d8c8;
+    --text-muted: #b9c6bb;
+    --primary: #f2bba2;
+    --primary-hover: #ffe3c5;
+    --primary-light: #fed4ac22;
+    --primary-border: #edbe8e55;
+    --live: #8fd7b1;
+    --today-border: #f4ce81;
+    --border: #43574a;
+    --border-strong: #637b6b;
+    --inner-line: #e6eed817;
+    --xmas-paper: #1f322a;
+    --xmas-rule: #8c7950;
+    --xmas-shadow: #06110c70;
+    --xmas-topline: #c38168;
+    --xmas-fields: #293d33;
+    --xmas-field-ink: #f2f2e3;
+    --xmas-field-muted: #bbc9b8;
+  }
+  :root[data-winter="christmas"] body {
+    background: radial-gradient(ellipse at top right, var(--bg-deep), transparent 52%), var(--bg);
+  }
+  :root[data-winter="christmas"] body::before { opacity: 0; }
+  :root[data-winter="christmas"] header {
+    background: linear-gradient(90deg,#173e36 0 17%,transparent 56%,transparent 88%,#173e36),
+      #173e36 url('winter_art/christmas-lights.webp') repeat-x center top / auto 100%;
+    border-radius: 16px;
+    box-shadow: inset 0 0 0 1px #bb9a61, 0 4px 14px var(--xmas-shadow);
+  }
+  :root[data-winter="christmas"] .brand,
+  :root[data-winter="christmas"] .brand em { color: #fff0cc; }
+  :root[data-winter="christmas"] .brand::before {
+    background: #183f34 url('winter_art/christmas-pines.webp') 49% 32% / 270% auto;
+    box-shadow: inset 0 0 0 1.5px #e8c98d;
+  }
+  :root[data-winter="christmas"] .search-input-group { background: var(--xmas-fields); border-radius: var(--radius-sm); }
+  :root[data-theme="dark"][data-winter="christmas"] header :is(.search-input-group,.btn-sm,#theme-toggle,#design-toggle) {
+    box-shadow: inset 0 0 0 1px #607562;
+  }
+  :root[data-theme="dark"][data-winter="christmas"] #conn-indicator.on.conn-ok { background: #294b39; color: #bbedd0; }
+  :root[data-winter="christmas"] .search-input-group .ico { color: var(--xmas-field-muted) !important; }
+  :root[data-winter="christmas"] .search-input,
+  :root[data-winter="christmas"] header .btn-sm:not(#header-dinner),
+  :root[data-winter="christmas"] header #header-dinner:not(.is-pending),
+  :root[data-winter="christmas"] .search-input-group button {
+    background-color: var(--xmas-fields); color: var(--xmas-field-ink);
+  }
+  :root[data-winter="christmas"] #header-dinner.is-pending {
+    background: #f7deaa !important; color: #623520 !important; border-color: #c79950 !important;
+  }
+  :root[data-winter="christmas"] #header-dinner.is-pending .dp-header-count { background: #823d36; color: #fff9e8; }
+  :root[data-winter="christmas"] .search-input::placeholder { color: var(--xmas-field-muted); }
+  :root[data-winter="christmas"] .search-input:focus-visible { outline: 2px solid var(--xmas-rule); outline-offset: -2px; }
+  :root[data-winter="christmas"] #header-version-badge {
+    background: var(--xmas-fields); border-color: var(--xmas-rule);
+  }
+  :root[data-winter="christmas"] #auth-status-badge {
+    background: var(--xmas-fields); color: var(--vacation-text);
+  }
+  :root[data-winter="christmas"] #auth-status-badge.authenticated {
+    color: var(--live); background: var(--xmas-fields);
+  }
+  :root[data-winter="christmas"] #conn-indicator.on { color: #20533c; background: #deebd8; }
+  :root[data-winter="christmas"] #conn-indicator.on.conn-lost { color: #72252c; background: #f7e1d9; }
+  :root[data-winter="christmas"] .menu-row,
+  :root[data-winter="christmas"] .top-grid > .card,
+  :root[data-winter="christmas"] body > .card {
+    background-color: var(--xmas-paper);
+    box-shadow: inset 0 0 0 1px var(--border), 0 4px 12px var(--xmas-shadow);
+  }
+  :root[data-winter="christmas"] .menu-row {
+    background-image: none; border-radius: 12px;
+  }
+  :root[data-winter="christmas"] .top-grid > .card,
+  :root[data-winter="christmas"] body > .card {
+    background-image: linear-gradient(90deg,var(--xmas-rule),var(--xmas-rule) 48%,var(--xmas-topline) 48% 52%,var(--xmas-rule) 52%) !important;
+    background-position: center top; background-size: calc(100% - 32px) 2px; background-repeat: no-repeat;
+  }
+  :root[data-winter="christmas"] .cal-legend::after {
+    content: ""; pointer-events: none; border-radius: 4px;
+    height: 26px; flex: 1 1 0; min-width: 0; margin-left: 8px;
+    background: #173e36 url('winter_art/christmas-lights.webp') center 60% / auto 135% repeat-x;
+  }
+  :root[data-winter="christmas"] .cal-table thead th {
+    background: var(--surface); box-shadow: inset 0 -1px var(--border-strong);
+  }
+  :root[data-winter="christmas"] .cal-table td.today-cell .day-number { background: #813b3b; color: #fff4dc !important; }
+  :root[data-winter="christmas"] .cal-table td.today-cell::after { box-shadow: inset 0 0 0 1.7px var(--today-border); }
+  /* Each blank has a complete vignette. No artwork extends across a scheduled day. */
+  :root[data-winter="christmas"] .cal-table :is(td.empty-cell,td.empty-cell.sun-col,td.empty-cell.sat-col) {
+    background: #173e36 url('winter_art/christmas-pines.webp') center / cover no-repeat;
+    opacity: 1;
+  }
+  :root[data-winter="christmas"] .cal-table td.empty-cell:nth-child(even) {
+    background-image: url('winter_art/christmas-lights.webp');
+    background-size: auto 100%;
+    background-repeat: repeat-x;
+  }
+  :root[data-winter="christmas"][data-theme="dark"] .cal-table td.empty-cell { filter: brightness(.82); }
+}

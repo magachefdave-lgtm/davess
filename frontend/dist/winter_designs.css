@@ -1,0 +1,361 @@
+/* Screen themes. Artwork is stored locally for disconnected staff PCs.
+   Evening Snow at Kanbara, Utagawa Hiroshige, The Met JP2492, public domain.
+   https://www.metmuseum.org/art/collection/search/56915
+   Electric Peak in winter, NPS / Jacob W. Frank, public domain.
+   https://npgallery.nps.gov/AssetDetail/6863c516-6f42-4f47-8593-990a0581a3a9 */
+@media screen {
+:root:is([data-winter="frost"], [data-winter="paper"], [data-winter="print"], [data-winter="photo"]) {
+  --panel-stroke: color-mix(in srgb, var(--primary) 14%, transparent);
+  --tile-round: var(--radius-sm);
+  --calendar-line: var(--border);
+  --surface-hover: color-mix(in srgb, var(--surface) 80%, var(--card));
+  --primary-light: color-mix(in srgb, var(--primary) 13%, transparent);
+  --primary-border: color-mix(in srgb, var(--primary) 29%, transparent);
+  --today-border: var(--primary);
+  --today-bg: var(--card);
+  --drop-hover: var(--primary-light);
+  --bezel-line: var(--panel-stroke);
+  --panel-shadow: 0 12px 30px color-mix(in srgb, var(--bg-deep) 70%, transparent);
+  --today-glow: color-mix(in srgb, var(--primary) 14%, transparent);
+}
+
+:root[data-winter="frost"] {
+  --bg: #edf6ff; --bg-deep: #b6cde2; --card: #f4f9ff; --surface: #e1edf8;
+  --text-main: #102b46; --text-sub: #405b73; --text-muted: #4e6880;
+  --primary: #166893; --primary-hover: #124d76; --live: #176758;
+  --border: #d8e6f2; --border-strong: #b7ccde; --inner-line: #fbfdff;
+  --radius: 23px; --radius-sm: 13px; --tile-round: 14px;
+  --chrome: color-mix(in srgb, white 70%, #d9edff);
+  --panel: color-mix(in srgb, #ffffff 91%, #d8ebfb);
+  --cal: #ecf5fd; --weekend: #e6f0fa;
+  --rim: linear-gradient(90deg, transparent, #b7d8f6, #4f99c6, #d9eaff, transparent);
+  --scene:
+    radial-gradient(ellipse at 7% 16%, #f8feff 0%, transparent 39%),
+    radial-gradient(ellipse at 90% 4%, #bad7f1 1%, transparent 49%),
+    linear-gradient(145deg, #f1f8fe, #c9dced 59%, #eef5fd);
+  --sky-grain: radial-gradient(circle at 50% 50%, #fff 0 1px, transparent 2px);
+  --sky-repeat: 91px 71px;
+}
+
+:root[data-winter="paper"] {
+  --bg: #f0f3f6; --bg-deep: #ced8e3; --card: #fff; --surface: #e9eef4;
+  --text-main: #172d46; --text-sub: #3a516c; --text-muted: #4c6075;
+  --primary: #264e85; --primary-hover: #193d68; --live: #176849;
+  --border: #e1e7ee; --border-strong: #bfccda; --inner-line: #fff;
+  --radius: 12px; --radius-sm: 6px; --radius-pill: 7px; --tile-round: 5px;
+  --chrome: #ffffff; --panel: #fdfefe; --cal: #f7f9fc; --weekend: #eef3f8;
+  --rim: linear-gradient(90deg, #355781 0 28%, #acc0d5 28% 54%, #dfe8f1 54% 100%);
+  --scene:
+    repeating-linear-gradient(90deg, transparent 0 39px, #55789812 39px 40px),
+    repeating-linear-gradient(0deg, transparent 0 39px, #55789810 39px 40px),
+    #f0f3f6;
+  --panel-shadow: 0 3px 8px #36507618;
+}
+
+:root:is([data-winter="frost"], [data-winter="paper"], [data-winter="print"], [data-winter="photo"]) body {
+  background: var(--scene);
+  background-attachment: fixed;
+}
+:root:is([data-winter="frost"], [data-winter="paper"], [data-winter="print"], [data-winter="photo"]) body::before {
+  background: var(--sky-grain, none);
+  background-size: var(--sky-repeat, auto);
+  opacity: .40;
+}
+:root:is([data-winter="frost"], [data-winter="paper"], [data-winter="print"], [data-winter="photo"]) body::after { opacity: .09; }
+:root:is([data-winter="frost"], [data-winter="paper"], [data-winter="print"], [data-winter="photo"]) header {
+  background-color: var(--chrome);
+  background-image: var(--rim);
+  box-shadow: inset 0 0 0 1px var(--panel-stroke), var(--panel-shadow);
+}
+:root:is([data-winter="frost"], [data-winter="paper"], [data-winter="print"], [data-winter="photo"]) .menu-row {
+  background: color-mix(in srgb, var(--chrome) 74%, var(--surface));
+  box-shadow: inset 0 0 0 1px var(--panel-stroke);
+}
+:root:is([data-winter="frost"], [data-winter="paper"], [data-winter="print"], [data-winter="photo"]) .top-grid > .card,
+:root:is([data-winter="frost"], [data-winter="paper"], [data-winter="print"], [data-winter="photo"]) body > .card {
+  background-color: var(--panel);
+  background-image: var(--rim) !important;
+  background-size: calc(100% - 28px) 2px;
+  border-radius: var(--radius);
+  box-shadow: inset 0 0 0 1px var(--panel-stroke), var(--panel-shadow);
+}
+:root:is([data-winter="frost"], [data-winter="paper"], [data-winter="print"], [data-winter="photo"]) .cal-header-bar,
+:root:is([data-winter="frost"], [data-winter="paper"], [data-winter="print"], [data-winter="photo"]) .cal-table thead th { background: var(--panel); }
+:root:is([data-winter="frost"], [data-winter="paper"], [data-winter="print"], [data-winter="photo"]) .cal-table td:not(.today-cell,.member-duty-highlight,.holiday-cell,.noduty-cell,.empty-cell) {
+  background: var(--cal);
+  border-radius: var(--tile-round);
+  box-shadow: inset 0 0 0 1px var(--calendar-line);
+}
+:root:is([data-winter="frost"], [data-winter="paper"], [data-winter="print"], [data-winter="photo"]) .cal-table :is(td.sun-col,td.sat-col):not(.today-cell,.member-duty-highlight,.holiday-cell,.noduty-cell,.empty-cell) {
+  background: var(--weekend);
+}
+:root:is([data-winter="frost"], [data-winter="paper"], [data-winter="print"], [data-winter="photo"]) .cal-table td.today-cell {
+  border-radius: var(--tile-round);
+}
+:root:is([data-winter="frost"], [data-winter="paper"], [data-winter="print"], [data-winter="photo"]) .cal-table td.today-cell::after {
+  box-shadow: inset 0 0 0 1.5px var(--today-border), inset 0 0 14px 0 var(--today-glow);
+}
+:root:is([data-winter="frost"], [data-winter="paper"], [data-winter="print"], [data-winter="photo"]) .cal-table td.member-duty-highlight {
+  border-radius: var(--tile-round);
+}
+:root[data-winter="paper"] .menu-row,
+:root[data-winter="paper"] header { border-radius: var(--radius); }
+:root[data-winter="paper"] .cal-table :is(.worker-tag,.v-mini-chip),
+:root[data-winter="paper"] .desk-absences .abs-row {
+  background: var(--person-tint, var(--absence-tint));
+  box-shadow: none;
+}
+:root[data-winter="paper"] :is(.week-memo-item,.cell-memo) { background: var(--memo-bg); }
+:root[data-winter="paper"] .cal-table thead th {
+  box-shadow: inset 0 -1px var(--border-strong);
+}
+/* Woodblock print in the navigation strip and empty calendar cells. */
+:root[data-winter="print"] {
+  --bg: #e9dec9; --bg-deep: #d2c2a6; --card: #fffcf2; --surface: #efe7d9;
+  --text-main: #203945; --text-sub: #45545a; --text-muted: #586264;
+  --primary: #304e65; --primary-hover: #17364c; --live: #336a5b;
+  --border: #e1d7c6; --border-strong: #baa98e; --inner-line: #fffaf0;
+  --radius: 10px; --radius-sm: 6px; --radius-pill: 8px; --tile-round: 5px;
+  --chrome: #fbf6e9; --panel: #fffcf4; --cal: #fbf8ef; --weekend: #f1ecdf;
+  --rim: linear-gradient(90deg, #284957 0 98%, #b2503f 98% 100%);
+  --print-art: url('winter_art/kanbara.webp');
+  --scene: linear-gradient(150deg, #f4eee1, #e2dccc 66%, #c5bcaa);
+  --panel-shadow: 0 3px 9px #4235261c;
+  --panel-stroke: #b7a98f70; --today-border: #984b3b; --today-glow: #a94e351f;
+}
+:root[data-winter="print"] body::after { opacity: .022; }
+:root[data-winter="print"] header { border-radius: 10px; }
+:root[data-winter="print"] .brand > span {
+  font-family: Georgia, serif; letter-spacing: .018em;
+}
+:root[data-winter="print"] .brand::before {
+  border-radius: 7px; background: #9b4537;
+  box-shadow: inset 0 0 0 3px #9b4537, inset 0 0 0 4px #efd8bf, inset 0 0 0 8px #9b4537, inset 0 0 0 10px #efd8bf;
+}
+:root[data-winter="print"] .menu-row {
+  border-radius: 8px; background-color: #253e4b;
+  background-image: linear-gradient(90deg, #253e4b 0 46%, #253e4bf5 51%, #253e4b75 62%, transparent 77%),
+                    var(--print-art);
+  background-size: 100% 100%, 56% auto;
+  background-position: center, right 53%; background-repeat: no-repeat;
+}
+:root[data-winter="print"] body:has(#app-mode-badge.mode-admin) .menu-row {
+  background-image: linear-gradient(90deg, #253e4b 0 70%, #253e4bd6 89%, #253e4b80), var(--print-art);
+}
+:root[data-winter="print"] .menu-row > button:not(.btn-approval-notify,.btn-main),
+:root[data-winter="print"] .menu-row > .menu-pop-wrap > button {
+  background-color: #253e4b; color: #fff9ed;
+}
+:root[data-winter="print"] .menu-row .btn-main { color: white; background-color: var(--primary); }
+:root[data-winter="print"] .cal-table thead th {
+  border-radius: 0; background: var(--panel); box-shadow: inset 0 -1px #b6a98e;
+}
+:root[data-winter="print"] .cal-table .worker-tag,
+:root[data-winter="print"] .desk-absences .abs-row { box-shadow: none; }
+:root[data-winter="print"] :is(.week-memo-item,.cell-memo) { background: #f1e7d3; }
+:root[data-winter="print"] .cal-table tr { --empty-count: 1; }
+:root[data-winter="print"] .cal-table tr:has(.empty-cell + .empty-cell) { --empty-count: 2; }
+:root[data-winter="print"] .cal-table tr:has(.empty-cell + .empty-cell + .empty-cell) { --empty-count: 3; }
+:root[data-winter="print"] .cal-table tr:has(.empty-cell + .empty-cell + .empty-cell + .empty-cell) { --empty-count: 4; }
+:root[data-winter="print"] .cal-table tr:has(.empty-cell + .empty-cell + .empty-cell + .empty-cell + .empty-cell) { --empty-count: 5; }
+:root[data-winter="print"] .cal-table tr:has(.empty-cell + .empty-cell + .empty-cell + .empty-cell + .empty-cell + .empty-cell) { --empty-count: 6; }
+:root[data-winter="print"] .cal-table td.empty-cell {
+  opacity: 1; background: transparent; overflow: visible; box-shadow: none; position: relative;
+}
+/* Join only unused dates, never a cell containing a person, memo, or holiday. */
+:root[data-winter="print"] .cal-table td.empty-cell:not(.empty-cell + .empty-cell)::before {
+  content: ""; display: block; pointer-events: none; position: absolute;
+  inset: 0 auto 0 0; width: calc(100% * var(--empty-count) + (var(--empty-count) - 1) * 5px);
+  border-radius: var(--tile-round);
+  background: var(--print-art) center 49% / 110% auto no-repeat, var(--surface);
+  box-shadow: inset 0 0 0 1px #5b4c3c35;
+}
+:root[data-winter="print"] .cal-table tr:last-child td.empty-cell:not(.empty-cell + .empty-cell)::before {
+  background-position: 60% 72%;
+}
+@media (min-width: 1500px) {
+  :root[data-winter="print"] .cal-table td.empty-cell:not(.empty-cell + .empty-cell)::before {
+    width: calc(100% * var(--empty-count) + (var(--empty-count) - 1) * 7px);
+  }
+}
+@media (max-width: 900px) {
+  :root[data-winter="print"] .menu-row { background-size: 100% 100%, 68% auto; }
+}
+:root[data-winter="print"] .cal-table td.today-cell .day-number {
+  background: #7e3e33; color: #fffaf0 !important;
+}
+:root[data-winter="photo"] {
+  --bg: #d8e2e8; --bg-deep: #9eafb9; --card: #fdfdfb; --surface: #e7edef;
+  --text-main: #152932; --text-sub: #3b505d; --text-muted: #4e626c;
+  --primary: #235974; --primary-hover: #163f58; --live: #24664a;
+  --border: #dfe5e7; --border-strong: #bdcbd1; --inner-line: #fff;
+  --radius: 14px; --radius-sm: 7px; --radius-pill: 8px; --tile-round: 6px;
+  --panel: #fdfdfb; --chrome: #e9f0f2; --cal: #f6f8f8; --weekend: #eaf0f1;
+  --panel-shadow: 0 4px 18px #182a372d; --panel-stroke: #8899a73a;
+  --rim: linear-gradient(90deg,#294656,#66828f 55%,#d0a76a);
+  --today-border: #276789; --today-glow: #4194b328;
+  --landscape: url("winter_art/electric-peak.webp");
+  --scene: linear-gradient(#0a263644 0%, #2d4e6155 24%, #8097a7e8 48%, #b6c3cbe8 100%), var(--landscape);
+}
+:root[data-winter="photo"] body {
+  background-position: center, center 26%;
+  background-size: cover, cover;
+}
+:root[data-winter="photo"] body::before,
+:root[data-winter="photo"] body::after { opacity: 0; }
+:root[data-winter="photo"] header {
+  background: linear-gradient(90deg,#1b3542 0%,#203b49fa 14%,#314d58c9 40%,#27394a03 59%,#334f5e4f 82%,#1c3342d4), var(--landscape) center 22% / cover no-repeat;
+  border-radius: var(--radius);
+}
+:root[data-winter="photo"] header .brand,
+:root[data-winter="photo"] header .brand em { color: #fff; }
+:root[data-winter="photo"] header .brand::before {
+  background-color: #d6b77d; box-shadow: inset 0 0 0 7px #e4d4b4,inset 0 0 0 12px #355260;
+}
+:root[data-winter="photo"] .menu-row {
+  background: linear-gradient(90deg,#f3f4effd 0%,#f3f4effa 49%,#e2e8e7e8 87%,#c9d9dfcd 100%);
+  border-radius: var(--radius-sm);
+}
+:root[data-winter="photo"] .cal-header-bar {
+  border-radius: var(--radius-sm);
+  background: linear-gradient(90deg,#ffffff 0%,#f7f9f8f5 27%,#e6edef12 43%,#e5ecec80 64%,#fff 80%), var(--landscape) 50% 35% / 100% auto no-repeat;
+}
+:root[data-winter="photo"] .cal-table thead th {
+  background: #284452; color: #f2f6f6; border-radius: 4px;
+  box-shadow: none;
+}
+:root[data-winter="photo"] .cal-table thead th:first-child { color: #ffd4bf; }
+:root[data-winter="photo"] .cal-table thead th:last-child { color: #badff4; }
+:root[data-winter="photo"] .cal-table .empty-cell {
+  --slice: 1; --pieces: 1;
+  opacity: 1; border-radius: 0; background-color: #c8d8e0; background-repeat: no-repeat;
+  background-image: var(--landscape);
+  background-size: calc(100% * var(--pieces)) auto;
+  background-position: calc((var(--slice) - 1) * 100% / max(1, var(--pieces) - 1)) 17%;
+  box-shadow: none;
+}
+:root[data-winter="photo"] .cal-table tr:last-child .empty-cell { background-position-y: 73%; }
+:root[data-winter="photo"] .cal-table tr:has(:nth-child(2 of .empty-cell)) .empty-cell { --pieces: 2; }
+:root[data-winter="photo"] .cal-table tr:has(:nth-child(3 of .empty-cell)) .empty-cell { --pieces: 3; }
+:root[data-winter="photo"] .cal-table tr:has(:nth-child(4 of .empty-cell)) .empty-cell { --pieces: 4; }
+:root[data-winter="photo"] .cal-table tr:has(:nth-child(5 of .empty-cell)) .empty-cell { --pieces: 5; }
+:root[data-winter="photo"] .cal-table tr:has(:nth-child(6 of .empty-cell)) .empty-cell { --pieces: 6; }
+:root[data-winter="photo"] .cal-table :nth-child(2 of .empty-cell) { --slice: 2; }
+:root[data-winter="photo"] .cal-table :nth-child(3 of .empty-cell) { --slice: 3; }
+:root[data-winter="photo"] .cal-table :nth-child(4 of .empty-cell) { --slice: 4; }
+:root[data-winter="photo"] .cal-table :nth-child(5 of .empty-cell) { --slice: 5; }
+:root[data-winter="photo"] .cal-table :nth-child(6 of .empty-cell) { --slice: 6; }
+:root[data-winter="photo"] .cal-table :nth-child(1 of .empty-cell) { border-top-left-radius: var(--tile-round); border-bottom-left-radius: var(--tile-round); }
+:root[data-winter="photo"] .cal-table :nth-last-child(1 of .empty-cell) { border-top-right-radius: var(--tile-round); border-bottom-right-radius: var(--tile-round); }
+
+:root[data-winter="photo"] body > .card {
+  background-color: #f9faf9;
+  background-image: linear-gradient(#f7f9f9d9 0%,#f8f9f9c7 36%,#eff4f5ab 100%), var(--landscape) !important;
+  background-size: cover;
+  background-position: center 58%;
+}
+:root[data-winter="photo"] .cal-table td:not(.today-cell,.member-duty-highlight,.holiday-cell,.noduty-cell,.empty-cell),
+:root[data-winter="photo"] .cal-table :is(td.sun-col,td.sat-col):not(.today-cell,.member-duty-highlight,.holiday-cell,.noduty-cell,.empty-cell) {
+  background: #f8faf9cf;
+}
+:root[data-winter="photo"] .cal-table td.today-cell .day-number {
+  background: #22536a;
+  color: #fff !important;
+}
+:root[data-winter="photo"] .cal-header-bar .cal-legend {
+  color: #253e4c;
+  background: transparent;
+}
+:root[data-winter="photo"] .cal-legend > span {
+  border-radius: 4px;
+  background-color: var(--card);
+}
+
+/* The search island has one shared surface. All clickable controls and their
+   focus rings remain above the artwork without changing the header dimensions. */
+:root:is([data-winter="frost"],[data-winter="paper"],[data-winter="print"],[data-winter="photo"]) header .search-input-group {
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  padding-inline-start: 7px;
+  box-sizing: border-box;
+  box-shadow: inset 0 0 0 1px var(--border-strong);
+}
+:root:is([data-winter="frost"],[data-winter="paper"],[data-winter="print"],[data-winter="photo"]) header .search-input {
+  background: transparent;
+  box-shadow: none;
+}
+:root:is([data-winter="frost"],[data-winter="paper"],[data-winter="print"],[data-winter="photo"]) header .search-input-group:focus-within {
+  outline: 2px solid var(--primary);
+  outline-offset: 1px;
+}
+:root[data-winter="photo"] header :is(#header-version-badge,#auth-status-badge,#conn-indicator) {
+  background-color: var(--card);
+}
+:root[data-winter="photo"] #header-dinner.is-pending {
+  background: color-mix(in srgb, var(--primary) 14%, var(--card)) !important;
+}
+:root[data-winter="print"] .menu-row > .btn-approval-notify {
+  background: color-mix(in srgb, var(--holiday-text) 10%, var(--card));
+  color: var(--holiday-text);
+}
+:root[data-winter="print"] .menu-row > button:not(.btn-approval-notify,.btn-main):hover,
+:root[data-winter="print"] .menu-pop-wrap > button:is(:hover,.on) {
+  color: white; background: #3b5669;
+}
+:root:is([data-winter="paper"],[data-winter="frost"]) td.today-cell .day-number {
+  color: var(--card) !important;
+  background: var(--primary);
+}
+:root[data-winter="frost"] { --night: #182938; --night-accent: #91d2f0; }
+:root[data-winter="paper"] { --night: #202634; --night-accent: #b1ccf8; }
+:root[data-winter="print"] { --night: #29282a; --night-accent: #f2b79d; }
+:root[data-winter="photo"] { --night: #18272e; --night-accent: #a6d6e4; }
+
+:root[data-theme="dark"]:is([data-winter="frost"],[data-winter="paper"],[data-winter="print"],[data-winter="photo"]) {
+  --bg: color-mix(in srgb, var(--night) 73%, black); --bg-deep: #091016;
+  --card: var(--night); --surface: color-mix(in srgb, var(--night) 89%, white);
+  --text-main: #eff4f7; --text-sub: #c5d2da; --text-muted: #a3b6c2;
+  --primary: var(--night-accent); --primary-hover: color-mix(in srgb, var(--primary) 65%, white);
+  --live: #82dbb5; --border: #ffffff1f; --border-strong: #ffffff40;
+  --inner-line: #ffffff12; --panel: var(--card); --chrome: var(--card);
+  --cal: color-mix(in srgb, var(--night) 95%, white);
+  --weekend: color-mix(in srgb, var(--night) 85%, #8097ae);
+  --panel-stroke: #ffffff2b; --panel-shadow: 0 7px 21px #0004;
+  --today-border: var(--primary); --today-glow: #cadcf022;
+}
+:root[data-theme="dark"][data-winter="frost"] {
+  --scene: radial-gradient(ellipse at 77% 0%, #2b4b63, transparent 54%), linear-gradient(150deg,#172533,#101e2b);
+  --rim: linear-gradient(90deg,transparent,#56758e,#82b6d3,#486780,transparent);
+}
+:root[data-theme="dark"][data-winter="paper"] {
+  --scene: repeating-linear-gradient(90deg,transparent 0 39px,#b5cbe80e 39px 40px),
+           repeating-linear-gradient(0deg,transparent 0 39px,#b5cbe80e 39px 40px),#171d28;
+  --rim: linear-gradient(90deg,#7d95b6 28%,#505e74 28% 54%,#333b49 54%);
+}
+:root[data-theme="dark"][data-winter="print"] {
+  --scene: linear-gradient(150deg,#24262a,#332f2d 66%,#202226);
+}
+:root[data-theme="dark"][data-winter="print"] :is(.week-memo-item,.cell-memo) {
+  background: var(--memo-bg);
+}
+:root[data-theme="dark"][data-winter="print"] .menu-row .btn-main { color: var(--bg); }
+:root[data-theme="dark"][data-winter="print"] .empty-cell::before { filter: brightness(.64); }
+:root[data-theme="dark"][data-winter="photo"] {
+  --scene: linear-gradient(#10202b99,#07121bde),var(--landscape);
+}
+:root[data-theme="dark"][data-winter="photo"] .menu-row { background: var(--card); }
+:root[data-theme="dark"][data-winter="photo"] body > .card {
+  background: linear-gradient(#15252dd9,#15252dc9), var(--landscape) center 58% / cover !important;
+}
+:root[data-theme="dark"][data-winter="photo"] .cal-header-bar {
+  background: linear-gradient(90deg,#18272e 0%,#18272ee8 32%,#16242d88 55%,#18272e 86%),
+              var(--landscape) center 35% / cover;
+}
+:root[data-theme="dark"][data-winter="photo"] .cal-header-bar .cal-legend {
+  color: var(--text-sub);
+}
+:root[data-theme="dark"][data-winter="photo"] .cal-table td:not(.today-cell,.member-duty-highlight,.holiday-cell,.noduty-cell,.empty-cell) {
+  background: #1b2c35e8;
+}
+:root[data-theme="dark"][data-winter="photo"] .cal-table td.empty-cell { filter: brightness(.67); }
+}
