@@ -1,0 +1,115 @@
+/* The same shell is used by menu dialogs, detail views and nested confirmations.
+   Artwork belongs to the heading. Form fields and data rows use opaque surfaces. */
+@media screen {
+  :root[data-winter] {
+    --dialog-rule: color-mix(in srgb, var(--primary) 36%, var(--border));
+    --dialog-tint: color-mix(in srgb, var(--primary) 7%, var(--card));
+    --dialog-selection: color-mix(in srgb, var(--primary) 16%, var(--card));
+    --dialog-shadow: inset 0 0 0 1px var(--dialog-rule), var(--shadow-float);
+    --heading-ground: var(--card);
+    --heading-picture-width: 65%;
+    --heading-picture-position: right center;
+    --heading-veil: linear-gradient(90deg, var(--heading-ground) 0 42%,
+        color-mix(in srgb, var(--heading-ground) 92%, transparent) 53%,
+        color-mix(in srgb, var(--heading-ground) 18%, transparent) 80%,
+        color-mix(in srgb, var(--heading-ground) 48%, transparent));
+  }
+  :root[data-winter="frost"] {
+    --heading-picture: radial-gradient(ellipse at 65% 0%, #b6dcf9 1%, transparent 65%),
+        linear-gradient(116deg, var(--heading-ground), #a0c6df 71%, #e2eff9);
+  }
+  :root[data-winter="paper"] {
+    --heading-picture: repeating-linear-gradient(90deg, transparent 0 15px, #7189a938 15px 16px),
+        repeating-linear-gradient(0deg, var(--dialog-tint) 0 15px, #7189a938 15px 16px);
+  }
+  :root[data-winter="print"] {
+    --heading-picture: var(--print-art);
+    --heading-picture-position: right 49%;
+  }
+  :root[data-winter="photo"] {
+    --heading-picture: var(--landscape);
+    --heading-picture-position: right 22%;
+  }
+  :root[data-winter="christmas"] {
+    --heading-picture: url("winter_art/christmas-lights.webp");
+    --heading-picture-width: auto 100%;
+    --heading-picture-position: right top;
+  }
+  :root[data-theme="dark"][data-winter] {
+    --heading-veil: linear-gradient(90deg, var(--heading-ground) 0 40%,
+        color-mix(in srgb, var(--heading-ground) 96%, transparent) 55%,
+        color-mix(in srgb, var(--heading-ground) 58%, transparent) 80%,
+        color-mix(in srgb, var(--heading-ground) 72%, transparent));
+  }
+  :root[data-winter] .modal .modal-body {
+    color: var(--text-main);
+    background-color: var(--card);
+    box-shadow: var(--dialog-shadow);
+  }
+  :root[data-winter] .modal .modal-body > .modal-head {
+    border-bottom-color: var(--dialog-rule);
+    background-color: var(--heading-ground);
+    background-image: var(--heading-veil), var(--heading-picture);
+    background-position: center, var(--heading-picture-position);
+    background-size: 100% 100%, var(--heading-picture-width);
+    background-repeat: no-repeat;
+  }
+  :root[data-winter="christmas"] .modal .modal-body > .modal-head {
+    background-repeat: no-repeat, repeat-x;
+  }
+  /* Themes with two generated image layers share the same area for both. */
+  :root:is([data-winter="frost"],[data-winter="paper"]) .modal-body > .modal-head {
+    background-position: center, right center, right center;
+    background-size: 100% 100%, 65% 100%, 65% 100%;
+  }
+  :root[data-winter] .modal-head :is(.modal-title,h2,p) {
+    color: var(--text-main);
+    text-shadow: 0 0 2px var(--heading-ground), 0 0 4px var(--heading-ground);
+  }
+  :root[data-winter] .modal .modal-head > button:not(.btn-main,.btn-danger) {
+    color: var(--text-sub);
+    background-color: var(--surface);
+    box-shadow: inset 0 0 0 1px var(--border-strong);
+  }
+  :root[data-winter] .modal .modal-head > button:not(.btn-main,.btn-danger):hover {
+    color: var(--primary-hover); background-color: var(--card);
+  }
+  :root[data-winter] :is(.menu-row .menu-pop,#design-menu) {
+    color: var(--text-main);
+    background-color: var(--card);
+    box-shadow: var(--dialog-shadow);
+  }
+  :root[data-winter] #design-menu button[aria-checked="true"],
+  :root[data-winter] :is(.abs-filter-row,.hp-filters,.da-tabs) button[aria-pressed="true"],
+  :root[data-winter] .modal :is(.op-tab.active,[role="tab"][aria-selected="true"]) {
+    color: var(--primary-hover);
+    background: var(--dialog-selection);
+    box-shadow: inset 0 -2px var(--primary);
+  }
+  :root[data-winter] .modal :is(.arc-calendar-panel,.abs-calendar-panel,.hol-calendar-panel,.hp-calendar-panel,.dp-calendar-pane) {
+    background-color: var(--dialog-tint);
+    border-color: var(--dialog-rule);
+  }
+  :root[data-winter] .modal .data-table thead th {
+    background-color: var(--dialog-tint);
+    border-bottom-color: var(--dialog-rule);
+  }
+  :root[data-winter] .modal :is(textarea,select,input:not([type]),input:is([type="text"],[type="date"],[type="search"],[type="number"],[type="password"])) {
+    background-color: var(--card); color: var(--text-main); border-color: var(--border-strong);
+  }
+  :root[data-winter] .modal :is(textarea,input)::placeholder {
+    color: var(--text-muted); opacity: 1;
+  }
+  :root[data-winter] .modal :is(textarea,select,input):focus-visible {
+    outline: 2px solid var(--primary); outline-offset: 1px;
+  }
+  /* These components explicitly use the theme accent as their background. */
+  :root[data-winter][data-theme="dark"] :is(#absence-modal,#abs-education-modal,#abs-bulk-modal) .btn-main,
+  :root[data-winter][data-theme="dark"] #absence-request-modal .arc-footer .btn-main,
+  :root[data-winter][data-theme="dark"] #absence-modal .abs-calendar-day:is(.range-start,.range-end),
+  :root[data-winter][data-theme="dark"] #absence-request-modal .arc-day:is(.range-start,.range-end),
+  :root[data-winter][data-theme="dark"] #preview-modal .hp-day.selected,
+  :root[data-winter][data-theme="dark"] .da-app .da-primary {
+    color: var(--bg-deep);
+  }
+}

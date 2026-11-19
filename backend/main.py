@@ -1,4 +1,4 @@
-"""WLR OnAir 3.18.52 — readable source recovered from supplied 3.14.5 executables.
+"""WLR OnAir 3.18.53 — readable source recovered from supplied 3.14.5 executables.
 
 Backend behavior is restored from Python 3.13 bytecode. Original comments and
 repository history are not recoverable. See RECOVERY_REPORT.md and tests.
@@ -52,7 +52,7 @@ from backend import request_access_schema
 from backend import request_access_api
 from backend import dinner_schema, dinner_api, master_auth
 
-APP_VERSION = '3.18.52'
+APP_VERSION = '3.18.53'
 NL = chr(10)
 if getattr(sys, 'frozen', False):
     BASE_DIR = sys._MEIPASS
